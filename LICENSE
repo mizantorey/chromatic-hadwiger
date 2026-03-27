@@ -1,0 +1,95 @@
+Palette-Expansion Research License
+Version 1.0 — March 2026
+
+Copyright (c) 2026 Mizael Antonio Tovar Reyes
+Ciudad Juárez, Chihuahua, México
+All rights reserved.
+
+════════════════════════════════════════════════════════════════
+MATHEMATICAL CONTRIBUTION
+════════════════════════════════════════════════════════════════
+
+The mathematical concepts, definitions, theorems, proofs, and
+algorithms introduced in this repository — including but not
+limited to the palette-expansion number p(G), the identity
+χ(G) = 1 + p(G), Construction 8.1, Lemma 8.3f, and the
+Anti-Destruction Theorem — are the original intellectual
+contribution of Mizael Antonio Tovar Reyes.
+
+Any use, citation, or reference to these mathematical results
+must clearly credit:
+
+  Mizael Antonio Tovar Reyes
+  "Palette-Expansion Numbers and a Constructive Proof of
+  Hadwiger's Conjecture," Version 20, March 2026.
+
+════════════════════════════════════════════════════════════════
+PERMITTED USES (NO PERMISSION REQUIRED)
+════════════════════════════════════════════════════════════════
+
+The following uses are freely permitted without contacting the author:
+
+  - Academic research and study
+  - University coursework and teaching
+  - Personal learning and experimentation
+  - Scientific publications that cite this work properly
+  - Non-commercial open-source projects that include this
+    full license and attribution notice
+
+════════════════════════════════════════════════════════════════
+COMMERCIAL USE — WRITTEN PERMISSION REQUIRED
+════════════════════════════════════════════════════════════════
+
+Any commercial use of the scripts, algorithms, or methods in
+this repository requires prior written permission from the author.
+
+"Commercial use" includes, but is not limited to:
+
+  - Incorporating the scripts or algorithms into a paid product
+    or service
+  - Using the palette-expansion algorithm in proprietary software
+    (compilers, schedulers, chip design tools, etc.)
+  - Selling, licensing, or sublicensing any derivative work
+  - Using this work in a product that generates revenue,
+    even if the product itself is distributed for free
+  - Using this work in internal tooling at a for-profit company
+
+To request commercial permission, contact:
+  Mizael Antonio Tovar Reyes
+  Email:  mizaelantoniotovarreyes@gmail.com
+  GitHub: github.com/mizaelantoniotovarreyes
+
+Commercial licenses will be negotiated individually.
+The author reserves the right to approve or decline any request.
+
+════════════════════════════════════════════════════════════════
+CONDITIONS FOR ALL USES
+════════════════════════════════════════════════════════════════
+
+1. ATTRIBUTION — All copies, derivatives, or uses must include
+   the author's name, the paper title, and this license.
+
+2. NO MISREPRESENTATION — You may not claim authorship of the
+   mathematical results, algorithms, or proofs introduced here.
+
+3. NO SUBLICENSING — You may not grant others rights beyond
+   what this license explicitly permits.
+
+4. SHARE-ALIKE FOR DERIVATIVES — Any modified version of the
+   scripts distributed publicly must also carry this license
+   and must not remove or obscure the original authorship.
+
+════════════════════════════════════════════════════════════════
+DISCLAIMER
+════════════════════════════════════════════════════════════════
+
+This software and the associated mathematical work are provided
+"as is," without warranty of any kind. The author makes no
+representations about the completeness or correctness of the
+proof for all cases beyond what is stated in the paper. Use at
+your own risk.
+
+════════════════════════════════════════════════════════════════
+
+Mizael Antonio Tovar Reyes — Ciudad Juárez, Chihuahua, México
+March 2026

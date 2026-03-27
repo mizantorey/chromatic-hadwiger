@@ -1,0 +1,603 @@
+===========================================================================
+  SCRIPT 2 — LEMA 7.1 — V16
+===========================================================================
+  Investigador : Mizael Antonio Tovar Reyes
+  Ubicacion    : Ciudad Juarez, Chihuahua, Mexico
+  Fecha inicio : 2026-03-24 23:20:12
+  Actualizado  : 2026-03-24 23:26:23
+  Hardware     : GPU: CUDA (CuPy) + CPU
+  Tiempo       : 6.2 minutos
+  Estado       : COMPLETO
+===========================================================================
+
+CONFIGURACION:
+  - Exacto (n<=10)   : todas las permutaciones
+  - GPU trials      : 3,000,000
+  - Timeout         : 30s (multiprocessing)
+  - Auto-save       : cada 10 grafos
+
+===========================================================================
+  RESULTADOS DETALLADOS
+===========================================================================
+
+  [OK] [Mycielski] Mycielski_M2                 chi=2   p=1   1+p=2   [EXACTO] cols=2
+  [OK] [Completos] K_3                          chi=3   p=2   1+p=3   [EXACTO] cols=6
+  [OK] [Completos] K_4                          chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Ciclos_pares] C_4                       chi=2   p=1   1+p=2   [EXACTO] cols=2
+  [OK] [Wheels] W_4                             chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Completos] K_5                          chi=5   p=4   1+p=5   [EXACTO] cols=10
+  [OK] [Ciclos_impares] C_5                     chi=3   p=2   1+p=3   [EXACTO] cols=10
+  [OK] [Bipartitos] K_2,3                       chi=2   p=1   1+p=2   [EXACTO] cols=2
+  [OK] [Mycielski] Mycielski_M3                 chi=3   p=2   1+p=3   [EXACTO] cols=10
+  [OK] [Wheels] W_5                             chi=3   p=2   1+p=3   [EXACTO] cols=6
+  [OK] [Aleatorios] Random_n5_s13               chi=2   p=1   1+p=2   [EXACTO] cols=2
+  [OK] [Aleatorios] Random_n5_s23               chi=3   p=2   1+p=3   [EXACTO] cols=6
+  [OK] [Aleatorios] Random_n5_s26               chi=2   p=1   1+p=2   [EXACTO] cols=2
+  [OK] [Aleatorios] Random_n5_s45               chi=3   p=2   1+p=3   [EXACTO] cols=6
+  [OK] [Aleatorios] Random_n5_s76               chi=3   p=2   1+p=3   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n5_s83               chi=3   p=2   1+p=3   [EXACTO] cols=6
+  [OK] [Aleatorios] Random_n5_s125              chi=2   p=1   1+p=2   [EXACTO] cols=2
+  [OK] [Aleatorios] Random_n5_s133              chi=3   p=2   1+p=3   [EXACTO] cols=6
+  [OK] [Aleatorios] Random_n5_s135              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n5_s143              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n5_s151              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n5_s175              chi=3   p=2   1+p=3   [EXACTO] cols=6
+  [OK] [Aleatorios] Random_n5_s184              chi=3   p=2   1+p=3   [EXACTO] cols=6
+  [OK] [Aleatorios] Random_n5_s243              chi=3   p=2   1+p=3   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n5_s284              chi=2   p=1   1+p=2   [EXACTO] cols=2
+  [OK] [Aleatorios] Random_n5_s298              chi=2   p=1   1+p=2   [EXACTO] cols=2
+  [OK] [Aleatorios] Random_n5_s305              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n5_s320              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n5_s346              chi=2   p=1   1+p=2   [EXACTO] cols=2
+  [OK] [Aleatorios] Random_n5_s366              chi=2   p=1   1+p=2   [EXACTO] cols=2
+  [OK] [Aleatorios] Random_n5_s373              chi=2   p=1   1+p=2   [EXACTO] cols=2
+  [OK] [Aleatorios] Random_n5_s377              chi=3   p=2   1+p=3   [EXACTO] cols=6
+  [OK] [Aleatorios] Random_n5_s387              chi=3   p=2   1+p=3   [EXACTO] cols=8
+  [OK] [Aleatorios] Random_n5_s390              chi=3   p=2   1+p=3   [EXACTO] cols=6
+  [OK] [Aleatorios] Random_n5_s392              chi=3   p=2   1+p=3   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n5_s406              chi=3   p=2   1+p=3   [EXACTO] cols=6
+  [OK] [Aleatorios] Random_n5_s410              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n5_s436              chi=3   p=2   1+p=3   [EXACTO] cols=6
+  [OK] [Aleatorios] Random_n5_s457              chi=3   p=2   1+p=3   [EXACTO] cols=6
+  [OK] [Aleatorios] Random_n5_s494              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Completos] K_6                          chi=6   p=5   1+p=6   [EXACTO] cols=10
+  [OK] [Ciclos_pares] C_6                       chi=2   p=1   1+p=2   [EXACTO] cols=2
+  [OK] [Bipartitos] K_3,3                       chi=2   p=1   1+p=2   [EXACTO] cols=2
+  [OK] [Wheels] W_6                             chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Poliedros] Octaedro                     chi=3   p=2   1+p=3   [EXACTO] cols=6
+  [OK] [Aleatorios] Random_n6_s17               chi=3   p=2   1+p=3   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n6_s85               chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n6_s121              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n6_s132              chi=3   p=2   1+p=3   [EXACTO] cols=6
+  [OK] [Aleatorios] Random_n6_s154              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n6_s216              chi=3   p=2   1+p=3   [EXACTO] cols=6
+  [OK] [Aleatorios] Random_n6_s300              chi=3   p=2   1+p=3   [EXACTO] cols=6
+  [OK] [Aleatorios] Random_n6_s306              chi=3   p=2   1+p=3   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n6_s311              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n6_s331              chi=3   p=2   1+p=3   [EXACTO] cols=6
+  [OK] [Aleatorios] Random_n6_s343              chi=2   p=1   1+p=2   [EXACTO] cols=2
+  [OK] [Aleatorios] Random_n6_s369              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n6_s379              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n6_s413              chi=2   p=1   1+p=2   [EXACTO] cols=2
+  [OK] [Aleatorios] Random_n6_s431              chi=3   p=2   1+p=3   [EXACTO] cols=6
+  [OK] [Aleatorios] Random_n6_s440              chi=3   p=2   1+p=3   [EXACTO] cols=6
+  [OK] [Aleatorios] Random_n6_s447              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Completos] K_7                          chi=7   p=6   1+p=7   [EXACTO] cols=10
+  [OK] [Ciclos_impares] C_7                     chi=3   p=2   1+p=3   [EXACTO] cols=10
+  [OK] [Bipartitos] K_2,5                       chi=2   p=1   1+p=2   [EXACTO] cols=2
+  [OK] [Wheels] W_7                             chi=3   p=2   1+p=3   [EXACTO] cols=6
+  [OK] [Aleatorios] Random_n7_s4                chi=5   p=4   1+p=5   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n7_s11               chi=3   p=2   1+p=3   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n7_s15               chi=3   p=2   1+p=3   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n7_s44               chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n7_s58               chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n7_s99               chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n7_s115              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n7_s128              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n7_s160              chi=3   p=2   1+p=3   [EXACTO] cols=6
+  [OK] [Aleatorios] Random_n7_s168              chi=3   p=2   1+p=3   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n7_s171              chi=3   p=2   1+p=3   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n7_s189              chi=3   p=2   1+p=3   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n7_s199              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n7_s212              chi=3   p=2   1+p=3   [EXACTO] cols=8
+  [OK] [Aleatorios] Random_n7_s215              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n7_s228              chi=3   p=2   1+p=3   [EXACTO] cols=6
+  [OK] [Aleatorios] Random_n7_s232              chi=3   p=2   1+p=3   [EXACTO] cols=6
+  [OK] [Aleatorios] Random_n7_s241              chi=3   p=2   1+p=3   [EXACTO] cols=8
+  [OK] [Aleatorios] Random_n7_s245              chi=3   p=2   1+p=3   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n7_s246              chi=2   p=1   1+p=2   [EXACTO] cols=2
+  [OK] [Aleatorios] Random_n7_s248              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n7_s272              chi=3   p=2   1+p=3   [EXACTO] cols=6
+  [OK] [Aleatorios] Random_n7_s289              chi=5   p=4   1+p=5   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n7_s292              chi=3   p=2   1+p=3   [EXACTO] cols=6
+  [OK] [Aleatorios] Random_n7_s294              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n7_s389              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n7_s398              chi=3   p=2   1+p=3   [EXACTO] cols=6
+  [OK] [Aleatorios] Random_n7_s400              chi=3   p=2   1+p=3   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n7_s419              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n7_s435              chi=3   p=2   1+p=3   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n7_s443              chi=3   p=2   1+p=3   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n7_s454              chi=3   p=2   1+p=3   [EXACTO] cols=6
+  [OK] [Aleatorios] Random_n7_s465              chi=5   p=4   1+p=5   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n7_s466              chi=3   p=2   1+p=3   [EXACTO] cols=6
+  [OK] [Aleatorios] Random_n7_s499              chi=3   p=2   1+p=3   [EXACTO] cols=10
+  [OK] [Completos] K_8                          chi=8   p=7   1+p=8   [EXACTO] cols=10
+  [OK] [Ciclos_pares] C_8                       chi=2   p=1   1+p=2   [EXACTO] cols=2
+  [OK] [Bipartitos] K_4,4                       chi=2   p=1   1+p=2   [EXACTO] cols=2
+  [OK] [Bipartitos] K_3,5                       chi=2   p=1   1+p=2   [EXACTO] cols=2
+  [OK] [Wheels] W_8                             chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Poliedros] Cubo_Q3                      chi=2   p=1   1+p=2   [EXACTO] cols=2
+  [OK] [Aleatorios] Random_n8_s36               chi=3   p=2   1+p=3   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n8_s42               chi=5   p=4   1+p=5   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n8_s88               chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n8_s101              chi=3   p=2   1+p=3   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n8_s116              chi=3   p=2   1+p=3   [EXACTO] cols=6
+  [OK] [Aleatorios] Random_n8_s126              chi=5   p=4   1+p=5   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n8_s150              chi=3   p=2   1+p=3   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n8_s163              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n8_s174              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n8_s201              chi=3   p=2   1+p=3   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n8_s210              chi=6   p=5   1+p=6   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n8_s220              chi=3   p=2   1+p=3   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n8_s231              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n8_s268              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n8_s280              chi=5   p=4   1+p=5   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n8_s334              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n8_s364              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n8_s378              chi=3   p=2   1+p=3   [EXACTO] cols=6
+  [OK] [Aleatorios] Random_n8_s401              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n8_s418              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n8_s451              chi=3   p=2   1+p=3   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n8_s464              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n8_s481              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n8_s495              chi=3   p=2   1+p=3   [EXACTO] cols=6
+  [OK] [Completos] K_9                          chi=9   p=8   1+p=9   [EXACTO] cols=10
+  [OK] [Ciclos_impares] C_9                     chi=3   p=2   1+p=3   [EXACTO] cols=10
+  [OK] [Bipartitos] K_4,5                       chi=2   p=1   1+p=2   [EXACTO] cols=2
+  [OK] [Wheels] W_9                             chi=3   p=2   1+p=3   [EXACTO] cols=6
+  [OK] [Aleatorios] Random_n9_s2                chi=5   p=4   1+p=5   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n9_s27               chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n9_s31               chi=3   p=2   1+p=3   [EXACTO] cols=6
+  [OK] [Aleatorios] Random_n9_s33               chi=3   p=2   1+p=3   [EXACTO] cols=6
+  [OK] [Aleatorios] Random_n9_s34               chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n9_s63               chi=5   p=4   1+p=5   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n9_s92               chi=6   p=5   1+p=6   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n9_s117              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n9_s124              chi=3   p=2   1+p=3   [EXACTO] cols=6
+  [OK] [Aleatorios] Random_n9_s142              chi=5   p=4   1+p=5   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n9_s152              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n9_s159              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n9_s185              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n9_s217              chi=5   p=4   1+p=5   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n9_s223              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n9_s239              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n9_s250              chi=3   p=2   1+p=3   [EXACTO] cols=6
+  [OK] [Aleatorios] Random_n9_s283              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n9_s287              chi=3   p=2   1+p=3   [EXACTO] cols=6
+  [OK] [Aleatorios] Random_n9_s295              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n9_s301              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n9_s303              chi=6   p=5   1+p=6   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n9_s310              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n9_s330              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n9_s332              chi=5   p=4   1+p=5   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n9_s350              chi=3   p=2   1+p=3   [EXACTO] cols=6
+  [OK] [Aleatorios] Random_n9_s352              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n9_s404              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n9_s411              chi=3   p=2   1+p=3   [EXACTO] cols=6
+  [OK] [Aleatorios] Random_n9_s461              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n9_s468              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n9_s475              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n9_s483              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n9_s491              chi=3   p=2   1+p=3   [EXACTO] cols=6
+  [OK] [Completos] K_10                         chi=10  p=9   1+p=10  [EXACTO] cols=10
+  [OK] [Ciclos_pares] C_10                      chi=2   p=1   1+p=2   [EXACTO] cols=2
+  [OK] [Especiales] Petersen                    chi=3   p=2   1+p=3   [EXACTO] cols=10
+  [OK] [Kneser] Kneser_K(5,2)                   chi=3   p=2   1+p=3   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n10_s1               chi=3   p=2   1+p=3   [EXACTO] cols=6
+  [OK] [Aleatorios] Random_n10_s9               chi=5   p=4   1+p=5   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n10_s19              chi=5   p=4   1+p=5   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n10_s21              chi=5   p=4   1+p=5   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n10_s22              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n10_s37              chi=5   p=4   1+p=5   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n10_s49              chi=5   p=4   1+p=5   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n10_s66              chi=3   p=2   1+p=3   [EXACTO] cols=6
+  [OK] [Aleatorios] Random_n10_s72              chi=5   p=4   1+p=5   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n10_s78              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n10_s90              chi=3   p=2   1+p=3   [EXACTO] cols=6
+  [OK] [Aleatorios] Random_n10_s94              chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n10_s105             chi=3   p=2   1+p=3   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n10_s111             chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n10_s114             chi=5   p=4   1+p=5   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n10_s120             chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n10_s123             chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n10_s129             chi=5   p=4   1+p=5   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n10_s130             chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n10_s134             chi=3   p=2   1+p=3   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n10_s138             chi=5   p=4   1+p=5   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n10_s153             chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n10_s161             chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n10_s165             chi=3   p=2   1+p=3   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n10_s190             chi=5   p=4   1+p=5   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n10_s226             chi=5   p=4   1+p=5   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n10_s230             chi=5   p=4   1+p=5   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n10_s238             chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n10_s260             chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n10_s261             chi=5   p=4   1+p=5   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n10_s267             chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n10_s271             chi=3   p=2   1+p=3   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n10_s319             chi=5   p=4   1+p=5   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n10_s326             chi=3   p=2   1+p=3   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n10_s329             chi=3   p=2   1+p=3   [EXACTO] cols=6
+  [OK] [Aleatorios] Random_n10_s342             chi=3   p=2   1+p=3   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n10_s349             chi=5   p=4   1+p=5   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n10_s409             chi=3   p=2   1+p=3   [EXACTO] cols=8
+  [OK] [Aleatorios] Random_n10_s420             chi=3   p=2   1+p=3   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n10_s439             chi=5   p=4   1+p=5   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n10_s453             chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n10_s485             chi=3   p=2   1+p=3   [EXACTO] cols=10
+  [OK] [Aleatorios] Random_n10_s492             chi=4   p=3   1+p=4   [EXACTO] cols=10
+  [OK] [Completos] K_11                         chi=11  p=10  1+p=11  [PROB(10 cols)] cols=10
+  [OK] [Ciclos_impares] C_11                    chi=3   p=2   1+p=3   [PROB(10 cols)] cols=10
+  [OK] [Mycielski] Mycielski_M4                 chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n11_s6               chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n11_s8               chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n11_s16              chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n11_s18              chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n11_s28              chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n11_s39              chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n11_s71              chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n11_s95              chi=3   p=2   1+p=3   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n11_s110             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n11_s113             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n11_s148             chi=3   p=2   1+p=3   [PROB(6 cols)] cols=6
+  [OK] [Aleatorios] Random_n11_s164             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n11_s177             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n11_s183             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n11_s218             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n11_s235             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n11_s247             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n11_s252             chi=3   p=2   1+p=3   [PROB(8 cols)] cols=8
+  [OK] [Aleatorios] Random_n11_s276             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n11_s297             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n11_s313             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n11_s363             chi=3   p=2   1+p=3   [PROB(6 cols)] cols=6
+  [OK] [Aleatorios] Random_n11_s370             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n11_s372             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n11_s380             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n11_s421             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n11_s426             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n11_s429             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n11_s432             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n11_s446             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n11_s473             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n11_s493             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Completos] K_12                         chi=12  p=11  1+p=12  [PROB(10 cols)] cols=10
+  [OK] [Ciclos_pares] C_12                      chi=2   p=1   1+p=2   [PROB(2 cols)] cols=2
+  [OK] [Poliedros] Icosaedro                    chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n12_s41              chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n12_s52              chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n12_s53              chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n12_s56              chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n12_s74              chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n12_s106             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n12_s119             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n12_s127             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n12_s146             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n12_s158             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n12_s166             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n12_s169             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n12_s188             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n12_s200             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n12_s203             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n12_s209             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n12_s240             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n12_s258             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n12_s321             chi=3   p=2   1+p=3   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n12_s322             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n12_s338             chi=7   p=6   1+p=7   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n12_s340             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n12_s341             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n12_s367             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n12_s371             chi=7   p=6   1+p=7   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n12_s397             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n12_s403             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n12_s415             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n12_s416             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n12_s423             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n12_s427             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n12_s434             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n12_s449             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n12_s456             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n12_s467             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n12_s479             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Completos] K_13                         chi=13  p=12  1+p=13  [PROB(10 cols)] cols=10
+  [OK] [Ciclos_impares] C_13                    chi=3   p=2   1+p=3   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n13_s3               chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n13_s60              chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n13_s64              chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n13_s73              chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n13_s80              chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n13_s103             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n13_s141             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n13_s149             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n13_s155             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n13_s167             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n13_s196             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n13_s198             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n13_s205             chi=3   p=2   1+p=3   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n13_s213             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n13_s237             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n13_s255             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n13_s278             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n13_s282             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n13_s285             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n13_s314             chi=3   p=2   1+p=3   [PROB(6 cols)] cols=6
+  [OK] [Aleatorios] Random_n13_s315             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n13_s317             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n13_s325             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n13_s345             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n13_s368             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n13_s374             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n13_s388             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n13_s396             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n13_s408             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n13_s417             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n13_s437             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n13_s455             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n13_s460             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n13_s474             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n13_s480             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n13_s484             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n13_s490             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Completos] K_14                         chi=14  p=13  1+p=14  [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n14_s54              chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n14_s61              chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n14_s65              chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n14_s77              chi=7   p=6   1+p=7   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n14_s82              chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n14_s84              chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n14_s87              chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n14_s107             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n14_s136             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n14_s144             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n14_s178             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n14_s179             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n14_s182             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n14_s202             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n14_s222             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n14_s224             chi=7   p=6   1+p=7   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n14_s229             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n14_s234             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n14_s236             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n14_s249             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n14_s251             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n14_s262             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n14_s266             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n14_s269             chi=3   p=2   1+p=3   [PROB(6 cols)] cols=6
+  [OK] [Aleatorios] Random_n14_s281             chi=7   p=6   1+p=7   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n14_s293             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n14_s309             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n14_s318             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n14_s356             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n14_s382             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n14_s385             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n14_s428             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n14_s444             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n14_s445             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n14_s470             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n14_s471             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n14_s486             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Completos] K_15                         chi=15  p=14  1+p=15  [PROB(10 cols)] cols=10
+  [OK] [Kneser] Kneser_K(6,2)                   chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Circulantes] Circ_15_2                  chi=3   p=2   1+p=3   [PROB(6 cols)] cols=6
+  [OK] [Circulantes] Circ_15_3                  chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Circulantes] Circ_15_4                  chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n15_s10              chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n15_s40              chi=7   p=6   1+p=7   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n15_s55              chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n15_s62              chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n15_s68              chi=8   p=7   1+p=8   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n15_s91              chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n15_s104             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n15_s139             chi=7   p=6   1+p=7   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n15_s140             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n15_s172             chi=7   p=6   1+p=7   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n15_s173             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n15_s187             chi=7   p=6   1+p=7   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n15_s191             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n15_s208             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n15_s219             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n15_s253             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n15_s257             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n15_s265             chi=7   p=6   1+p=7   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n15_s270             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n15_s279             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n15_s323             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n15_s337             chi=7   p=6   1+p=7   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n15_s362             chi=7   p=6   1+p=7   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n15_s376             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n15_s394             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n15_s395             chi=7   p=6   1+p=7   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n15_s402             chi=7   p=6   1+p=7   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n15_s407             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n15_s448             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n15_s478             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n16_s7               chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n16_s14              chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n16_s43              chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n16_s48              chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n16_s50              chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n16_s69              chi=3   p=2   1+p=3   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n16_s70              chi=7   p=6   1+p=7   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n16_s75              chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n16_s112             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n16_s131             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n16_s180             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n16_s181             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n16_s194             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n16_s197             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n16_s256             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n16_s263             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n16_s277             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n16_s290             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n16_s296             chi=7   p=6   1+p=7   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n16_s312             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n16_s351             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n16_s360             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n16_s375             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n16_s383             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n16_s391             chi=8   p=7   1+p=8   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n16_s393             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n16_s412             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n16_s414             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n16_s438             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n16_s472             chi=7   p=6   1+p=7   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n16_s488             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Circulantes] Circ_17_2                  chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Circulantes] Circ_17_3                  chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Circulantes] Circ_17_4                  chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n17_s0               chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n17_s12              chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n17_s30              chi=7   p=6   1+p=7   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n17_s46              chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n17_s47              chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n17_s51              chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n17_s89              chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n17_s93              chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n17_s96              chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n17_s118             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n17_s186             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n17_s195             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n17_s206             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n17_s211             chi=7   p=6   1+p=7   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n17_s227             chi=7   p=6   1+p=7   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n17_s233             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n17_s244             chi=7   p=6   1+p=7   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n17_s274             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n17_s275             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n17_s307             chi=7   p=6   1+p=7   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n17_s324             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n17_s335             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n17_s339             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n17_s361             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n17_s381             chi=8   p=7   1+p=8   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n17_s405             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n17_s422             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n17_s489             chi=7   p=6   1+p=7   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n17_s497             chi=7   p=6   1+p=7   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n18_s24              chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n18_s25              chi=7   p=6   1+p=7   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n18_s35              chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n18_s38              chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n18_s59              chi=8   p=7   1+p=8   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n18_s81              chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n18_s86              chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n18_s109             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n18_s122             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n18_s145             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n18_s147             chi=8   p=7   1+p=8   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n18_s156             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n18_s170             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n18_s176             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n18_s192             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n18_s193             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n18_s221             chi=7   p=6   1+p=7   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n18_s225             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n18_s242             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n18_s259             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n18_s264             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n18_s273             chi=8   p=7   1+p=8   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n18_s286             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n18_s288             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n18_s302             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n18_s316             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n18_s336             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n18_s347             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n18_s348             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n18_s365             chi=7   p=6   1+p=7   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n18_s424             chi=7   p=6   1+p=7   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n18_s433             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n18_s450             chi=7   p=6   1+p=7   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n18_s469             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n18_s496             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Circulantes] Circ_19_2                  chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Circulantes] Circ_19_3                  chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Circulantes] Circ_19_4                  chi=7   p=6   1+p=7   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n19_s20              chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n19_s29              chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n19_s57              chi=7   p=6   1+p=7   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n19_s67              chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n19_s79              chi=8   p=7   1+p=8   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n19_s100             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n19_s108             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n19_s157             chi=3   p=2   1+p=3   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n19_s204             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n19_s207             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n19_s254             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n19_s299             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n19_s304             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n19_s327             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n19_s333             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n19_s353             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n19_s354             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n19_s357             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n19_s359             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n19_s425             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n19_s430             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n19_s442             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n19_s458             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n19_s459             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n19_s462             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n19_s477             chi=9   p=8   1+p=9   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n19_s487             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n20_s5               chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n20_s32              chi=8   p=7   1+p=8   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n20_s97              chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n20_s98              chi=7   p=6   1+p=7   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n20_s102             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n20_s137             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n20_s162             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n20_s214             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n20_s291             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n20_s308             chi=7   p=6   1+p=7   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n20_s328             chi=7   p=6   1+p=7   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n20_s344             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n20_s355             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n20_s358             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n20_s384             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n20_s386             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n20_s399             chi=4   p=3   1+p=4   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n20_s441             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n20_s452             chi=8   p=7   1+p=8   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n20_s463             chi=7   p=6   1+p=7   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n20_s476             chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n20_s482             chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Aleatorios] Random_n20_s498             chi=9   p=8   1+p=9   [PROB(10 cols)] cols=10
+  [OK] [Kneser] Kneser_K(7,2)                   chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Circulantes] Circ_21_2                  chi=3   p=2   1+p=3   [PROB(6 cols)] cols=6
+  [OK] [Circulantes] Circ_21_3                  chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Circulantes] Circ_21_4                  chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Mycielski] Mycielski_M5                 chi=5   p=4   1+p=5   [PROB(10 cols)] cols=10
+  [OK] [Kneser] Kneser_K(8,2)                   chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+  [OK] [Kneser] Kneser_K(9,2)                   chi=7   p=6   1+p=7   [PROB(10 cols)] cols=10
+  [OK] [Kneser] Kneser_K(10,2)                  chi=8   p=7   1+p=8   [PROB(10 cols)] cols=10
+  [OK] [Mycielski] Mycielski_M6                 chi=6   p=5   1+p=6   [PROB(10 cols)] cols=10
+
+===========================================================================
+  RESUMEN
+===========================================================================
+  Grafos procesados  : 562
+  Correctos          : 562
+  Fallos             : 0
+  Tiempo             : 6.2 min
+  Coloraciones_verificadas : 5214
+  Pares_totales        : 53686
+  Pares_OK             : 53686
+
+  ============================================
+  VERIFICACION EXITOSA — 0 FALLOS
+  ============================================
+
+===========================================================================
+  FIN DEL REPORTE
+===========================================================================

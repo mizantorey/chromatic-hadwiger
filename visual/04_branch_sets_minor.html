@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Branch Sets and the K_k Minor — Definition 3.4</title>
+<style>
+  :root {
+    --bg: #04040e;
+    --text: #dde0ff;
+    --red: #D85A30;
+    --blue: #378ADD;
+    --green: #1D9E75;
+    --gold: #FAC775;
+    --purple: #8B5CF6;
+    --teal: #0F6E56;
+    --navy: #102450;
+    --panel: #0a0a1e;
+    --border: #1a1a3e;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 12% 18%, rgba(221,224,255,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 28% 62%, rgba(221,224,255,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 48% 22%, rgba(221,224,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 65% 78%, rgba(221,224,255,0.2) 0%, transparent 100%),
+      radial-gradient(1px 1px at 80% 15%, rgba(221,224,255,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 90% 50%, rgba(221,224,255,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 5%  90%, rgba(221,224,255,0.35) 0%, transparent 100%),
+      radial-gradient(1px 1px at 72% 40%, rgba(221,224,255,0.25) 0%, transparent 100%),
+      radial-gradient(1px 1px at 38% 85%, rgba(221,224,255,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 95% 70%, rgba(221,224,255,0.2) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulseGold {
+    0%, 100% { box-shadow: 0 0 8px rgba(250,199,117,0.4); }
+    50%       { box-shadow: 0 0 22px rgba(250,199,117,0.8); }
+  }
+  @keyframes contractAnim {
+    0%   { r: 14; }
+    100% { r: 6; }
+  }
+  @keyframes contractCircle {
+    0%   { transform: scale(1); opacity: 1; }
+    60%  { transform: scale(0.35); opacity: 0.9; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  @keyframes edgeAppear {
+    from { stroke-dashoffset: 200; opacity: 0; }
+    to   { stroke-dashoffset: 0;   opacity: 1; }
+  }
+  @keyframes blobPulse {
+    0%, 100% { opacity: 0.13; }
+    50%       { opacity: 0.22; }
+  }
+  @keyframes spinSlow {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+  @keyframes flashIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+
+  header {
+    width: 100%;
+    max-width: 960px;
+    padding: 2.2rem 2rem 0.8rem;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    animation: fadeDown 0.8s ease both;
+  }
+
+  .tag {
+    display: inline-block;
+    background: rgba(55,138,221,0.15);
+    border: 1px solid rgba(55,138,221,0.4);
+    color: var(--blue);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.9rem;
+    border-radius: 20px;
+    margin-bottom: 0.9rem;
+  }
+
+  h1 {
+    font-size: clamp(1.5rem, 3.5vw, 2.3rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    background: linear-gradient(135deg, var(--text) 0%, var(--blue) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+  }
+
+  .subtitle {
+    color: rgba(221,224,255,0.55);
+    font-size: 0.92rem;
+    font-weight: 400;
+  }
+
+  /* ── Definition box ── */
+  .def-box {
+    width: 100%;
+    max-width: 960px;
+    margin: 1.2rem auto 0;
+    padding: 0 2rem;
+    position: relative;
+    z-index: 1;
+    animation: fadeUp 0.9s 0.2s ease both;
+  }
+
+  .def-inner {
+    background: linear-gradient(135deg, rgba(16,36,80,0.8) 0%, rgba(10,10,30,0.8) 100%);
+    border: 1px solid rgba(55,138,221,0.35);
+    border-left: 4px solid var(--blue);
+    border-radius: 10px;
+    padding: 1rem 1.4rem;
+    font-size: 0.93rem;
+    line-height: 1.65;
+  }
+
+  .def-inner strong { color: var(--gold); }
+  .def-inner .math { font-style: italic; color: var(--blue); }
+
+  /* ── Nav ── */
+  .k-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin: 1.3rem auto 0;
+    max-width: 960px;
+    padding: 0 2rem;
+    position: relative;
+    z-index: 1;
+    animation: fadeUp 0.9s 0.3s ease both;
+  }
+
+  .k-label {
+    font-size: 0.82rem;
+    color: rgba(221,224,255,0.5);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-right: 0.4rem;
+  }
+
+  .k-btn {
+    padding: 0.45rem 1.2rem;
+    border-radius: 8px;
+    border: 1px solid rgba(55,138,221,0.35);
+    background: rgba(16,36,80,0.5);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 0.88rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+  }
+  .k-btn:hover { background: rgba(55,138,221,0.2); border-color: var(--blue); }
+  .k-btn.active {
+    background: var(--blue);
+    border-color: var(--blue);
+    color: #fff;
+    animation: pulseGold 2s infinite;
+  }
+
+  .k-info {
+    margin-left: auto;
+    font-size: 0.85rem;
+    color: var(--gold);
+    font-weight: 600;
+    background: rgba(250,199,117,0.1);
+    border: 1px solid rgba(250,199,117,0.3);
+    border-radius: 8px;
+    padding: 0.35rem 0.9rem;
+  }
+
+  /* ── Main panels ── */
+  .panels {
+    width: 100%;
+    max-width: 960px;
+    padding: 1.2rem 2rem 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+    position: relative;
+    z-index: 1;
+    animation: fadeUp 0.9s 0.4s ease both;
+  }
+
+  @media (max-width: 680px) {
+    .panels { grid-template-columns: 1fr; }
+  }
+
+  .panel {
+    background: rgba(10,10,30,0.7);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.7rem;
+  }
+
+  .panel-title {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(221,224,255,0.5);
+    align-self: flex-start;
+  }
+
+  svg.graph { width: 100%; max-width: 380px; height: auto; }
+
+  /* ── Contract button ── */
+  .contract-btn {
+    padding: 0.5rem 1.4rem;
+    border-radius: 8px;
+    border: 1px solid rgba(250,199,117,0.4);
+    background: rgba(250,199,117,0.1);
+    color: var(--gold);
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 0.3rem;
+  }
+  .contract-btn:hover { background: rgba(250,199,117,0.22); border-color: var(--gold); }
+
+  /* ── Counter row ── */
+  .counter-row {
+    width: 100%;
+    max-width: 960px;
+    padding: 0.9rem 2rem 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+    animation: fadeUp 0.9s 0.5s ease both;
+  }
+
+  .counter-chip {
+    background: rgba(10,10,30,0.8);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.55rem 1.1rem;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .counter-chip .math-k { color: var(--blue); font-weight: 700; }
+  .counter-chip .math-c { color: var(--gold); font-weight: 700; }
+  .counter-chip .check { color: var(--green); font-size: 1rem; }
+
+  /* ── Key message ── */
+  .key-msg {
+    width: 100%;
+    max-width: 960px;
+    padding: 0.9rem 2rem 0;
+    position: relative;
+    z-index: 1;
+    animation: fadeUp 0.9s 0.6s ease both;
+  }
+
+  .key-inner {
+    background: linear-gradient(135deg, rgba(29,158,117,0.1) 0%, rgba(139,92,246,0.1) 100%);
+    border: 1px solid rgba(29,158,117,0.3);
+    border-radius: 12px;
+    padding: 1rem 1.4rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    align-items: center;
+  }
+
+  .key-inner .kicon { font-size: 1.5rem; }
+
+  .key-inner .ktext {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    flex: 1;
+    min-width: 200px;
+  }
+  .key-inner .ktext strong { color: var(--green); }
+  .key-inner .ktext .math-p { color: var(--purple); font-weight: 700; font-style: italic; }
+
+  footer {
+    width: 100%;
+    max-width: 960px;
+    text-align: center;
+    padding: 1.8rem 2rem 2.2rem;
+    color: rgba(221,224,255,0.3);
+    font-size: 0.78rem;
+    position: relative;
+    z-index: 1;
+    animation: fadeUp 0.9s 0.7s ease both;
+  }
+
+  .legend {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 0.5rem;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.78rem;
+    color: rgba(221,224,255,0.6);
+  }
+  .legend-dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* animation states for contraction */
+  .contracted .branch-group { transition: transform 0.8s cubic-bezier(0.4,0,0.2,1); }
+  .contracted .blob { transition: opacity 0.5s; opacity: 0; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="tag">Definition 3.4 — Graph Minor</div>
+  <h1>Branch Sets and the K<sub>k</sub> Minor</h1>
+  <p class="subtitle">
+    How contracting connected subsets reveals a complete graph hidden inside G
+  </p>
+</header>
+
+<!-- Definition box -->
+<div class="def-box">
+  <div class="def-inner">
+    <strong>Definition 3.4</strong>&nbsp; A graph <span class="math">G</span> contains
+    <span class="math">K<sub>k</sub></span> as a <strong>minor</strong> if there exist
+    <span class="math">k</span> pairwise disjoint, non-empty, <em>connected</em> subsets
+    <span class="math">B<sub>1</sub>, B<sub>2</sub>, …, B<sub>k</sub> ⊆ V(G)</span>
+    such that for every pair <span class="math">i ≠ j</span> there is at least one edge
+    between <span class="math">B<sub>i</sub></span> and <span class="math">B<sub>j</sub></span>.
+    Contracting each <span class="math">B<sub>i</sub></span> to a single vertex gives
+    <span class="math">K<sub>k</sub></span>.
+  </div>
+</div>
+
+<!-- Navigation -->
+<div class="k-nav">
+  <span class="k-label">Example</span>
+  <button class="k-btn" id="btn2" onclick="setK(2)">k = 2</button>
+  <button class="k-btn active" id="btn3" onclick="setK(3)">k = 3</button>
+  <button class="k-btn" id="btn4" onclick="setK(4)">k = 4</button>
+  <span class="k-info" id="kinfo">K₃ minor: 3 branch sets, 3 inter-edges</span>
+</div>
+
+<!-- Panels -->
+<div class="panels">
+  <!-- Left: G with branch sets -->
+  <div class="panel">
+    <span class="panel-title">Graph G — Branch Sets</span>
+    <svg class="graph" id="svgG" viewBox="0 0 360 280" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="blobR" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#D85A30" stop-opacity="0.28"/>
+          <stop offset="100%" stop-color="#D85A30" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="blobBl" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#378ADD" stop-opacity="0.28"/>
+          <stop offset="100%" stop-color="#378ADD" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="blobGr" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#1D9E75" stop-opacity="0.28"/>
+          <stop offset="100%" stop-color="#1D9E75" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="blobGo" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#FAC775" stop-opacity="0.28"/>
+          <stop offset="100%" stop-color="#FAC775" stop-opacity="0"/>
+        </radialGradient>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="2.5" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+      <!-- dynamic content rendered by JS -->
+    </svg>
+    <div class="legend" id="legendG"></div>
+    <button class="contract-btn" id="contractBtn" onclick="toggleContract()">
+      ▶ Animate Contraction
+    </button>
+  </div>
+
+  <!-- Right: Contracted K_k -->
+  <div class="panel">
+    <span class="panel-title">Contracted Graph → K<sub id="kRight">3</sub></span>
+    <svg class="graph" id="svgK" viewBox="0 0 360 280" xmlns="http://www.w3.org/2000/svg">
+      <!-- rendered by JS -->
+    </svg>
+    <div class="legend" id="legendK"></div>
+    <div style="font-size:0.8rem;color:rgba(221,224,255,0.45);text-align:center;margin-top:0.2rem;">
+      Each circle = one contracted branch set
+    </div>
+  </div>
+</div>
+
+<!-- Counter chips -->
+<div class="counter-row" id="counterRow"></div>
+
+<!-- Key message -->
+<div class="key-msg">
+  <div class="key-inner">
+    <span class="kicon">🔑</span>
+    <div class="ktext">
+      <strong>Hadwiger's Conjecture:</strong> if the chromatic number
+      <span class="math-p">χ(G) = k</span>, then G contains
+      <span class="math-p">K<sub>k</sub></span> as a minor.<br>
+      Equivalently: palette-expansion number
+      <span class="math-p">p(G) = k − 1</span>
+      &nbsp;⟹&nbsp; G has K<sub>k</sub> minor.
+      The branch sets <em>B<sub>i</sub></em> are constructed explicitly in
+      <strong>Construction 8.1</strong> (see File 5).
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div>Palette-Expansion Numbers and a Constructive Proof of Hadwiger's Conjecture</div>
+  <div style="margin-top:0.3rem;">
+    Mizael Antonio Tovar Reyes — Ciudad Juárez, México — March 2026
+  </div>
+</footer>
+
+<script>
+// ── Data for each k ──────────────────────────────────────────────────────────
+const COLORS = ['#D85A30','#378ADD','#1D9E75','#FAC775'];
+const NAMES  = ['B₁','B₂','B₃','B₄'];
+const LABELS = ['B\u2081','B\u2082','B\u2083','B\u2084'];
+const SUBS   = ['₁','₂','₃','₄'];
+
+// Graph layouts: vertices [x,y,colorIndex], intra-edges, inter-edges
+const GRAPHS = {
+  2: {
+    vertices: [
+      [100,100,0],[80,170,0],[130,160,0],      // B1
+      [250,100,1],[270,170,1],[220,155,1],      // B2
+    ],
+    intraEdges: [[0,1],[1,2],[0,2],   [3,4],[4,5],[3,5]],
+    interEdges: [[2,3]],
+  },
+  3: {
+    vertices: [
+      [90, 80,0],[60,150,0],[120,155,0],         // B1
+      [270,80,1],[300,150,1],[240,155,1],         // B2
+      [175,215,2],[145,250,2],[205,250,2],        // B3
+    ],
+    intraEdges: [[0,1],[1,2],[0,2],  [3,4],[4,5],[3,5],  [6,7],[7,8],[6,8]],
+    interEdges: [[2,3],[5,6],[1,8]],
+  },
+  4: {
+    vertices: [
+      [80, 70,0],[55,135,0],[105,140,0],          // B1
+      [270,70,1],[300,140,1],[245,135,1],          // B2
+      [270,215,2],[300,265,2],[245,265,2],         // B3
+      [80,215,3],[55,265,3],[105,265,3],           // B4
+    ],
+    intraEdges: [
+      [0,1],[1,2],[0,2],
+      [3,4],[4,5],[3,5],
+      [6,7],[7,8],[6,8],
+      [9,10],[10,11],[9,11],
+    ],
+    interEdges: [[2,3],[5,6],[8,9],[0,11],[2,6],[5,11]],
+  },
+};
+
+// Contracted K_k node positions
+const KPOS = {
+  2: [[130,140],[230,140]],
+  3: [[180,80],[80,215],[280,215]],
+  4: [[130,100],[230,100],[260,210],[100,210]],
+};
+
+let currentK = 3;
+let contracted = false;
+let animTimeout = null;
+
+function setK(k) {
+  currentK = k;
+  contracted = false;
+  clearTimeout(animTimeout);
+  document.getElementById('btn2').classList.toggle('active', k===2);
+  document.getElementById('btn3').classList.toggle('active', k===3);
+  document.getElementById('btn4').classList.toggle('active', k===4);
+  document.getElementById('kRight').textContent = k;
+  const pairs = k*(k-1)/2;
+  const subMap = {2:'₂',3:'₃',4:'₄'};
+  document.getElementById('kinfo').textContent =
+    `K${subMap[k]} minor: ${k} branch sets, ${pairs} inter-edge${pairs>1?'s':''}`;
+  document.getElementById('contractBtn').textContent = '▶ Animate Contraction';
+  renderG();
+  renderK(false);
+  renderCounters();
+}
+
+function lerp(a,b,t){ return a+(b-a)*t; }
+
+// ── Render left panel ────────────────────────────────────────────────────────
+function renderG(contractProg = 0) {
+  const g = GRAPHS[currentK];
+  const kpos = KPOS[currentK];
+  const svg = document.getElementById('svgG');
+
+  // Build blob regions
+  let blobs = '';
+  for(let c=0; c<currentK; c++){
+    const verts = g.vertices.filter(v=>v[2]===c);
+    const cx = verts.reduce((s,v)=>s+v[0],0)/verts.length;
+    const cy = verts.reduce((s,v)=>s+v[1],0)/verts.length;
+    const col = COLORS[c];
+    const gradId = ['blobR','blobBl','blobGr','blobGo'][c];
+    // contract: shrink toward kpos
+    const tcx = lerp(cx, kpos[c][0], contractProg);
+    const tcy = lerp(cy, kpos[c][1], contractProg);
+    const r = lerp(52, 14, contractProg);
+    blobs += `<ellipse cx="${tcx}" cy="${tcy}" rx="${r}" ry="${r*0.85}"
+      fill="url(#${gradId})" style="animation:blobPulse 3s ${c*0.4}s ease-in-out infinite;"/>`;
+
+    // dashed outline
+    const opa = lerp(1,0,contractProg);
+    blobs += `<ellipse cx="${tcx}" cy="${tcy}" rx="${r*0.85}" ry="${r*0.72}"
+      fill="none" stroke="${col}" stroke-width="1.2" stroke-dasharray="5 3"
+      opacity="${opa}"/>`;
+  }
+
+  // Edges
+  let edges = '';
+  // intra
+  g.intraEdges.forEach(([a,b])=>{
+    const va=g.vertices[a], vb=g.vertices[b];
+    const c = va[2];
+    const col = COLORS[c];
+    const kca = kpos[c];
+    const ax = lerp(va[0],kca[0],contractProg);
+    const ay = lerp(va[1],kca[1],contractProg);
+    const bx = lerp(vb[0],kca[0],contractProg);
+    const by = lerp(vb[1],kca[1],contractProg);
+    const opa = lerp(0.35, 0, contractProg);
+    edges += `<line x1="${ax}" y1="${ay}" x2="${bx}" y2="${by}"
+      stroke="${col}" stroke-width="1.5" opacity="${opa}"/>`;
+  });
+
+  // inter
+  g.interEdges.forEach(([a,b],i)=>{
+    const va=g.vertices[a], vb=g.vertices[b];
+    const ca=va[2], cb=vb[2];
+    const ax = lerp(va[0], kpos[ca][0], contractProg);
+    const ay = lerp(va[1], kpos[ca][1], contractProg);
+    const bx = lerp(vb[0], kpos[cb][0], contractProg);
+    const by = lerp(vb[1], kpos[cb][1], contractProg);
+    edges += `<line x1="${ax}" y1="${ay}" x2="${bx}" y2="${by}"
+      stroke="#FAC775" stroke-width="2.2" opacity="0.85"
+      style="animation:edgeAppear 0.6s ${i*0.1}s ease both;stroke-dasharray:200;stroke-dashoffset:0;"/>`;
+  });
+
+  // Vertices
+  let verts = '';
+  g.vertices.forEach((v,i)=>{
+    const c = v[2];
+    const col = COLORS[c];
+    const kca = kpos[c];
+    const vx = lerp(v[0], kca[0], contractProg);
+    const vy = lerp(v[1], kca[1], contractProg);
+    const r = lerp(7, 3, contractProg);
+    verts += `<circle cx="${vx}" cy="${vy}" r="${r}" fill="${col}"
+      stroke="#04040e" stroke-width="1.5" filter="url(#glow)"/>`;
+  });
+
+  // Labels
+  let lbls = '';
+  if(contractProg < 0.5){
+    for(let c=0; c<currentK; c++){
+      const vlist = g.vertices.filter(v=>v[2]===c);
+      const cx = vlist.reduce((s,v)=>s+v[0],0)/vlist.length;
+      const cy = vlist.reduce((s,v)=>s+v[1],0)/vlist.length - 45;
+      const opa = lerp(1,0,contractProg*2);
+      lbls += `<text x="${cx}" y="${cy}" text-anchor="middle"
+        font-family="Segoe UI,sans-serif" font-size="13" font-weight="700"
+        fill="${COLORS[c]}" opacity="${opa}">${LABELS[c]}</text>`;
+    }
+  }
+  if(contractProg > 0.6){
+    for(let c=0; c<currentK; c++){
+      const opa = (contractProg-0.6)/0.4;
+      lbls += `<text x="${kpos[c][0]}" y="${kpos[c][1]+5}" text-anchor="middle"
+        font-family="Segoe UI,sans-serif" font-size="11" font-weight="700"
+        fill="${COLORS[c]}" opacity="${opa}">${LABELS[c]}</text>`;
+    }
+  }
+
+  svg.innerHTML = `
+    <defs>
+      <radialGradient id="blobR" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#D85A30" stop-opacity="0.28"/>
+        <stop offset="100%" stop-color="#D85A30" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="blobBl" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#378ADD" stop-opacity="0.28"/>
+        <stop offset="100%" stop-color="#378ADD" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="blobGr" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#1D9E75" stop-opacity="0.28"/>
+        <stop offset="100%" stop-color="#1D9E75" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="blobGo" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#FAC775" stop-opacity="0.28"/>
+        <stop offset="100%" stop-color="#FAC775" stop-opacity="0"/>
+      </radialGradient>
+      <filter id="glow">
+        <feGaussianBlur stdDeviation="2.5" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+    ${blobs}${edges}${verts}${lbls}
+  `;
+
+  // Legend
+  const leg = document.getElementById('legendG');
+  leg.innerHTML = '';
+  for(let c=0;c<currentK;c++){
+    const item = document.createElement('div');
+    item.className='legend-item';
+    item.innerHTML=`<div class="legend-dot" style="background:${COLORS[c]}"></div><span>${LABELS[c]} (connected)</span>`;
+    leg.appendChild(item);
+  }
+}
+
+// ── Render right panel ───────────────────────────────────────────────────────
+function renderK(animate=true) {
+  const kpos = KPOS[currentK];
+  const svg = document.getElementById('svgK');
+  const k = currentK;
+
+  let edges = '';
+  let idx = 0;
+  for(let i=0;i<k;i++){
+    for(let j=i+1;j<k;j++){
+      const delay = animate ? idx*0.12 : 0;
+      const x1=kpos[i][0], y1=kpos[i][1];
+      const x2=kpos[j][0], y2=kpos[j][1];
+      edges += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"
+        stroke="#FAC775" stroke-width="2.2" opacity="0.8"
+        stroke-dasharray="200" stroke-dashoffset="0"
+        style="animation:${animate?`edgeAppear 0.5s ${delay}s ease both`:'none'};"/>`;
+      idx++;
+    }
+  }
+
+  let nodes = '';
+  for(let i=0;i<k;i++){
+    const x=kpos[i][0], y=kpos[i][1];
+    const delay = animate ? i*0.08 : 0;
+    nodes += `
+      <circle cx="${x}" cy="${y}" r="22" fill="${COLORS[i]}" opacity="0.22" filter="url(#glowK)"/>
+      <circle cx="${x}" cy="${y}" r="16" fill="${COLORS[i]}" stroke="#04040e" stroke-width="2"
+        style="animation:${animate?`flashIn 0.4s ${delay}s ease both`:'none'};"/>
+      <text x="${x}" y="${y+5}" text-anchor="middle"
+        font-family="Segoe UI,sans-serif" font-size="12" font-weight="700" fill="#fff">${LABELS[i]}</text>
+    `;
+  }
+
+  svg.innerHTML = `
+    <defs>
+      <filter id="glowK">
+        <feGaussianBlur stdDeviation="4" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+    ${edges}${nodes}
+  `;
+
+  const leg = document.getElementById('legendK');
+  leg.innerHTML = '';
+  const pairsCount = k*(k-1)/2;
+  const item = document.createElement('div');
+  item.className='legend-item';
+  item.innerHTML=`<div class="legend-dot" style="background:#FAC775"></div>
+    <span>${pairsCount} edge${pairsCount>1?'s':''} (all C(${k},2) pairs)</span>`;
+  leg.appendChild(item);
+}
+
+// ── Counters ─────────────────────────────────────────────────────────────────
+function renderCounters() {
+  const k = currentK;
+  const row = document.getElementById('counterRow');
+  row.innerHTML = '';
+  for(let ki=2; ki<=k; ki++){
+    const pairs = ki*(ki-1)/2;
+    const sub = {2:'₂',3:'₃',4:'₄'}[ki];
+    const chip = document.createElement('div');
+    chip.className = 'counter-chip';
+    chip.innerHTML = `<span class="math-k">k = ${ki}</span>
+      <span style="color:rgba(221,224,255,0.4)">→</span>
+      <span>need</span>
+      <span class="math-c">C(${ki},2) = ${pairs}</span>
+      <span>inter-edge${pairs>1?'s':''}</span>
+      <span class="check">✓</span>`;
+    row.appendChild(chip);
+  }
+}
+
+// ── Contraction animation ─────────────────────────────────────────────────────
+let animFrame = null;
+let animProg = 0;
+let animDir = 1;
+
+function toggleContract() {
+  if(animFrame) { cancelAnimationFrame(animFrame); animFrame=null; }
+  animDir = contracted ? -1 : 1;
+  const btn = document.getElementById('contractBtn');
+
+  function step(){
+    animProg = Math.max(0, Math.min(1, animProg + animDir*0.022));
+    renderG(animProg);
+    if(animProg > 0.5) {
+      renderK(false);
+    } else {
+      document.getElementById('svgK').innerHTML = '<text x="180" y="140" text-anchor="middle" font-family="Segoe UI,sans-serif" font-size="13" fill="rgba(221,224,255,0.3)">↑ Contract branch sets first</text>';
+    }
+    if(animProg > 0 && animProg < 1){
+      animFrame = requestAnimationFrame(step);
+    } else {
+      contracted = animProg >= 1;
+      btn.textContent = contracted ? '↺ Reset to Branch Sets' : '▶ Animate Contraction';
+      if(contracted) renderK(true);
+    }
+  }
+  animFrame = requestAnimationFrame(step);
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+setK(3);
+</script>
+</body>
+</html>

@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Construction 8.1 — Three Phases to Build the K_k Minor</title>
+<style>
+  :root {
+    --bg: #04040e;
+    --text: #dde0ff;
+    --red: #D85A30;
+    --blue: #378ADD;
+    --green: #1D9E75;
+    --gold: #FAC775;
+    --purple: #8B5CF6;
+    --teal: #0F6E56;
+    --navy: #102450;
+    --panel: #0a0a1e;
+    --border: #1a1a3e;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 9%  20%, rgba(221,224,255,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 30% 55%, rgba(221,224,255,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 52% 18%, rgba(221,224,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 70% 72%, rgba(221,224,255,0.2) 0%, transparent 100%),
+      radial-gradient(1px 1px at 84% 12%, rgba(221,224,255,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 93% 48%, rgba(221,224,255,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 18% 88%, rgba(221,224,255,0.35) 0%, transparent 100%),
+      radial-gradient(1px 1px at 60% 35%, rgba(221,224,255,0.25) 0%, transparent 100%),
+      radial-gradient(1px 1px at 44% 92%, rgba(221,224,255,0.3) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; } to { opacity: 1; }
+  }
+  @keyframes pulseRed {
+    0%,100% { box-shadow: 0 0 6px rgba(216,90,48,0.3); }
+    50%      { box-shadow: 0 0 18px rgba(216,90,48,0.7); }
+  }
+  @keyframes pulsePurple {
+    0%,100% { box-shadow: 0 0 6px rgba(139,92,246,0.3); }
+    50%      { box-shadow: 0 0 18px rgba(139,92,246,0.7); }
+  }
+  @keyframes pulseGreen {
+    0%,100% { box-shadow: 0 0 6px rgba(29,158,117,0.3); }
+    50%      { box-shadow: 0 0 18px rgba(29,158,117,0.7); }
+  }
+  @keyframes dashFlow {
+    to { stroke-dashoffset: -20; }
+  }
+  @keyframes bfsExpand {
+    from { r: 0; opacity: 0; }
+    to   { r: 9; opacity: 1; }
+  }
+  @keyframes edgeGrow {
+    from { stroke-dashoffset: 120; }
+    to   { stroke-dashoffset: 0; }
+  }
+  @keyframes shrinkBall {
+    0%   { transform: scale(1); opacity: 1; }
+    100% { transform: scale(0); opacity: 0; }
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(-12px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes countUp {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes blobFloat {
+    0%,100% { transform: translateY(0); }
+    50%      { transform: translateY(-4px); }
+  }
+  @keyframes shimmer {
+    0%   { background-position: -400px 0; }
+    100% { background-position: 400px 0; }
+  }
+
+  /* ── Header ── */
+  header {
+    width: 100%;
+    max-width: 980px;
+    padding: 2rem 2rem 0.6rem;
+    text-align: center;
+    position: relative; z-index: 1;
+    animation: fadeDown 0.8s ease both;
+  }
+
+  .tag {
+    display: inline-block;
+    background: rgba(139,92,246,0.15);
+    border: 1px solid rgba(139,92,246,0.4);
+    color: var(--purple);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.9rem;
+    border-radius: 20px;
+    margin-bottom: 0.8rem;
+  }
+
+  h1 {
+    font-size: clamp(1.4rem, 3.2vw, 2.15rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, var(--text) 0%, var(--purple) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.4rem;
+  }
+
+  .subtitle {
+    color: rgba(221,224,255,0.5);
+    font-size: 0.9rem;
+  }
+
+  /* ── Phase indicator bar ── */
+  .phase-bar {
+    width: 100%;
+    max-width: 980px;
+    padding: 1rem 2rem 0;
+    display: flex;
+    gap: 0.5rem;
+    position: relative; z-index: 1;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+
+  .phase-tab {
+    flex: 1;
+    padding: 0.6rem 0.5rem;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: rgba(10,10,30,0.6);
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.25s;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: rgba(221,224,255,0.4);
+    line-height: 1.3;
+  }
+  .phase-tab .phase-num {
+    display: block;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.2rem;
+  }
+  .phase-tab.active-p1 { border-color: var(--green); color: var(--green); background: rgba(29,158,117,0.12); }
+  .phase-tab.active-p2 { border-color: var(--blue);  color: var(--blue);  background: rgba(55,138,221,0.12); }
+  .phase-tab.active-p3 { border-color: var(--purple);color: var(--purple);background: rgba(139,92,246,0.12);}
+
+  /* ── Nav buttons ── */
+  .nav-row {
+    width: 100%;
+    max-width: 980px;
+    padding: 0.8rem 2rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    position: relative; z-index: 1;
+    animation: fadeUp 0.8s 0.25s ease both;
+  }
+
+  .nav-btn {
+    padding: 0.55rem 1.4rem;
+    border-radius: 9px;
+    border: 1px solid rgba(221,224,255,0.2);
+    background: rgba(10,10,30,0.7);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 0.88rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .nav-btn:hover:not(:disabled) { border-color: var(--purple); color: var(--purple); }
+  .nav-btn:disabled { opacity: 0.3; cursor: default; }
+
+  .step-counter {
+    font-size: 0.82rem;
+    color: rgba(221,224,255,0.45);
+    font-weight: 600;
+  }
+
+  .play-btn {
+    margin-left: auto;
+    padding: 0.55rem 1.3rem;
+    border-radius: 9px;
+    border: 1px solid rgba(139,92,246,0.4);
+    background: rgba(139,92,246,0.12);
+    color: var(--purple);
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .play-btn:hover { background: rgba(139,92,246,0.25); }
+
+  /* ── Content area ── */
+  .content {
+    width: 100%;
+    max-width: 980px;
+    padding: 1rem 2rem 0;
+    position: relative; z-index: 1;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+
+  .step-card {
+    background: rgba(10,10,30,0.75);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.2rem 1.5rem;
+    display: none;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .step-card.visible { display: flex; animation: fadeIn 0.45s ease both; }
+
+  .step-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .phase-badge {
+    flex-shrink: 0;
+    padding: 0.3rem 0.8rem;
+    border-radius: 8px;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .badge-p1 { background: rgba(29,158,117,0.18); color: var(--green); border: 1px solid rgba(29,158,117,0.4); }
+  .badge-p2 { background: rgba(55,138,221,0.18); color: var(--blue);  border: 1px solid rgba(55,138,221,0.4); }
+  .badge-p3 { background: rgba(139,92,246,0.18); color: var(--purple);border: 1px solid rgba(139,92,246,0.4); }
+
+  .step-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  .step-body {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 1.1rem;
+    align-items: start;
+  }
+  @media (max-width: 700px) { .step-body { grid-template-columns: 1fr; } }
+
+  .step-text { font-size: 0.88rem; line-height: 1.7; color: rgba(221,224,255,0.82); }
+  .step-text strong { color: var(--text); }
+  .step-text .hl-g { color: var(--green); font-weight: 700; }
+  .step-text .hl-b { color: var(--blue);  font-weight: 700; }
+  .step-text .hl-p { color: var(--purple);font-weight: 700; }
+  .step-text .hl-r { color: var(--red);   font-weight: 700; }
+  .step-text .hl-o { color: var(--gold);  font-weight: 700; }
+  .step-text .formula {
+    display: inline-block;
+    background: rgba(55,138,221,0.1);
+    border: 1px solid rgba(55,138,221,0.25);
+    border-radius: 5px;
+    padding: 0.15rem 0.5rem;
+    font-style: italic;
+    color: var(--blue);
+    font-size: 0.85rem;
+    margin: 0.15rem 0;
+  }
+
+  .step-svg-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .step-svg-wrap svg { width: 100%; max-width: 340px; height: auto; }
+
+  /* note boxes */
+  .note-box {
+    border-radius: 9px;
+    padding: 0.65rem 1rem;
+    font-size: 0.83rem;
+    line-height: 1.55;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.55rem;
+  }
+  .note-box .icon { font-size: 1.05rem; flex-shrink: 0; margin-top: 0.05rem; }
+  .note-green { background: rgba(29,158,117,0.1);  border: 1px solid rgba(29,158,117,0.3);  color: rgba(221,224,255,0.8); }
+  .note-blue  { background: rgba(55,138,221,0.1);  border: 1px solid rgba(55,138,221,0.3);  color: rgba(221,224,255,0.8); }
+  .note-purple{ background: rgba(139,92,246,0.1); border: 1px solid rgba(139,92,246,0.3); color: rgba(221,224,255,0.8); }
+  .note-gold  { background: rgba(250,199,117,0.1); border: 1px solid rgba(250,199,117,0.3); color: rgba(221,224,255,0.8); }
+
+  /* termination counter */
+  .term-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.4rem;
+  }
+  .term-chip {
+    background: rgba(10,10,30,0.8);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+    color: var(--gold);
+    font-weight: 700;
+  }
+
+  footer {
+    width: 100%;
+    max-width: 980px;
+    text-align: center;
+    padding: 1.6rem 2rem 2rem;
+    color: rgba(221,224,255,0.28);
+    font-size: 0.76rem;
+    position: relative; z-index: 1;
+    animation: fadeUp 0.9s 0.5s ease both;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="tag">Construction 8.1 — Core Algorithm</div>
+  <h1>Three Phases to Build the K<sub>k</sub> Minor</h1>
+  <p class="subtitle">
+    An animated, step-by-step walkthrough of the constructive proof of Hadwiger's Conjecture
+  </p>
+</header>
+
+<!-- Phase indicator -->
+<div class="phase-bar">
+  <div class="phase-tab" id="ptab1" onclick="gotoStep(0)">
+    <span class="phase-num">Phase 1</span>Initialization
+  </div>
+  <div class="phase-tab" id="ptab2" onclick="gotoStep(2)">
+    <span class="phase-num">Phase 2</span>BFS Repair
+  </div>
+  <div class="phase-tab" id="ptab3" onclick="gotoStep(4)">
+    <span class="phase-num">Phase 3</span>Connector Repair
+  </div>
+</div>
+
+<!-- Navigation -->
+<div class="nav-row">
+  <button class="nav-btn" id="prevBtn" onclick="prevStep()">← Previous</button>
+  <button class="nav-btn" id="nextBtn" onclick="nextStep()">Next →</button>
+  <span class="step-counter" id="stepCounter">Step 1 / 6</span>
+  <button class="play-btn" id="playBtn" onclick="togglePlay()">▶ Auto-play</button>
+</div>
+
+<!-- Content -->
+<div class="content">
+
+  <!-- STEP 0: Phase 1A — k-coloring -->
+  <div class="step-card visible" id="step0">
+    <div class="step-header">
+      <span class="phase-badge badge-p1">Phase 1</span>
+      <div>
+        <div class="step-title">Initialization — Optimal k-Coloring</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <div>
+        <div class="step-text">
+          Start with a graph <strong>G</strong> that has chromatic number
+          <span class="hl-g">χ(G) = k</span>. Compute an optimal
+          <strong>proper k-coloring</strong> — assign each vertex a color
+          1 through k such that no two adjacent vertices share a color.<br><br>
+          The <strong>color classes</strong> are:
+          <div class="formula">A₁, A₂, …, Aₖ ⊆ V(G)</div>
+          where <span class="hl-g">Aᵢ</span> = all vertices with color i.
+          These are independent sets — no edges inside any Aᵢ.
+        </div>
+        <br>
+        <div class="note-box note-green">
+          <span class="icon">★</span>
+          <span><strong>Key:</strong> By <em>Definition 3.5 (Color-Class Immutability)</em>,
+          vertices in Aⱼ will <em>always remain</em> in branch set Bⱼ throughout the algorithm.
+          The color classes are permanent anchors.</span>
+        </div>
+      </div>
+      <div class="step-svg-wrap">
+        <svg viewBox="0 0 320 260" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="gv1">
+              <feGaussianBlur stdDeviation="2.5" result="b"/>
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <!-- edges -->
+          <line x1="90" y1="80"  x2="180" y2="80"  stroke="rgba(221,224,255,0.25)" stroke-width="1.5"/>
+          <line x1="90" y1="80"  x2="80"  y2="185" stroke="rgba(221,224,255,0.25)" stroke-width="1.5"/>
+          <line x1="180" y1="80" x2="230" y2="185" stroke="rgba(221,224,255,0.25)" stroke-width="1.5"/>
+          <line x1="80"  y1="185" x2="160" y2="185" stroke="rgba(221,224,255,0.25)" stroke-width="1.5"/>
+          <line x1="160" y1="185" x2="230" y2="185" stroke="rgba(221,224,255,0.25)" stroke-width="1.5"/>
+          <line x1="90"  y1="80"  x2="230" y2="185" stroke="rgba(221,224,255,0.25)" stroke-width="1.5"/>
+          <line x1="180" y1="80"  x2="160" y2="185" stroke="rgba(221,224,255,0.25)" stroke-width="1.5"/>
+          <line x1="110" y1="130" x2="90"  y2="80"  stroke="rgba(221,224,255,0.25)" stroke-width="1.5"/>
+          <line x1="110" y1="130" x2="80"  y2="185" stroke="rgba(221,224,255,0.25)" stroke-width="1.5"/>
+          <line x1="110" y1="130" x2="230" y2="185" stroke="rgba(221,224,255,0.25)" stroke-width="1.5"/>
+          <!-- vertices -->
+          <circle cx="90"  cy="80"  r="12" fill="#D85A30" stroke="#04040e" stroke-width="2" filter="url(#gv1)"/>
+          <circle cx="180" cy="80"  r="12" fill="#378ADD" stroke="#04040e" stroke-width="2" filter="url(#gv1)"/>
+          <circle cx="110" cy="130" r="12" fill="#1D9E75" stroke="#04040e" stroke-width="2" filter="url(#gv1)"/>
+          <circle cx="80"  cy="185" r="12" fill="#378ADD" stroke="#04040e" stroke-width="2" filter="url(#gv1)"/>
+          <circle cx="160" cy="185" r="12" fill="#D85A30" stroke="#04040e" stroke-width="2" filter="url(#gv1)"/>
+          <circle cx="230" cy="185" r="12" fill="#1D9E75" stroke="#04040e" stroke-width="2" filter="url(#gv1)"/>
+          <!-- labels -->
+          <text x="90"  y="85"  text-anchor="middle" font-family="Segoe UI,sans-serif" font-size="10" font-weight="700" fill="#fff">A₁</text>
+          <text x="180" y="85"  text-anchor="middle" font-family="Segoe UI,sans-serif" font-size="10" font-weight="700" fill="#fff">A₂</text>
+          <text x="110" y="135" text-anchor="middle" font-family="Segoe UI,sans-serif" font-size="10" font-weight="700" fill="#fff">A₃</text>
+          <text x="80"  y="190" text-anchor="middle" font-family="Segoe UI,sans-serif" font-size="10" font-weight="700" fill="#fff">A₂</text>
+          <text x="160" y="190" text-anchor="middle" font-family="Segoe UI,sans-serif" font-size="10" font-weight="700" fill="#fff">A₁</text>
+          <text x="230" y="190" text-anchor="middle" font-family="Segoe UI,sans-serif" font-size="10" font-weight="700" fill="#fff">A₃</text>
+          <!-- legend -->
+          <circle cx="50" cy="232" r="7" fill="#D85A30"/>
+          <text x="62" y="236" font-family="Segoe UI,sans-serif" font-size="11" fill="rgba(221,224,255,0.7)">A₁ (color 1)</text>
+          <circle cx="130" cy="232" r="7" fill="#378ADD"/>
+          <text x="142" y="236" font-family="Segoe UI,sans-serif" font-size="11" fill="rgba(221,224,255,0.7)">A₂ (color 2)</text>
+          <circle cx="210" cy="232" r="7" fill="#1D9E75"/>
+          <text x="222" y="236" font-family="Segoe UI,sans-serif" font-size="11" fill="rgba(221,224,255,0.7)">A₃ (color 3)</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 1: Phase 1B — Set B_i = A_i -->
+  <div class="step-card" id="step1">
+    <div class="step-header">
+      <span class="phase-badge badge-p1">Phase 1</span>
+      <div><div class="step-title">Initialize Branch Sets: Bᵢ ← Aᵢ</div></div>
+    </div>
+    <div class="step-body">
+      <div>
+        <div class="step-text">
+          Set each branch set equal to its color class:
+          <div class="formula">Bᵢ(0) = Aᵢ &nbsp; for all i = 1, …, k</div>
+          The <strong>free vertex set</strong> is initially empty:
+          <div class="formula">F(0) = V(G) \ S(0) = ∅</div>
+          since every vertex starts in some branch set.<br><br>
+          At this point: <span class="hl-g">Corollary 3.6</span> already guarantees
+          that every edge between <span class="hl-r">Aⱼ</span> and <span class="hl-b">Aₗ</span>
+          in G is an edge between <span class="hl-r">Bⱼ</span> and <span class="hl-b">Bₗ</span>
+          in the contracted graph H(G, B) — so many inter-edges already exist.
+        </div>
+        <br>
+        <div class="note-box note-blue">
+          <span class="icon">⚡</span>
+          <span><strong>Problem:</strong> Color class Aᵢ might be
+          <em>disconnected</em> in G! Branch set Bᵢ must be connected
+          (Definition 3.4). Phase 2 will fix this.</span>
+        </div>
+      </div>
+      <div class="step-svg-wrap">
+        <svg viewBox="0 0 320 260" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="gv2">
+              <feGaussianBlur stdDeviation="2.5" result="b"/>
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <!-- B1 blob -->
+          <ellipse cx="100" cy="130" rx="55" ry="70" fill="rgba(216,90,48,0.14)" stroke="#D85A30" stroke-width="1.2" stroke-dasharray="5 3"/>
+          <!-- B2 blob -->
+          <ellipse cx="220" cy="110" rx="50" ry="60" fill="rgba(55,138,221,0.14)" stroke="#378ADD" stroke-width="1.2" stroke-dasharray="5 3"/>
+          <!-- B3 blob -->
+          <ellipse cx="175" cy="210" rx="60" ry="35" fill="rgba(29,158,117,0.14)" stroke="#1D9E75" stroke-width="1.2" stroke-dasharray="5 3"/>
+          <!-- edges between sets (gold) -->
+          <line x1="140" y1="90" x2="190" y2="85" stroke="#FAC775" stroke-width="2" opacity="0.7"/>
+          <line x1="130" y1="170" x2="150" y2="210" stroke="#FAC775" stroke-width="2" opacity="0.7"/>
+          <line x1="200" y1="150" x2="195" y2="210" stroke="#FAC775" stroke-width="2" opacity="0.7"/>
+          <!-- intra B1 edges (disconnected! red dashes) -->
+          <line x1="75" y1="90" x2="140" y2="90" stroke="#D85A30" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.4"/>
+          <!-- nodes B1 -->
+          <circle cx="75"  cy="90"  r="11" fill="#D85A30" stroke="#04040e" stroke-width="2" filter="url(#gv2)"/>
+          <circle cx="140" cy="90"  r="11" fill="#D85A30" stroke="#04040e" stroke-width="2" filter="url(#gv2)"/>
+          <circle cx="100" cy="168" r="11" fill="#D85A30" stroke="#04040e" stroke-width="2" filter="url(#gv2)"/>
+          <!-- nodes B2 -->
+          <circle cx="190" cy="85"  r="11" fill="#378ADD" stroke="#04040e" stroke-width="2" filter="url(#gv2)"/>
+          <circle cx="245" cy="135" r="11" fill="#378ADD" stroke="#04040e" stroke-width="2" filter="url(#gv2)"/>
+          <!-- nodes B3 -->
+          <circle cx="150" cy="210" r="11" fill="#1D9E75" stroke="#04040e" stroke-width="2" filter="url(#gv2)"/>
+          <circle cx="200" cy="210" r="11" fill="#1D9E75" stroke="#04040e" stroke-width="2" filter="url(#gv2)"/>
+          <!-- disconnected warning -->
+          <text x="108" y="128" text-anchor="middle" font-family="Segoe UI,sans-serif" font-size="10" fill="#D85A30" font-weight="700">DISCONNECTED!</text>
+          <!-- set labels -->
+          <text x="68"  y="230" font-family="Segoe UI,sans-serif" font-size="12" fill="#D85A30" font-weight="700">B₁=A₁</text>
+          <text x="198" y="60"  font-family="Segoe UI,sans-serif" font-size="12" fill="#378ADD" font-weight="700">B₂=A₂</text>
+          <text x="220" y="250" font-family="Segoe UI,sans-serif" font-size="12" fill="#1D9E75" font-weight="700">B₃=A₃</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 2: Phase 2A — BFS problem -->
+  <div class="step-card" id="step2">
+    <div class="step-header">
+      <span class="phase-badge badge-p2">Phase 2</span>
+      <div><div class="step-title">BFS Repair — Connecting Disconnected Branch Sets</div></div>
+    </div>
+    <div class="step-body">
+      <div>
+        <div class="step-text">
+          <strong>Problem:</strong> Branch set <span class="hl-r">Bᵢ</span> may be
+          disconnected (its color class Aᵢ is an independent set in G,
+          so internal connectivity relies on paths through other vertices).<br><br>
+          <strong>Solution — BFS Expansion:</strong><br>
+          Pick the <em>expansion center</em> <span class="hl-b">cᵢ ∈ Aᵢ</span>.
+          Run BFS from cᵢ, absorbing <span class="hl-g">free vertices</span>
+          (vertices in F(t) = V \ S(t)) to create a connected path to every
+          other vertex in Aᵢ.
+          <div class="formula">Bᵢ(t+1) = Bᵢ(t) ∪ {free path vertices}</div>
+          Free vertex set shrinks:
+          <div class="formula">F(t) = V(G) \ S(t) &nbsp; (S = ∪ Bⱼ)</div>
+        </div>
+        <br>
+        <div class="note-box note-blue">
+          <span class="icon">🔍</span>
+          <span><strong>Corollary 3.6</strong> is preserved: since free vertices
+          have no color-class assignment, absorbing them never moves an
+          Aⱼ-vertex into a foreign branch set.</span>
+        </div>
+      </div>
+      <div class="step-svg-wrap">
+        <!-- BFS animation SVG -->
+        <svg viewBox="0 0 320 270" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="gv3">
+              <feGaussianBlur stdDeviation="2.5" result="b"/>
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <!-- B1 region (will grow) -->
+          <ellipse cx="100" cy="135" rx="62" ry="80" fill="rgba(216,90,48,0.1)" stroke="#D85A30" stroke-width="1.2" stroke-dasharray="5 3"/>
+          <!-- BFS path (animated) -->
+          <line x1="80" y1="100" x2="130" y2="135" stroke="#378ADD" stroke-width="2.2" stroke-dasharray="120" stroke-dashoffset="120"
+            style="animation: edgeGrow 0.8s 0.3s ease forwards;"/>
+          <line x1="130" y1="135" x2="115" y2="175" stroke="#378ADD" stroke-width="2.2" stroke-dasharray="120" stroke-dashoffset="120"
+            style="animation: edgeGrow 0.8s 0.8s ease forwards;"/>
+          <!-- free vertices absorbed -->
+          <circle cx="130" cy="135" r="9" fill="#555577" stroke="#04040e" stroke-width="2"
+            style="animation: bfsExpand 0.5s 0.3s ease both; r:0;"/>
+          <text x="130" y="130" text-anchor="middle" font-family="Segoe UI,sans-serif" font-size="8" fill="rgba(221,224,255,0.5)">free</text>
+          <!-- B1 vertices -->
+          <circle cx="80"  cy="100" r="11" fill="#D85A30" stroke="#04040e" stroke-width="2" filter="url(#gv3)"/>
+          <circle cx="115" cy="175" r="11" fill="#D85A30" stroke="#04040e" stroke-width="2" filter="url(#gv3)"/>
+          <!-- center marker -->
+          <text x="80" y="90" text-anchor="middle" font-family="Segoe UI,sans-serif" font-size="9" fill="#D85A30" font-weight="700">cᵢ</text>
+          <!-- expansion arrow -->
+          <path d="M 80 100 Q 100 118 130 135" stroke="#378ADD" stroke-width="1.5" stroke-dasharray="4 3" fill="none" opacity="0.6"
+            style="animation: edgeGrow 0.6s 0.1s ease forwards; stroke-dashoffset: 120;"/>
+          <!-- B2, B3 -->
+          <circle cx="235" cy="100" r="11" fill="#378ADD" stroke="#04040e" stroke-width="2" filter="url(#gv3)"/>
+          <circle cx="260" cy="160" r="11" fill="#378ADD" stroke="#04040e" stroke-width="2" filter="url(#gv3)"/>
+          <ellipse cx="248" cy="130" rx="38" ry="48" fill="rgba(55,138,221,0.1)" stroke="#378ADD" stroke-width="1.2" stroke-dasharray="5 3"/>
+          <circle cx="175" cy="230" r="11" fill="#1D9E75" stroke="#04040e" stroke-width="2" filter="url(#gv3)"/>
+          <circle cx="225" cy="230" r="11" fill="#1D9E75" stroke="#04040e" stroke-width="2" filter="url(#gv3)"/>
+          <ellipse cx="200" cy="228" rx="42" ry="24" fill="rgba(29,158,117,0.1)" stroke="#1D9E75" stroke-width="1.2" stroke-dasharray="5 3"/>
+          <!-- inter edges (gold) -->
+          <line x1="115" y1="175" x2="175" y2="230" stroke="#FAC775" stroke-width="2" opacity="0.7"/>
+          <line x1="235" y1="100" x2="225" y2="230" stroke="#FAC775" stroke-width="2" opacity="0.7"/>
+          <line x1="80"  y1="100" x2="235" y2="100" stroke="#FAC775" stroke-width="2" opacity="0.7"/>
+          <!-- labels -->
+          <text x="52" y="175" font-family="Segoe UI,sans-serif" font-size="12" fill="#D85A30" font-weight="700">B₁</text>
+          <text x="272" y="100" font-family="Segoe UI,sans-serif" font-size="12" fill="#378ADD" font-weight="700">B₂</text>
+          <text x="242" y="250" font-family="Segoe UI,sans-serif" font-size="12" fill="#1D9E75" font-weight="700">B₃</text>
+          <!-- F(t) label -->
+          <text x="160" y="148" text-anchor="middle" font-family="Segoe UI,sans-serif" font-size="10" fill="rgba(221,224,255,0.35)">F(t) shrinks</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 3: Phase 2B — result -->
+  <div class="step-card" id="step3">
+    <div class="step-header">
+      <span class="phase-badge badge-p2">Phase 2</span>
+      <div><div class="step-title">After BFS Repair — All Branch Sets Connected</div></div>
+    </div>
+    <div class="step-body">
+      <div>
+        <div class="step-text">
+          After iterating BFS repair for each branch set, every
+          <span class="hl-r">Bᵢ</span> is now <strong>connected</strong> in G.<br><br>
+          The contracted graph <strong>H(G, B)</strong> has k nodes.
+          Many inter-edges between branch sets already exist
+          (guaranteed by Corollary 3.6 — color-class immutability).<br><br>
+          <strong>Remaining challenge:</strong> some Bᵢ might still be
+          <em>isolated</em> in H(G, B) — no edges to any other branch set.
+          This happens when BFS absorbed free vertices in a way that
+          blocked inter-set connections.<br><br>
+          Phase 3 handles exactly this case.
+        </div>
+        <div class="term-chips">
+          <div class="term-chip">All Bᵢ: connected ✓</div>
+          <div class="term-chip">Corollary 3.6 preserved ✓</div>
+          <div class="term-chip">F(t) ⊆ V(G)</div>
+        </div>
+        <br>
+        <div class="note-box note-gold">
+          <span class="icon">⚠</span>
+          <span>Some contracted nodes in H may have <strong>degree 0</strong>
+          (isolated). Phase 3 will add edges until H = K_k.</span>
+        </div>
+      </div>
+      <div class="step-svg-wrap">
+        <svg viewBox="0 0 320 260" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="gv4">
+              <feGaussianBlur stdDeviation="3" result="b"/>
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <!-- H contracted graph -->
+          <!-- edges — some present, some missing -->
+          <line x1="160" y1="70" x2="80"  y2="200" stroke="#FAC775" stroke-width="2.2" opacity="0.8"/>
+          <line x1="160" y1="70" x2="240" y2="200" stroke="#FAC775" stroke-width="2.2" opacity="0.8"/>
+          <!-- missing edge: B2-B3 (dashed/dim) -->
+          <line x1="80"  y1="200" x2="240" y2="200" stroke="rgba(221,224,255,0.15)" stroke-width="1.5" stroke-dasharray="6 4"/>
+          <!-- nodes -->
+          <circle cx="160" cy="70"  r="26" fill="#D85A30" opacity="0.2" filter="url(#gv4)"/>
+          <circle cx="160" cy="70"  r="18" fill="#D85A30" stroke="#04040e" stroke-width="2"/>
+          <text x="160" y="75" text-anchor="middle" font-family="Segoe UI,sans-serif" font-size="12" font-weight="700" fill="#fff">B₁</text>
+          <circle cx="80"  cy="200" r="26" fill="#378ADD" opacity="0.2" filter="url(#gv4)"/>
+          <circle cx="80"  cy="200" r="18" fill="#378ADD" stroke="#04040e" stroke-width="2"/>
+          <text x="80"  y="205" text-anchor="middle" font-family="Segoe UI,sans-serif" font-size="12" font-weight="700" fill="#fff">B₂</text>
+          <circle cx="240" cy="200" r="26" fill="#1D9E75" opacity="0.2" filter="url(#gv4)"/>
+          <circle cx="240" cy="200" r="18" fill="#1D9E75" stroke="#04040e" stroke-width="2"/>
+          <text x="240" y="205" text-anchor="middle" font-family="Segoe UI,sans-serif" font-size="12" font-weight="700" fill="#fff">B₃</text>
+          <!-- missing label -->
+          <text x="160" y="215" text-anchor="middle" font-family="Segoe UI,sans-serif" font-size="10" fill="rgba(216,90,48,0.8)" font-weight="700">missing edge?</text>
+          <text x="160" y="38" text-anchor="middle" font-family="Segoe UI,sans-serif" font-size="11" fill="rgba(221,224,255,0.5)">Contracted graph H(G,B)</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 4: Phase 3A — Case 3a -->
+  <div class="step-card" id="step4">
+    <div class="step-header">
+      <span class="phase-badge badge-p3">Phase 3</span>
+      <div><div class="step-title">Alternating Connector Repair — Case 3a</div></div>
+    </div>
+    <div class="step-body">
+      <div>
+        <div class="step-text">
+          <span class="hl-p">Bci</span> is <em>isolated</em> in H(G,B): no edges
+          to any other branch set. We must add at least one edge.<br><br>
+          <strong>Case 3a — Simple Move:</strong><br>
+          Find a neighbor vertex <span class="hl-b">nb ∈ Bⱼ</span> such that nb
+          has a neighbor <span class="hl-p">v ∈ Bci</span>.
+          If <strong>nb is NOT an articulation point</strong> of Bⱼ —
+          i.e., removing nb from Bⱼ leaves Bⱼ still connected — then:
+          <div class="formula">Move nb from Bⱼ → Bci</div>
+          Result: Bci now has an edge to (the remaining) Bⱼ.
+          <span class="hl-g">|E(H)| increases by 1</span>.
+        </div>
+        <br>
+        <div class="note-box note-purple">
+          <span class="icon">↗</span>
+          <span>Each iteration of Phase 3 increases |E(H)| by ≥ 1.
+          Max iterations ≤ <strong>k(k−1)/2</strong> (total edges in K_k).
+          Algorithm always terminates.</span>
+        </div>
+      </div>
+      <div class="step-svg-wrap">
+        <svg viewBox="0 0 320 270" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="gv5">
+              <feGaussianBlur stdDeviation="2.5" result="b"/>
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <!-- Bci (isolated initially) -->
+          <ellipse cx="155" cy="80" rx="55" ry="35" fill="rgba(139,92,246,0.12)" stroke="#8B5CF6" stroke-width="1.5" stroke-dasharray="5 3"/>
+          <text x="155" y="45" text-anchor="middle" font-family="Segoe UI,sans-serif" font-size="11" fill="#8B5CF6" font-weight="700">Bci (isolated)</text>
+          <!-- Bj -->
+          <ellipse cx="220" cy="190" rx="65" ry="45" fill="rgba(55,138,221,0.12)" stroke="#378ADD" stroke-width="1.5" stroke-dasharray="5 3"/>
+          <text x="270" y="248" text-anchor="middle" font-family="Segoe UI,sans-serif" font-size="11" fill="#378ADD" font-weight="700">Bⱼ</text>
+          <!-- v in Bci -->
+          <circle cx="130" cy="82" r="10" fill="#8B5CF6" stroke="#04040e" stroke-width="2" filter="url(#gv5)"/>
+          <text x="130" y="72" text-anchor="middle" font-family="Segoe UI,sans-serif" font-size="9" fill="#8B5CF6">v</text>
+          <!-- nb in Bj (before move) -->
+          <circle cx="155" cy="175" r="10" fill="#378ADD" stroke="#FAC775" stroke-width="2.5" filter="url(#gv5)"/>
+          <text x="155" y="165" text-anchor="middle" font-family="Segoe UI,sans-serif" font-size="9" fill="#FAC775" font-weight="700">nb</text>
+          <!-- edge v-nb -->
+          <line x1="130" y1="82" x2="155" y2="175" stroke="#FAC775" stroke-width="2.2" stroke-dasharray="150" stroke-dashoffset="150"
+            style="animation: edgeGrow 0.7s 0.4s ease forwards;"/>
+          <!-- arrow showing move -->
+          <path d="M 155 168 Q 148 128 132 90" stroke="#FAC775" stroke-width="1.5" fill="none" stroke-dasharray="6 4"
+            style="animation: edgeGrow 0.6s 0.9s ease forwards; stroke-dashoffset: 120;"/>
+          <text x="132" y="132" font-family="Segoe UI,sans-serif" font-size="10" fill="#FAC775">move →</text>
+          <!-- other Bj nodes -->
+          <circle cx="235" cy="175" r="10" fill="#378ADD" stroke="#04040e" stroke-width="2" filter="url(#gv5)"/>
+          <circle cx="255" cy="205" r="10" fill="#378ADD" stroke="#04040e" stroke-width="2" filter="url(#gv5)"/>
+          <line x1="235" y1="175" x2="255" y2="205" stroke="#378ADD" stroke-width="1.5" opacity="0.5"/>
+          <!-- result label -->
+          <text x="85" y="248" font-family="Segoe UI,sans-serif" font-size="10" fill="#1D9E75" font-weight="700">|E(H)| + 1 ✓</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 5: Phase 3B — Case 3b -->
+  <div class="step-card" id="step5">
+    <div class="step-header">
+      <span class="phase-badge badge-p3">Phase 3</span>
+      <div><div class="step-title">Alternating Connector — Case 3b (The Transfer)</div></div>
+    </div>
+    <div class="step-body">
+      <div>
+        <div class="step-text">
+          <strong>Case 3b — Articulation Point Transfer:</strong><br>
+          If nb IS an articulation point of Bⱼ — removing it would
+          disconnect Bⱼ — we <em>cannot move</em> it directly.
+          Instead, we <strong>transfer the edge</strong>:<br><br>
+          nb is the sole connection Bⱼ → Bₗ for some Bₗ.
+          Transfer: the edge (Bⱼ, Bₗ) becomes edge (Bci, Bₗ).
+          <div class="formula">Edge transferred: Bⱼ–Bₗ → Bci–Bₗ</div>
+          Net effect: <span class="hl-g">|E(H)| stays same or increases</span>.
+          Bci gains an edge to Bₗ (no longer isolated).
+          No edge is destroyed — only re-routed through Bci.<br><br>
+          <span class="hl-p"><strong>Remark 8.10:</strong></span>
+          Under Definition 3.5 (strict color-class immutability),
+          Phase 3 is theoretically redundant — but ensures computational
+          completeness and handles all edge cases explicitly.
+        </div>
+        <div class="term-chips">
+          <div class="term-chip">Case 3a: move nb</div>
+          <div class="term-chip">Case 3b: transfer edge</div>
+          <div class="term-chip">|E(H)| ≥ prev ✓</div>
+        </div>
+      </div>
+      <div class="step-svg-wrap">
+        <svg viewBox="0 0 320 270" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="gv6">
+              <feGaussianBlur stdDeviation="2.5" result="b"/>
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <filter id="glowP">
+              <feGaussianBlur stdDeviation="5" result="b"/>
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <!-- BEFORE (left side) -->
+          <text x="80" y="22" text-anchor="middle" font-family="Segoe UI,sans-serif" font-size="10" fill="rgba(221,224,255,0.4)">BEFORE</text>
+          <circle cx="80"  cy="65"  r="20" fill="#8B5CF6" stroke="#04040e" stroke-width="2"/>
+          <text x="80"  y="70" text-anchor="middle" font-family="Segoe UI,sans-serif" font-size="10" font-weight="700" fill="#fff">Bci</text>
+          <circle cx="80"  cy="145" r="20" fill="#378ADD" stroke="#04040e" stroke-width="2"/>
+          <text x="80"  y="150" text-anchor="middle" font-family="Segoe UI,sans-serif" font-size="10" font-weight="700" fill="#fff">Bⱼ</text>
+          <circle cx="80"  cy="225" r="20" fill="#1D9E75" stroke="#04040e" stroke-width="2"/>
+          <text x="80"  y="230" text-anchor="middle" font-family="Segoe UI,sans-serif" font-size="10" font-weight="700" fill="#fff">Bₗ</text>
+          <!-- Bj-Bl edge (will be transferred) -->
+          <line x1="80" y1="125" x2="80" y2="205" stroke="#FAC775" stroke-width="2.2" opacity="0.8"/>
+          <!-- Bci isolated -->
+          <text x="110" y="65" font-family="Segoe UI,sans-serif" font-size="9" fill="rgba(216,90,48,0.8)" font-weight="700">isolated</text>
+
+          <!-- Arrow -->
+          <path d="M 130 140 L 175 140" stroke="#FAC775" stroke-width="2" fill="none" marker-end="url(#arrowGold)"/>
+          <defs>
+            <marker id="arrowGold" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L8,3 z" fill="#FAC775"/>
+            </marker>
+          </defs>
+          <text x="152" y="133" text-anchor="middle" font-family="Segoe UI,sans-serif" font-size="9" fill="#FAC775">transfer</text>
+
+          <!-- AFTER (right side) -->
+          <text x="245" y="22" text-anchor="middle" font-family="Segoe UI,sans-serif" font-size="10" fill="rgba(221,224,255,0.4)">AFTER</text>
+          <circle cx="245" cy="65"  r="20" fill="#8B5CF6" stroke="#FAC775" stroke-width="2.5" filter="url(#glowP)"/>
+          <text x="245" y="70" text-anchor="middle" font-family="Segoe UI,sans-serif" font-size="10" font-weight="700" fill="#fff">Bci</text>
+          <circle cx="245" cy="145" r="20" fill="#378ADD" stroke="#04040e" stroke-width="2"/>
+          <text x="245" y="150" text-anchor="middle" font-family="Segoe UI,sans-serif" font-size="10" font-weight="700" fill="#fff">Bⱼ</text>
+          <circle cx="245" cy="225" r="20" fill="#1D9E75" stroke="#04040e" stroke-width="2"/>
+          <text x="245" y="230" text-anchor="middle" font-family="Segoe UI,sans-serif" font-size="10" font-weight="700" fill="#fff">Bₗ</text>
+          <!-- NEW edge: Bci-Bl (transferred) -->
+          <line x1="245" y1="85" x2="245" y2="205" stroke="#8B5CF6" stroke-width="2.5" opacity="0.9"
+            style="animation: edgeGrow 0.8s 0.3s ease both; stroke-dasharray: 200; stroke-dashoffset: 0;"/>
+          <!-- result -->
+          <text x="245" y="255" text-anchor="middle" font-family="Segoe UI,sans-serif" font-size="10" fill="#1D9E75" font-weight="700">Bci no longer isolated ✓</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div>Palette-Expansion Numbers and a Constructive Proof of Hadwiger's Conjecture</div>
+  <div style="margin-top:0.3rem;">
+    Mizael Antonio Tovar Reyes — Ciudad Juárez, México — March 2026
+  </div>
+</footer>
+
+<script>
+const STEPS = 6;
+let current = 0;
+let playing = false;
+let playTimer = null;
+
+// Phase tabs
+const PHASE_MAP = [0,0,1,1,2,2]; // step → phase index (0=P1,1=P2,2=P3)
+
+function updateUI() {
+  for(let i=0;i<STEPS;i++){
+    const el = document.getElementById('step'+i);
+    el.classList.toggle('visible', i===current);
+  }
+  document.getElementById('prevBtn').disabled = current===0;
+  document.getElementById('nextBtn').disabled = current===STEPS-1;
+  document.getElementById('stepCounter').textContent = `Step ${current+1} / ${STEPS}`;
+
+  // phase tabs
+  for(let p=0;p<3;p++){
+    const tab = document.getElementById('ptab'+(p+1));
+    tab.className = 'phase-tab';
+    if(PHASE_MAP[current]===p) tab.classList.add('active-p'+(p+1));
+  }
+}
+
+function nextStep() {
+  if(current < STEPS-1){ current++; updateUI(); }
+}
+function prevStep() {
+  if(current > 0){ current--; updateUI(); }
+}
+function gotoStep(s) {
+  current = s; updateUI();
+}
+
+function togglePlay() {
+  playing = !playing;
+  const btn = document.getElementById('playBtn');
+  if(playing){
+    btn.textContent = '⏸ Pause';
+    playTimer = setInterval(()=>{
+      if(current < STEPS-1){ current++; updateUI(); }
+      else { playing=false; btn.textContent='▶ Auto-play'; clearInterval(playTimer); }
+    }, 3200);
+  } else {
+    btn.textContent = '▶ Auto-play';
+    clearInterval(playTimer);
+  }
+}
+
+updateUI();
+</script>
+</body>
+</html>

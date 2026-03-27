@@ -1,0 +1,7 @@
+networkx>=3.0
+numpy>=1.24
+tqdm>=4.65
+scipy>=1.10
+
+# Optional: GPU acceleration (install only if you have NVIDIA GPU + CUDA)
+# cupy-cuda12x>=12.0

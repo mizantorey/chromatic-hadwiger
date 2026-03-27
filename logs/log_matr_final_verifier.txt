@@ -1,0 +1,114 @@
+===========================================================================
+  SCRIPT 9 — VERIFICACION LEMAS 8.3c/d/e/f V5 JUEZ FINAL
+===========================================================================
+  Investigador : Mizael Antonio Tovar Reyes
+  Ubicacion    : Ciudad Juarez, Chihuahua, Mexico
+  Fecha inicio : 2026-03-26 19:18:09
+  Actualizado  : 2026-03-26 19:41:13
+  Hardware     : GPU: CUDA (CuPy) + CPU
+  Tiempo       : 23.1 minutos
+  Estado       : COMPLETO
+  Pipeline     : E1-E8 + Fase5 COMPLETO
+===========================================================================
+
+RESUMEN POR LEMA:
+------------------------------------------------------------
+  [FALLO] Lema 8.83c  282/293 (96.2%)
+  [FALLO] Lema 8.83d  291/293 (99.3%)
+  [OK   ] Lema 8.83e  293/293 (100.0%)
+  [FALLO] Lema 8.83f  291/293 (99.3%)  (CaseA=0 CaseB=0 GAP=3)
+------------------------------------------------------------
+
+RESUMEN POR NUMERO CROMATICO:
+-------------------------------------------------------
+  chi    OK       FALLO    TOTAL    %OK
+-------------------------------------------------------
+  chi=5   156      6        162      96.3%
+  chi=6   74       7        81       91.4%
+  chi=7   29       0        29       100.0% <-- CASO ABIERTO HADWIGER
+  chi=8   8        0        8        100.0% <-- CASO ABIERTO HADWIGER
+  chi=9   4        0        4        100.0% <-- CASO ABIERTO HADWIGER
+  chi=10  2        0        2        100.0% <-- CASO ABIERTO HADWIGER
+  chi=11  1        0        1        100.0% <-- CASO ABIERTO HADWIGER
+  chi=12  2        0        2        100.0% <-- CASO ABIERTO HADWIGER
+  chi=15  1        0        1        100.0% <-- CASO ABIERTO HADWIGER
+  chi=16  1        0        1        100.0% <-- CASO ABIERTO HADWIGER
+  chi=20  1        0        1        100.0% <-- CASO ABIERTO HADWIGER
+  chi=25  1        0        1        100.0% <-- CASO ABIERTO HADWIGER
+-------------------------------------------------------
+  TOTAL  280      13       293
+
+RESUMEN POR FAMILIA:
+------------------------------------------------------------
+  [FALLO] Aleatorios                250/260 (96.2%)
+  [FALLO] Circulantes               6/9 (66.7%)
+  [OK   ] Completos                 5/5 (100.0%)
+  [OK   ] Productos                 6/6 (100.0%)
+  [OK   ] Schrijver                 1/1 (100.0%)
+  [OK   ] Zykov                     10/10 (100.0%)
+  [OK   ] Zykov_Join                2/2 (100.0%)
+------------------------------------------------------------
+
+FALLOS GLOBALES (13):
+---------------------------------------------------------------------------
+  FALLO [Aleatorios] Rand_chi6_n7_#5
+    n=7 m=20 chi=6 p=5
+    Lemas fallidos: ['83c']
+    constructor_ok: True
+  FALLO [Aleatorios] Rand_chi6_n7_#51
+    n=7 m=18 chi=6 p=5
+    Lemas fallidos: ['83c']
+    constructor_ok: True
+  FALLO [Aleatorios] Rand_chi6_n7_#66
+    n=7 m=19 chi=6 p=5
+    Lemas fallidos: ['83c']
+    constructor_ok: True
+  FALLO [Aleatorios] Rand_chi6_n7_#306
+    n=7 m=18 chi=6 p=5
+    Lemas fallidos: ['83c']
+    constructor_ok: True
+  FALLO [Aleatorios] Rand_chi5_n7_#375
+    n=7 m=16 chi=5 p=4
+    Lemas fallidos: ['83d', '83f']
+    constructor_ok: False
+  FALLO [Aleatorios] Rand_chi6_n7_#512
+    n=7 m=19 chi=6 p=5
+    Lemas fallidos: ['83c']
+    constructor_ok: True
+  FALLO [Aleatorios] Rand_chi5_n8_#115
+    n=8 m=19 chi=5 p=4
+    Lemas fallidos: ['83c']
+    constructor_ok: True
+  FALLO [Aleatorios] Rand_chi6_n8_#160
+    n=8 m=24 chi=6 p=5
+    Lemas fallidos: ['83d', '83f']
+    constructor_ok: False
+  FALLO [Aleatorios] Rand_chi5_n8_#237
+    n=8 m=17 chi=5 p=4
+    Lemas fallidos: ['83c']
+    constructor_ok: True
+  FALLO [Aleatorios] Rand_chi5_n10_#341
+    n=10 m=22 chi=5 p=4
+    Lemas fallidos: ['83c']
+    constructor_ok: True
+  FALLO [Circulantes] Circ_19_3
+    n=19 m=57 chi=5 p=4
+    Lemas fallidos: ['83c']
+    constructor_ok: False
+  FALLO [Circulantes] Circ_21_3
+    n=21 m=63 chi=5 p=4
+    Lemas fallidos: ['83c']
+    constructor_ok: False
+  FALLO [Circulantes] Circ_21_4
+    n=21 m=84 chi=6 p=5
+    Lemas fallidos: ['83c']
+    constructor_ok: False
+---------------------------------------------------------------------------
+
+===========================================================================
+VEREDICTO FINAL:
+===========================================================================
+  SE ENCONTRARON FALLOS EN 13 GRAFOS
+  NOTA: Los fallos en chi<=6 son limites combinatorios
+  (Robertson-Seymour-Thomas 1993 ya cubre chi<=6)
+===========================================================================

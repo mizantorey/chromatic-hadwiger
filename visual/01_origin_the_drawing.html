@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Drawing That Started Everything</title>
+<style>
+  :root {
+    --bg: #04040e;
+    --text: #dde0ff;
+    --red: #D85A30;
+    --blue: #378ADD;
+    --green: #1D9E75;
+    --gold: #FAC775;
+    --purple: #8B5CF6;
+    --teal: #0F6E56;
+    --navy: #102450;
+    --panel: #0a0a1e;
+    --border: #1a1a3e;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden;
+  }
+
+  /* Star field background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 10% 15%, rgba(221,224,255,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 25% 60%, rgba(221,224,255,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 40% 30%, rgba(221,224,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 55% 80%, rgba(221,224,255,0.2) 0%, transparent 100%),
+      radial-gradient(1px 1px at 70% 20%, rgba(221,224,255,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 85% 55%, rgba(221,224,255,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 92% 40%, rgba(221,224,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 5% 85%, rgba(221,224,255,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 62% 10%, rgba(221,224,255,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 78% 75%, rgba(221,224,255,0.2) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  header {
+    width: 100%;
+    max-width: 900px;
+    padding: 2rem 2rem 1rem;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    animation: fadeDown 0.8s ease both;
+  }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .paper-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.6rem;
+    opacity: 0.9;
+  }
+
+  h1 {
+    font-size: clamp(1.6rem, 4vw, 2.6rem);
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--text) 0%, var(--blue) 60%, var(--purple) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+  }
+
+  .author {
+    font-size: 0.8rem;
+    color: rgba(221,224,255,0.5);
+    margin-top: 0.4rem;
+    letter-spacing: 0.05em;
+  }
+
+  /* Step indicator */
+  .step-indicator {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: center;
+    margin: 1rem 0;
+    position: relative;
+    z-index: 1;
+    animation: fadeDown 0.9s ease 0.1s both;
+  }
+
+  .step-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--border);
+    border: 1.5px solid rgba(221,224,255,0.2);
+    transition: all 0.4s ease;
+    cursor: pointer;
+  }
+  .step-dot.active {
+    background: var(--blue);
+    border-color: var(--blue);
+    box-shadow: 0 0 10px var(--blue), 0 0 20px rgba(55,138,221,0.4);
+    transform: scale(1.3);
+  }
+  .step-dot.done {
+    background: var(--green);
+    border-color: var(--green);
+  }
+
+  .step-counter {
+    font-size: 0.8rem;
+    color: rgba(221,224,255,0.5);
+    margin-left: 0.8rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Main canvas panel */
+  .canvas-panel {
+    width: 100%;
+    max-width: 860px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2rem;
+    margin: 0 1rem 1.5rem;
+    position: relative;
+    z-index: 1;
+    animation: fadeUp 0.9s ease 0.15s both;
+    box-shadow: 0 0 40px rgba(55,138,221,0.06), 0 20px 60px rgba(0,0,0,0.4);
+    min-height: 420px;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .step-title {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--gold);
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.02em;
+    min-height: 1.6rem;
+  }
+
+  .step-desc {
+    font-size: 0.9rem;
+    color: rgba(221,224,255,0.7);
+    margin-bottom: 1.5rem;
+    line-height: 1.55;
+    min-height: 2.5rem;
+  }
+
+  /* SVG container */
+  .svg-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 260px;
+    position: relative;
+  }
+
+  svg.main-svg {
+    width: 100%;
+    max-width: 700px;
+    height: 260px;
+    overflow: visible;
+  }
+
+  /* Animated paths */
+  @keyframes drawPath {
+    from { stroke-dashoffset: 1000; opacity: 0.3; }
+    to   { stroke-dashoffset: 0;    opacity: 1; }
+  }
+
+  @keyframes pulseGlow {
+    0%, 100% { filter: drop-shadow(0 0 4px currentColor); }
+    50%       { filter: drop-shadow(0 0 14px currentColor) drop-shadow(0 0 28px currentColor); }
+  }
+
+  @keyframes popIn {
+    0%   { transform: scale(0); opacity: 0; }
+    70%  { transform: scale(1.2); opacity: 1; }
+    100% { transform: scale(1);  opacity: 1; }
+  }
+
+  @keyframes flash {
+    0%, 100% { opacity: 1; }
+    25%, 75%  { opacity: 0.2; }
+    50%       { opacity: 1; }
+  }
+
+  @keyframes expand {
+    0%   { transform: scale(1); }
+    40%  { transform: scale(1.6); }
+    100% { transform: scale(1); }
+  }
+
+  @keyframes shimmer {
+    0%   { box-shadow: 0 0 10px var(--gold); }
+    50%  { box-shadow: 0 0 30px var(--gold), 0 0 60px rgba(250,199,117,0.4); }
+    100% { box-shadow: 0 0 10px var(--gold); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  @keyframes slideRight {
+    from { opacity: 0; transform: translateX(-30px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+
+  @keyframes mergeAnim {
+    0%   { transform: translate(0,0);  }
+    50%  { transform: translate(80px, 40px); }
+    100% { transform: translate(0,0); }
+  }
+
+  .path-red {
+    stroke: var(--red);
+    stroke-width: 3;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 1000;
+    animation: drawPath 1.6s ease forwards, pulseGlow 2.5s ease-in-out 1.7s infinite;
+  }
+
+  .path-blue {
+    stroke: var(--blue);
+    stroke-width: 3;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 1000;
+    animation: drawPath 1.6s ease 0.4s forwards, pulseGlow 2.5s ease-in-out 2.1s infinite;
+  }
+
+  .vertex {
+    animation: popIn 0.5s ease forwards;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .vertex-label {
+    font-family: monospace;
+    font-size: 13px;
+    font-weight: bold;
+    fill: var(--text);
+    pointer-events: none;
+  }
+
+  .color-label {
+    font-family: monospace;
+    font-size: 11px;
+    fill: rgba(221,224,255,0.6);
+    pointer-events: none;
+  }
+
+  .conflict-x {
+    font-family: monospace;
+    font-size: 22px;
+    font-weight: 900;
+    fill: var(--red);
+    animation: flash 0.8s ease 3 forwards, pulseGlow 2s ease infinite;
+    filter: drop-shadow(0 0 8px var(--red));
+  }
+
+  /* Formula display */
+  .formula-box {
+    background: rgba(55,138,221,0.08);
+    border: 1px solid rgba(55,138,221,0.25);
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    margin-top: 1.5rem;
+    text-align: center;
+    animation: fadeIn 0.8s ease both;
+  }
+
+  .formula-main {
+    font-family: monospace;
+    font-size: clamp(1.1rem, 3vw, 1.6rem);
+    color: var(--gold);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-shadow: 0 0 20px rgba(250,199,117,0.6);
+  }
+
+  .formula-sub {
+    font-size: 0.8rem;
+    color: rgba(221,224,255,0.55);
+    margin-top: 0.35rem;
+    line-height: 1.4;
+  }
+
+  /* Quote card */
+  .quote-card {
+    background: linear-gradient(135deg, rgba(139,92,246,0.12), rgba(55,138,221,0.08));
+    border: 1px solid rgba(139,92,246,0.3);
+    border-radius: 14px;
+    padding: 1.2rem 1.8rem;
+    margin-top: 1.5rem;
+    position: relative;
+    animation: fadeUp 0.8s ease 0.3s both;
+  }
+
+  .quote-card::before {
+    content: '"';
+    font-size: 4rem;
+    color: var(--purple);
+    opacity: 0.3;
+    position: absolute;
+    top: -0.5rem;
+    left: 1rem;
+    line-height: 1;
+    font-family: Georgia, serif;
+  }
+
+  .quote-text {
+    font-size: 1rem;
+    font-style: italic;
+    color: var(--text);
+    line-height: 1.5;
+    padding-left: 1.5rem;
+  }
+
+  .quote-attr {
+    font-size: 0.75rem;
+    color: var(--purple);
+    margin-top: 0.5rem;
+    padding-left: 1.5rem;
+    letter-spacing: 0.04em;
+  }
+
+  /* Sketch note */
+  .sketch-note {
+    font-size: 0.72rem;
+    color: rgba(221,224,255,0.35);
+    text-align: center;
+    margin-top: 0.8rem;
+    font-style: italic;
+    letter-spacing: 0.03em;
+  }
+
+  /* Navigation */
+  .nav-row {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    margin: 0 0 2.5rem;
+    position: relative;
+    z-index: 1;
+    animation: fadeUp 0.9s ease 0.25s both;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.65rem 1.5rem;
+    border-radius: 40px;
+    border: 1.5px solid rgba(221,224,255,0.2);
+    background: rgba(255,255,255,0.04);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    letter-spacing: 0.03em;
+    text-decoration: none;
+  }
+
+  .btn:hover:not(:disabled) {
+    border-color: var(--blue);
+    color: var(--blue);
+    background: rgba(55,138,221,0.08);
+    box-shadow: 0 0 16px rgba(55,138,221,0.25);
+    transform: translateY(-1px);
+  }
+
+  .btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, rgba(55,138,221,0.25), rgba(139,92,246,0.2));
+    border-color: var(--blue);
+    color: var(--blue);
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    background: linear-gradient(135deg, rgba(55,138,221,0.4), rgba(139,92,246,0.3));
+    box-shadow: 0 0 24px rgba(55,138,221,0.35);
+  }
+
+  /* Step content panels */
+  .step-content {
+    display: none;
+    animation: fadeIn 0.5s ease both;
+  }
+  .step-content.active {
+    display: block;
+  }
+
+  /* Legend */
+  .legend {
+    display: flex;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+    font-size: 0.8rem;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: rgba(221,224,255,0.7);
+  }
+
+  .legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+  }
+
+  /* Expansion counter */
+  .expansion-badge {
+    display: inline-block;
+    padding: 0.2rem 0.7rem;
+    border-radius: 20px;
+    font-family: monospace;
+    font-size: 0.9rem;
+    font-weight: 700;
+    animation: shimmer 1.5s ease infinite;
+    border: 1.5px solid var(--gold);
+    color: var(--gold);
+    background: rgba(250,199,117,0.08);
+  }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem;
+    margin-top: 1rem;
+  }
+
+  @media (max-width: 540px) {
+    .info-grid { grid-template-columns: 1fr; }
+    .canvas-panel { padding: 1.2rem; }
+  }
+
+  .info-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.8rem 1rem;
+  }
+
+  .info-card-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: rgba(221,224,255,0.4);
+    margin-bottom: 0.3rem;
+  }
+
+  .info-card-val {
+    font-family: monospace;
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+
+  footer {
+    width: 100%;
+    text-align: center;
+    padding: 1rem;
+    font-size: 0.7rem;
+    color: rgba(221,224,255,0.25);
+    letter-spacing: 0.04em;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Pulse ring for vertex X */
+  @keyframes ring {
+    0%   { r: 16; opacity: 0.8; }
+    100% { r: 36; opacity: 0; }
+  }
+
+  .pulse-ring {
+    fill: none;
+    stroke: var(--gold);
+    stroke-width: 2;
+    animation: ring 1.2s ease-out infinite;
+  }
+
+  /* New color flash */
+  @keyframes colorFlash {
+    0%   { fill: #04040e; }
+    30%  { fill: var(--green); }
+    60%  { fill: rgba(29,158,117,0.6); }
+    100% { fill: var(--green); }
+  }
+
+  .new-color-vertex {
+    animation: colorFlash 1s ease forwards, pulseGlow 2s ease 1s infinite;
+  }
+
+  /* Merge animation */
+  @keyframes mergePath {
+    0%   { opacity: 1; transform: translateY(0); }
+    50%  { opacity: 0.5; transform: translateY(-30px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  .merging {
+    animation: mergePath 1.2s ease forwards;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="paper-label">Palette-Expansion Numbers &amp; Hadwiger's Conjecture</div>
+  <h1>The Drawing That Started Everything</h1>
+  <div class="author">Mizael Antonio Tovar Reyes &mdash; Ciudad Juárez, México &mdash; March 2026</div>
+</header>
+
+<!-- Step indicator -->
+<div class="step-indicator">
+  <div class="step-dot active" data-step="0" title="Step 1"></div>
+  <div class="step-dot" data-step="1" title="Step 2"></div>
+  <div class="step-dot" data-step="2" title="Step 3"></div>
+  <div class="step-dot" data-step="3" title="Step 4"></div>
+  <div class="step-dot" data-step="4" title="Step 5"></div>
+  <span class="step-counter" id="stepCounter">Step 1 / 5</span>
+</div>
+
+<!-- Canvas panel -->
+<div class="canvas-panel">
+
+  <!-- STEP 1: Blank canvas, red zigzag appears -->
+  <div class="step-content active" id="step-0">
+    <div class="step-title">Step 1 — A Blank Page in March 2026</div>
+    <div class="step-desc">Mizael picks up a pencil in Ciudad Juárez. He draws a simple zigzag path on paper — vertices alternating between color 1 and color 2.</div>
+    <div class="svg-wrapper">
+      <svg class="main-svg" viewBox="0 0 700 200">
+        <!-- Grid paper texture -->
+        <defs>
+          <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(221,224,255,0.04)" stroke-width="0.5"/>
+          </pattern>
+        </defs>
+        <rect width="700" height="200" fill="url(#grid)" rx="8"/>
+
+        <!-- Red zigzag path: 1-2-1-2-1-2 -->
+        <polyline class="path-red" points="60,80 160,40 260,80 360,40 460,80 560,40"/>
+
+        <!-- Vertices -->
+        <circle class="vertex" cx="60"  cy="80" r="14" fill="#D85A30" style="animation-delay:1.6s"/>
+        <text class="vertex-label" x="60"  y="85" text-anchor="middle" style="animation-delay:1.65s;animation:fadeIn 0.3s 1.65s both">1</text>
+
+        <circle class="vertex" cx="160" cy="40" r="14" fill="#378ADD" style="animation-delay:1.9s;animation:popIn 0.5s 1.9s both forwards"/>
+        <text class="vertex-label" x="160" y="45" text-anchor="middle" style="animation:fadeIn 0.3s 1.95s both">2</text>
+
+        <circle class="vertex" cx="260" cy="80" r="14" fill="#D85A30" style="animation-delay:2.2s;animation:popIn 0.5s 2.2s both forwards"/>
+        <text class="vertex-label" x="260" y="85" text-anchor="middle" style="animation:fadeIn 0.3s 2.25s both">1</text>
+
+        <circle class="vertex" cx="360" cy="40" r="14" fill="#378ADD" style="animation-delay:2.5s;animation:popIn 0.5s 2.5s both forwards"/>
+        <text class="vertex-label" x="360" y="45" text-anchor="middle" style="animation:fadeIn 0.3s 2.55s both">2</text>
+
+        <circle class="vertex" cx="460" cy="80" r="14" fill="#D85A30" style="animation-delay:2.8s;animation:popIn 0.5s 2.8s both forwards"/>
+        <text class="vertex-label" x="460" y="85" text-anchor="middle" style="animation:fadeIn 0.3s 2.85s both">1</text>
+
+        <circle class="vertex" cx="560" cy="40" r="14" fill="#378ADD" style="animation-delay:3.1s;animation:popIn 0.5s 3.1s both forwards"/>
+        <text class="vertex-label" x="560" y="45" text-anchor="middle" style="animation:fadeIn 0.3s 3.15s both">2</text>
+
+        <!-- Labels below path -->
+        <text class="color-label" x="350" y="130" text-anchor="middle" style="animation:fadeIn 0.6s 3.3s both">Pattern: 1 — 2 — 1 — 2 — 1 — 2 (only 2 colors needed)</text>
+
+        <!-- Pencil icon -->
+        <text x="620" y="170" font-size="28" style="animation:fadeIn 0.5s 0.5s both;opacity:0.25">✏️</text>
+      </svg>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div> Color 1 (Red)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--blue)"></div> Color 2 (Blue)</div>
+    </div>
+    <div class="sketch-note">This visual recreates the original hand-drawn sketch from March 2026, Ciudad Juárez</div>
+  </div>
+
+  <!-- STEP 2: Blue zigzag below -->
+  <div class="step-content" id="step-1">
+    <div class="step-title">Step 2 — A Second Zigzag Appears</div>
+    <div class="step-desc">Mizael draws a second path below the first — mirrored, starting with color 2. Two separate paths, two colors each. So far so good.</div>
+    <div class="svg-wrapper">
+      <svg class="main-svg" viewBox="0 0 700 240">
+        <defs>
+          <pattern id="grid2" width="20" height="20" patternUnits="userSpaceOnUse">
+            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(221,224,255,0.04)" stroke-width="0.5"/>
+          </pattern>
+        </defs>
+        <rect width="700" height="240" fill="url(#grid2)" rx="8"/>
+
+        <!-- Top: Red path 1-2-1-2-1-2 -->
+        <polyline class="path-red" points="60,70 160,30 260,70 360,30 460,70 560,30" style="animation-duration:1s"/>
+        <circle cx="60"  cy="70" r="13" fill="#D85A30"/>  <text class="vertex-label" x="60"  y="75" text-anchor="middle">1</text>
+        <circle cx="160" cy="30" r="13" fill="#378ADD"/>  <text class="vertex-label" x="160" y="35" text-anchor="middle">2</text>
+        <circle cx="260" cy="70" r="13" fill="#D85A30"/>  <text class="vertex-label" x="260" y="75" text-anchor="middle">1</text>
+        <circle cx="360" cy="30" r="13" fill="#378ADD"/>  <text class="vertex-label" x="360" y="35" text-anchor="middle">2</text>
+        <circle cx="460" cy="70" r="13" fill="#D85A30"/>  <text class="vertex-label" x="460" y="75" text-anchor="middle">1</text>
+        <circle cx="560" cy="30" r="13" fill="#378ADD"/>  <text class="vertex-label" x="560" y="35" text-anchor="middle">2</text>
+
+        <!-- Bottom: Blue path 2-1-2-1-2-1 -->
+        <polyline class="path-blue" points="60,170 160,210 260,170 360,210 460,170 560,210" style="animation-duration:1s;animation-delay:0.3s"/>
+        <circle cx="60"  cy="170" r="13" fill="#378ADD" style="animation:popIn 0.4s 1.4s both forwards"/>  <text class="vertex-label" x="60"  y="175" text-anchor="middle" style="animation:fadeIn 0.3s 1.45s both">2</text>
+        <circle cx="160" cy="210" r="13" fill="#D85A30" style="animation:popIn 0.4s 1.6s both forwards"/>  <text class="vertex-label" x="160" y="215" text-anchor="middle" style="animation:fadeIn 0.3s 1.65s both">1</text>
+        <circle cx="260" cy="170" r="13" fill="#378ADD" style="animation:popIn 0.4s 1.8s both forwards"/>  <text class="vertex-label" x="260" y="175" text-anchor="middle" style="animation:fadeIn 0.3s 1.85s both">2</text>
+        <circle cx="360" cy="210" r="13" fill="#D85A30" style="animation:popIn 0.4s 2.0s both forwards"/>  <text class="vertex-label" x="360" y="215" text-anchor="middle" style="animation:fadeIn 0.3s 2.05s both">1</text>
+        <circle cx="460" cy="170" r="13" fill="#378ADD" style="animation:popIn 0.4s 2.2s both forwards"/>  <text class="vertex-label" x="460" y="175" text-anchor="middle" style="animation:fadeIn 0.3s 2.25s both">2</text>
+        <circle cx="560" cy="210" r="13" fill="#D85A30" style="animation:popIn 0.4s 2.4s both forwards"/>  <text class="vertex-label" x="560" y="215" text-anchor="middle" style="animation:fadeIn 0.3s 2.45s both">1</text>
+
+        <!-- Separator dashes -->
+        <line x1="30" y1="120" x2="620" y2="120" stroke="rgba(221,224,255,0.1)" stroke-dasharray="6 4" stroke-width="1"/>
+
+        <text class="color-label" x="350" y="128" text-anchor="middle" style="animation:fadeIn 0.4s 2.6s both">Two separate paths — no shared vertices — 2 colors each, no conflict</text>
+      </svg>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div> Color 1</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--blue)"></div> Color 2</div>
+    </div>
+    <div class="sketch-note">This visual recreates the original hand-drawn sketch from March 2026, Ciudad Juárez</div>
+  </div>
+
+  <!-- STEP 3: Separate paths, no conflict -->
+  <div class="step-content" id="step-2">
+    <div class="step-title">Step 3 — When Paths Are Separate: No Problem</div>
+    <div class="step-desc">As long as the two paths don't share a vertex, each path is 2-colorable independently. χ(path) = 2. Palette expansions = 1. Everything is fine.</div>
+    <div class="svg-wrapper">
+      <svg class="main-svg" viewBox="0 0 700 220">
+        <defs>
+          <pattern id="grid3" width="20" height="20" patternUnits="userSpaceOnUse">
+            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(221,224,255,0.04)" stroke-width="0.5"/>
+          </pattern>
+          <filter id="greenGlow">
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+          </filter>
+        </defs>
+        <rect width="700" height="220" fill="url(#grid3)" rx="8"/>
+
+        <!-- Path 1 -->
+        <polyline stroke="#D85A30" stroke-width="2.5" fill="none" stroke-linecap="round" points="80,70 180,40 280,70 380,40" style="animation:drawPath 1s ease both"/>
+        <circle cx="80"  cy="70" r="13" fill="#D85A30"/>  <text class="vertex-label" x="80"  y="75" text-anchor="middle">1</text>
+        <circle cx="180" cy="40" r="13" fill="#378ADD"/>  <text class="vertex-label" x="180" y="45" text-anchor="middle">2</text>
+        <circle cx="280" cy="70" r="13" fill="#D85A30"/>  <text class="vertex-label" x="280" y="75" text-anchor="middle">1</text>
+        <circle cx="380" cy="40" r="13" fill="#378ADD"/>  <text class="vertex-label" x="380" y="45" text-anchor="middle">2</text>
+
+        <!-- Path 2 -->
+        <polyline stroke="#378ADD" stroke-width="2.5" fill="none" stroke-linecap="round" points="320,160 420,190 520,160 620,190" style="animation:drawPath 1s 0.3s ease both"/>
+        <circle cx="320" cy="160" r="13" fill="#378ADD" style="animation:popIn 0.4s 1.1s both forwards"/>  <text class="vertex-label" x="320" y="165" text-anchor="middle" style="animation:fadeIn 0.3s 1.1s both">2</text>
+        <circle cx="420" cy="190" r="13" fill="#D85A30" style="animation:popIn 0.4s 1.3s both forwards"/>  <text class="vertex-label" x="420" y="195" text-anchor="middle" style="animation:fadeIn 0.3s 1.3s both">1</text>
+        <circle cx="520" cy="160" r="13" fill="#378ADD" style="animation:popIn 0.4s 1.5s both forwards"/>  <text class="vertex-label" x="520" y="165" text-anchor="middle" style="animation:fadeIn 0.3s 1.5s both">2</text>
+        <circle cx="620" cy="190" r="13" fill="#D85A30" style="animation:popIn 0.4s 1.7s both forwards"/>  <text class="vertex-label" x="620" y="195" text-anchor="middle" style="animation:fadeIn 0.3s 1.7s both">1</text>
+
+        <!-- Green checkmarks -->
+        <text x="230" y="115" font-size="28" text-anchor="middle" fill="#1D9E75" filter="url(#greenGlow)" style="animation:popIn 0.5s 2.0s both forwards;opacity:0">✓</text>
+        <text x="470" y="115" font-size="28" text-anchor="middle" fill="#1D9E75" filter="url(#greenGlow)" style="animation:popIn 0.5s 2.2s both forwards;opacity:0">✓</text>
+
+        <text class="color-label" x="350" y="215" text-anchor="middle" font-size="12" style="animation:fadeIn 0.5s 2.4s both">χ = 2 for each path, χ(G) = 2 — only 1 palette expansion total</text>
+      </svg>
+    </div>
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="info-card-label">Chromatic Number</div>
+        <div class="info-card-val" style="color:var(--green)">χ(G) = 2</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-label">Palette Expansions</div>
+        <div class="info-card-val" style="color:var(--gold)">p(G) = 1</div>
+      </div>
+    </div>
+    <div class="sketch-note">This visual recreates the original hand-drawn sketch from March 2026, Ciudad Juárez</div>
+  </div>
+
+  <!-- STEP 4: Paths merge at X — conflict! -->
+  <div class="step-content" id="step-3">
+    <div class="step-title">Step 4 — The Moment of Discovery: Shared Vertex X</div>
+    <div class="step-desc">Mizael merges the two paths at a single shared vertex X. Now X has neighbors colored 1 AND 2. X cannot use either color — it MUST introduce color 3. This is a palette expansion!</div>
+    <div class="svg-wrapper">
+      <svg class="main-svg" viewBox="0 0 700 240" id="svgStep4">
+        <defs>
+          <pattern id="grid4" width="20" height="20" patternUnits="userSpaceOnUse">
+            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(221,224,255,0.04)" stroke-width="0.5"/>
+          </pattern>
+          <filter id="goldGlow">
+            <feGaussianBlur stdDeviation="5" result="blur"/>
+            <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+          </filter>
+          <filter id="redGlow">
+            <feGaussianBlur stdDeviation="4" result="blur"/>
+            <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+          </filter>
+        </defs>
+        <rect width="700" height="240" fill="url(#grid4)" rx="8"/>
+
+        <!-- Left path to X -->
+        <line x1="80" y1="80" x2="350" y2="120" stroke="#D85A30" stroke-width="2.5" stroke-linecap="round" style="animation:drawPath 0.8s ease both"/>
+        <line x1="80" y1="160" x2="350" y2="120" stroke="#378ADD" stroke-width="2.5" stroke-linecap="round" style="animation:drawPath 0.8s 0.2s ease both"/>
+
+        <!-- Right path from X -->
+        <line x1="350" y1="120" x2="560" y2="80" stroke="#D85A30" stroke-width="2.5" stroke-linecap="round" style="animation:drawPath 0.8s 0.4s ease both"/>
+        <line x1="350" y1="120" x2="560" y2="160" stroke="#378ADD" stroke-width="2.5" stroke-linecap="round" style="animation:drawPath 0.8s 0.6s ease both"/>
+
+        <!-- Extra path segments -->
+        <line x1="80"  y1="80"  x2="200" y2="50"  stroke="#D85A30" stroke-width="2" stroke-linecap="round" style="animation:drawPath 0.6s ease both"/>
+        <line x1="80"  y1="160" x2="200" y2="190" stroke="#378ADD" stroke-width="2" stroke-linecap="round" style="animation:drawPath 0.6s 0.1s ease both"/>
+        <line x1="560" y1="80"  x2="640" y2="50"  stroke="#D85A30" stroke-width="2" stroke-linecap="round" style="animation:drawPath 0.6s 0.5s ease both"/>
+        <line x1="560" y1="160" x2="640" y2="190" stroke="#378ADD" stroke-width="2" stroke-linecap="round" style="animation:drawPath 0.6s 0.7s ease both"/>
+
+        <!-- Side vertices -->
+        <circle cx="80"  cy="80"  r="13" fill="#D85A30" style="animation:popIn 0.4s 0.9s both forwards;opacity:0"/>  <text class="vertex-label" x="80"  y="85"  text-anchor="middle" style="animation:fadeIn 0.3s 0.95s both">1</text>
+        <circle cx="80"  cy="160" r="13" fill="#378ADD" style="animation:popIn 0.4s 1.0s both forwards;opacity:0"/>  <text class="vertex-label" x="80"  y="165" text-anchor="middle" style="animation:fadeIn 0.3s 1.05s both">2</text>
+        <circle cx="200" cy="50"  r="13" fill="#378ADD" style="animation:popIn 0.4s 1.1s both forwards;opacity:0"/>  <text class="vertex-label" x="200" y="55"  text-anchor="middle" style="animation:fadeIn 0.3s 1.15s both">2</text>
+        <circle cx="200" cy="190" r="13" fill="#D85A30" style="animation:popIn 0.4s 1.2s both forwards;opacity:0"/>  <text class="vertex-label" x="200" y="195" text-anchor="middle" style="animation:fadeIn 0.3s 1.25s both">1</text>
+        <circle cx="560" cy="80"  r="13" fill="#378ADD" style="animation:popIn 0.4s 1.3s both forwards;opacity:0"/>  <text class="vertex-label" x="560" y="85"  text-anchor="middle" style="animation:fadeIn 0.3s 1.35s both">2</text>
+        <circle cx="560" cy="160" r="13" fill="#D85A30" style="animation:popIn 0.4s 1.4s both forwards;opacity:0"/>  <text class="vertex-label" x="560" y="165" text-anchor="middle" style="animation:fadeIn 0.3s 1.45s both">1</text>
+        <circle cx="640" cy="50"  r="13" fill="#D85A30" style="animation:popIn 0.4s 1.5s both forwards;opacity:0"/>  <text class="vertex-label" x="640" y="55"  text-anchor="middle" style="animation:fadeIn 0.3s 1.55s both">1</text>
+        <circle cx="640" cy="190" r="13" fill="#378ADD" style="animation:popIn 0.4s 1.6s both forwards;opacity:0"/>  <text class="vertex-label" x="640" y="195" text-anchor="middle" style="animation:fadeIn 0.3s 1.65s both">2</text>
+
+        <!-- Pulsing ring at X -->
+        <circle class="pulse-ring" cx="350" cy="120" style="animation:ring 1.2s 1.7s ease-out infinite"/>
+        <circle class="pulse-ring" cx="350" cy="120" style="animation:ring 1.2s 2.3s ease-out infinite"/>
+
+        <!-- Vertex X (gold, needs color 3) -->
+        <circle cx="350" cy="120" r="20" fill="#1D9E75" style="animation:popIn 0.6s 1.8s both forwards,colorFlash 0.8s 2.0s forwards;opacity:0" id="vertexX"/>
+        <text class="vertex-label" x="350" y="117" text-anchor="middle" font-size="10" fill="white" style="animation:fadeIn 0.3s 1.9s both">X</text>
+        <text class="vertex-label" x="350" y="130" text-anchor="middle" font-size="11" fill="white" style="animation:fadeIn 0.3s 2.0s both">3!</text>
+
+        <!-- Conflict arrows -->
+        <text x="280" y="100" font-size="11" fill="#D85A30" text-anchor="middle" style="animation:fadeIn 0.4s 2.2s both;opacity:0">neighbor=1</text>
+        <text x="280" y="145" font-size="11" fill="#378ADD" text-anchor="middle" style="animation:fadeIn 0.4s 2.4s both;opacity:0">neighbor=2</text>
+        <text x="350" y="165" font-size="11" fill="#1D9E75" text-anchor="middle" style="animation:fadeIn 0.4s 2.6s both;opacity:0">must use 3!</text>
+
+        <!-- Gold label -->
+        <text x="350" y="225" text-anchor="middle" font-size="13" fill="var(--gold)" filter="url(#goldGlow)" style="animation:fadeIn 0.5s 2.8s both;opacity:0">⚡ PALETTE EXPANSION at vertex X!</text>
+      </svg>
+    </div>
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="info-card-label">X's neighbors include</div>
+        <div class="info-card-val" style="color:var(--red)">Color 1 &amp; <span style="color:var(--blue)">Color 2</span></div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-label">X must use</div>
+        <div class="info-card-val" style="color:var(--green)">Color 3 (new!)</div>
+      </div>
+    </div>
+    <div class="sketch-note">This visual recreates the original hand-drawn sketch from March 2026, Ciudad Juárez</div>
+  </div>
+
+  <!-- STEP 5: χ(G) = 1 + p(G) -->
+  <div class="step-content" id="step-4">
+    <div class="step-title">Step 5 — The Discovery: χ(G) = 1 + p(G)</div>
+    <div class="step-desc">Every time greedy coloring forces a new color, that is a palette expansion. Count them all up. The chromatic number equals ONE plus the number of unavoidable expansions.</div>
+    <div class="svg-wrapper">
+      <svg class="main-svg" viewBox="0 0 700 200">
+        <defs>
+          <pattern id="grid5" width="20" height="20" patternUnits="userSpaceOnUse">
+            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(221,224,255,0.04)" stroke-width="0.5"/>
+          </pattern>
+          <filter id="glow5">
+            <feGaussianBlur stdDeviation="6" result="blur"/>
+            <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+          </filter>
+        </defs>
+        <rect width="700" height="200" fill="url(#grid5)" rx="8"/>
+
+        <!-- Three-coloring visualization -->
+        <!-- Edges -->
+        <line x1="120" y1="100" x2="230" y2="60"  stroke="rgba(221,224,255,0.2)" stroke-width="2"/>
+        <line x1="120" y1="100" x2="230" y2="140" stroke="rgba(221,224,255,0.2)" stroke-width="2"/>
+        <line x1="230" y1="60"  x2="350" y2="100" stroke="rgba(221,224,255,0.2)" stroke-width="2"/>
+        <line x1="230" y1="140" x2="350" y2="100" stroke="rgba(221,224,255,0.2)" stroke-width="2"/>
+        <line x1="350" y1="100" x2="470" y2="60"  stroke="rgba(221,224,255,0.2)" stroke-width="2"/>
+        <line x1="350" y1="100" x2="470" y2="140" stroke="rgba(221,224,255,0.2)" stroke-width="2"/>
+        <line x1="470" y1="60"  x2="580" y2="100" stroke="rgba(221,224,255,0.2)" stroke-width="2"/>
+        <line x1="470" y1="140" x2="580" y2="100" stroke="rgba(221,224,255,0.2)" stroke-width="2"/>
+
+        <!-- Vertices colored -->
+        <circle cx="120" cy="100" r="16" fill="#D85A30" style="animation:popIn 0.4s 0.3s both forwards;opacity:0"/>
+        <text class="vertex-label" x="120" y="105" text-anchor="middle" style="animation:fadeIn 0.3s 0.4s both">1</text>
+
+        <circle cx="230" cy="60"  r="16" fill="#378ADD" style="animation:popIn 0.4s 0.7s both forwards;opacity:0"/>
+        <text class="vertex-label" x="230" y="65" text-anchor="middle" style="animation:fadeIn 0.3s 0.8s both">2</text>
+
+        <circle cx="230" cy="140" r="16" fill="#378ADD" style="animation:popIn 0.4s 0.9s both forwards;opacity:0"/>
+        <text class="vertex-label" x="230" y="145" text-anchor="middle" style="animation:fadeIn 0.3s 1.0s both">2</text>
+
+        <!-- Expansion at 350 -->
+        <circle class="pulse-ring" cx="350" cy="100" style="animation:ring 1.2s 1.2s ease-out infinite"/>
+        <circle cx="350" cy="100" r="18" fill="#1D9E75" style="animation:popIn 0.5s 1.1s both forwards;opacity:0"/>
+        <text class="vertex-label" x="350" y="97" text-anchor="middle" font-size="10" style="animation:fadeIn 0.3s 1.2s both">X</text>
+        <text class="vertex-label" x="350" y="110" text-anchor="middle" font-size="11" style="animation:fadeIn 0.3s 1.2s both">3</text>
+        <text x="350" y="145" font-size="10" fill="var(--gold)" text-anchor="middle" style="animation:fadeIn 0.4s 1.5s both;opacity:0">+1 expansion</text>
+
+        <circle cx="470" cy="60"  r="16" fill="#D85A30" style="animation:popIn 0.4s 1.6s both forwards;opacity:0"/>
+        <text class="vertex-label" x="470" y="65" text-anchor="middle" style="animation:fadeIn 0.3s 1.7s both">1</text>
+
+        <circle cx="470" cy="140" r="16" fill="#378ADD" style="animation:popIn 0.4s 1.8s both forwards;opacity:0"/>
+        <text class="vertex-label" x="470" y="145" text-anchor="middle" style="animation:fadeIn 0.3s 1.9s both">2</text>
+
+        <circle cx="580" cy="100" r="16" fill="#D85A30" style="animation:popIn 0.4s 2.0s both forwards;opacity:0"/>
+        <text class="vertex-label" x="580" y="105" text-anchor="middle" style="animation:fadeIn 0.3s 2.1s both">1</text>
+
+        <!-- Expansion markers -->
+        <text x="120" y="50" font-size="10" fill="var(--gold)" text-anchor="middle" style="animation:fadeIn 0.4s 0.5s both">start: color 1</text>
+
+        <!-- Result labels -->
+        <text x="350" y="188" text-anchor="middle" font-size="12" fill="rgba(221,224,255,0.5)" style="animation:fadeIn 0.5s 2.5s both">χ(G) = 3 &nbsp;|&nbsp; p(G) = 2 &nbsp;|&nbsp; 1 + 2 = 3 ✓</text>
+      </svg>
+    </div>
+
+    <div class="formula-box" style="animation-delay:2s">
+      <div class="formula-main">χ(G) = 1 + p(G)</div>
+      <div class="formula-sub">The chromatic number equals one (first color used) plus the number of palette expansions</div>
+    </div>
+
+    <div class="quote-card">
+      <div class="quote-text">Why fight over seats when you can bring your own chair?</div>
+      <div class="quote-attr">— On palette expansion: instead of reusing a color and causing conflict, add a new one.</div>
+    </div>
+
+    <div class="sketch-note">This visual recreates the original hand-drawn sketch from March 2026, Ciudad Juárez</div>
+  </div>
+
+</div><!-- .canvas-panel -->
+
+<!-- Navigation -->
+<div class="nav-row">
+  <button class="btn" id="btnPrev" onclick="changeStep(-1)" disabled>&#8592; Previous</button>
+  <button class="btn btn-primary" id="btnNext" onclick="changeStep(1)">Next &#8594;</button>
+</div>
+
+<footer>
+  Mizael Antonio Tovar Reyes &mdash; Ciudad Juárez, México &mdash; March 2026 &mdash; Palette-Expansion Numbers &amp; Hadwiger's Conjecture
+</footer>
+
+<script>
+  let currentStep = 0;
+  const totalSteps = 5;
+
+  function changeStep(dir) {
+    const old = document.getElementById('step-' + currentStep);
+    old.classList.remove('active');
+
+    const dots = document.querySelectorAll('.step-dot');
+    dots[currentStep].classList.remove('active');
+    dots[currentStep].classList.add('done');
+
+    currentStep = Math.max(0, Math.min(totalSteps - 1, currentStep + dir));
+
+    const next = document.getElementById('step-' + currentStep);
+    next.classList.add('active');
+
+    // Reset animation by forcing reflow
+    next.style.animation = 'none';
+    next.offsetHeight; // trigger reflow
+    next.style.animation = '';
+
+    dots[currentStep].classList.remove('done');
+    dots[currentStep].classList.add('active');
+
+    document.getElementById('stepCounter').textContent = 'Step ' + (currentStep + 1) + ' / ' + totalSteps;
+    document.getElementById('btnPrev').disabled = currentStep === 0;
+    document.getElementById('btnNext').disabled = currentStep === totalSteps - 1;
+
+    // Restart SVG animations
+    const svgEls = next.querySelectorAll('circle, polyline, line, text, .path-red, .path-blue');
+    svgEls.forEach(el => {
+      const anim = el.style.animation;
+      el.style.animation = 'none';
+      el.getBoundingClientRect();
+      el.style.animation = anim;
+    });
+  }
+
+  // Dot navigation
+  document.querySelectorAll('.step-dot').forEach((dot, i) => {
+    dot.addEventListener('click', () => {
+      if (i !== currentStep) {
+        const delta = i - currentStep;
+        changeStep(delta);
+      }
+    });
+  });
+</script>
+</body>
+</html>

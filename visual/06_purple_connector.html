@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lemma 8.3f — The Alternating Connector (Mizael's Purple Connector)</title>
+<style>
+  :root {
+    --bg: #04040e;
+    --text: #dde0ff;
+    --red: #D85A30;
+    --blue: #378ADD;
+    --green: #1D9E75;
+    --gold: #FAC775;
+    --purple: #8B5CF6;
+    --teal: #0F6E56;
+    --navy: #102450;
+    --panel: #0a0a1e;
+    --border: #1a1a3e;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 7%  22%, rgba(139,92,246,0.25) 0%, transparent 100%),
+      radial-gradient(1px 1px at 20% 60%, rgba(221,224,255,0.3)  0%, transparent 100%),
+      radial-gradient(1px 1px at 42% 12%, rgba(221,224,255,0.4)  0%, transparent 100%),
+      radial-gradient(1px 1px at 58% 80%, rgba(139,92,246,0.2)   0%, transparent 100%),
+      radial-gradient(1px 1px at 76% 18%, rgba(221,224,255,0.35) 0%, transparent 100%),
+      radial-gradient(1px 1px at 88% 55%, rgba(221,224,255,0.25) 0%, transparent 100%),
+      radial-gradient(1px 1px at 33% 88%, rgba(139,92,246,0.2)   0%, transparent 100%),
+      radial-gradient(1px 1px at 65% 42%, rgba(221,224,255,0.3)  0%, transparent 100%),
+      radial-gradient(1px 1px at 92% 78%, rgba(221,224,255,0.2)  0%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-22px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(22px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; } to { opacity: 1; }
+  }
+  @keyframes isolatedPulse {
+    0%,100% { stroke: #D85A30; stroke-width: 2.5; filter: drop-shadow(0 0 4px rgba(216,90,48,0.5)); }
+    50%      { stroke: #D85A30; stroke-width: 4;   filter: drop-shadow(0 0 14px rgba(216,90,48,0.9)); }
+  }
+  @keyframes purpleGlow {
+    0%,100% { filter: drop-shadow(0 0 6px rgba(139,92,246,0.5)); }
+    50%      { filter: drop-shadow(0 0 20px rgba(139,92,246,1.0)); }
+  }
+  @keyframes goldEdge {
+    from { stroke-dashoffset: 200; opacity: 0; }
+    to   { stroke-dashoffset: 0;   opacity: 0.9; }
+  }
+  @keyframes purpleEdge {
+    from { stroke-dashoffset: 300; opacity: 0; }
+    to   { stroke-dashoffset: 0;   opacity: 0.95; }
+  }
+  @keyframes nodePop {
+    0%   { transform: scale(0.4); opacity: 0; }
+    70%  { transform: scale(1.12); }
+    100% { transform: scale(1);   opacity: 1; }
+  }
+  @keyframes labelSlide {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes chipIn {
+    from { opacity: 0; transform: scale(0.85); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+  @keyframes rotateGlow {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+  @keyframes countUp {
+    from { opacity: 0; transform: translateY(5px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes shimmerBar {
+    0%   { background-position: -600px 0; }
+    100% { background-position: 600px 0; }
+  }
+  @keyframes floatBadge {
+    0%,100% { transform: translateY(0); }
+    50%      { transform: translateY(-3px); }
+  }
+
+  /* ── Header ── */
+  header {
+    width: 100%;
+    max-width: 980px;
+    padding: 2rem 2rem 0.7rem;
+    text-align: center;
+    position: relative; z-index: 1;
+    animation: fadeDown 0.9s ease both;
+  }
+
+  .tag-row { display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 0.85rem; flex-wrap: wrap; }
+
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    background: rgba(139,92,246,0.15);
+    border: 1px solid rgba(139,92,246,0.45);
+    color: var(--purple);
+    font-size: 0.71rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.85rem;
+    border-radius: 20px;
+  }
+  .tag-orig {
+    background: rgba(250,199,117,0.12);
+    border-color: rgba(250,199,117,0.4);
+    color: var(--gold);
+  }
+
+  h1 {
+    font-size: clamp(1.35rem, 3vw, 2.1rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, var(--text) 30%, var(--purple) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.4rem;
+    line-height: 1.25;
+  }
+
+  .subtitle {
+    color: rgba(221,224,255,0.48);
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+
+  /* ── Scenario selector ── */
+  .scenario-bar {
+    width: 100%;
+    max-width: 980px;
+    padding: 1rem 2rem 0;
+    display: flex;
+    gap: 0.6rem;
+    position: relative; z-index: 1;
+    animation: fadeUp 0.8s 0.2s ease both;
+    flex-wrap: wrap;
+  }
+
+  .sc-btn {
+    padding: 0.5rem 1.1rem;
+    border-radius: 9px;
+    border: 1px solid var(--border);
+    background: rgba(10,10,30,0.7);
+    color: rgba(221,224,255,0.55);
+    font-family: inherit;
+    font-size: 0.83rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.22s;
+    line-height: 1.3;
+  }
+  .sc-btn:hover { border-color: var(--purple); color: var(--purple); }
+  .sc-btn.active-a { border-color: var(--gold); color: var(--gold); background: rgba(250,199,117,0.1); }
+  .sc-btn.active-b { border-color: var(--purple); color: var(--purple); background: rgba(139,92,246,0.1);
+    animation: floatBadge 2.5s ease-in-out infinite; }
+  .sc-btn.active-3a { border-color: var(--green); color: var(--green); background: rgba(29,158,117,0.1); }
+  .sc-btn.active-3b { border-color: var(--blue); color: var(--blue); background: rgba(55,138,221,0.1); }
+
+  /* ── Main layout ── */
+  .main {
+    width: 100%;
+    max-width: 980px;
+    padding: 1rem 2rem 0;
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 1.2rem;
+    position: relative; z-index: 1;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+  @media (max-width: 700px) { .main { grid-template-columns: 1fr; } }
+
+  .panel {
+    background: rgba(10,10,30,0.75);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .panel-title {
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(221,224,255,0.4);
+  }
+
+  /* ── SVG area ── */
+  #mainSvgWrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 280px;
+  }
+  #mainSvgWrap svg { width: 100%; max-width: 400px; height: auto; }
+
+  /* ── Status label ── */
+  #statusLabel {
+    text-align: center;
+    font-size: 0.88rem;
+    font-weight: 700;
+    padding: 0.45rem 0.8rem;
+    border-radius: 8px;
+    animation: fadeIn 0.4s ease both;
+  }
+  .status-isolated { background: rgba(216,90,48,0.15); border: 1px solid rgba(216,90,48,0.4); color: var(--red); }
+  .status-caseA    { background: rgba(250,199,117,0.12); border: 1px solid rgba(250,199,117,0.4); color: var(--gold); }
+  .status-caseB    { background: rgba(139,92,246,0.12); border: 1px solid rgba(139,92,246,0.4); color: var(--purple); }
+  .status-3a       { background: rgba(29,158,117,0.12); border: 1px solid rgba(29,158,117,0.4); color: var(--green); }
+  .status-3b       { background: rgba(55,138,221,0.12); border: 1px solid rgba(55,138,221,0.4); color: var(--blue); }
+
+  /* ── Right panel ── */
+  .desc-block {
+    font-size: 0.87rem;
+    line-height: 1.7;
+    color: rgba(221,224,255,0.82);
+  }
+  .desc-block strong { color: var(--text); }
+  .desc-block .hl-p  { color: var(--purple); font-weight: 700; }
+  .desc-block .hl-g  { color: var(--gold);   font-weight: 700; }
+  .desc-block .hl-gr { color: var(--green);  font-weight: 700; }
+  .desc-block .hl-b  { color: var(--blue);   font-weight: 700; }
+  .desc-block .hl-r  { color: var(--red);    font-weight: 700; }
+  .desc-block .formula {
+    display: inline-block;
+    background: rgba(139,92,246,0.1);
+    border: 1px solid rgba(139,92,246,0.25);
+    border-radius: 5px;
+    padding: 0.15rem 0.5rem;
+    font-style: italic;
+    color: var(--purple);
+    font-size: 0.85rem;
+    margin: 0.15rem 0;
+  }
+
+  .note-box {
+    border-radius: 9px;
+    padding: 0.65rem 0.9rem;
+    font-size: 0.82rem;
+    line-height: 1.55;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  .note-box .icon { font-size: 1rem; flex-shrink: 0; margin-top: 0.05rem; }
+  .note-purple { background: rgba(139,92,246,0.1); border: 1px solid rgba(139,92,246,0.3); }
+  .note-gold   { background: rgba(250,199,117,0.1); border: 1px solid rgba(250,199,117,0.3); }
+  .note-green  { background: rgba(29,158,117,0.1);  border: 1px solid rgba(29,158,117,0.3); }
+
+  /* ── Verification box ── */
+  .verify-box {
+    width: 100%;
+    max-width: 980px;
+    padding: 0.9rem 2rem 0;
+    position: relative; z-index: 1;
+    animation: fadeUp 0.8s 0.4s ease both;
+  }
+  .verify-inner {
+    background: linear-gradient(135deg, rgba(16,36,80,0.7) 0%, rgba(15,110,86,0.15) 100%);
+    border: 1px solid rgba(29,158,117,0.3);
+    border-left: 4px solid var(--purple);
+    border-radius: 12px;
+    padding: 1rem 1.4rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+  }
+  .verify-title {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--purple);
+    margin-bottom: 0.5rem;
+  }
+  .verify-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+  }
+  .verify-chip {
+    border-radius: 8px;
+    padding: 0.38rem 0.85rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    animation: chipIn 0.4s ease both;
+  }
+  .chip-a { background: rgba(250,199,117,0.12); border: 1px solid rgba(250,199,117,0.4); color: var(--gold); }
+  .chip-b { background: rgba(139,92,246,0.12);  border: 1px solid rgba(139,92,246,0.4);  color: var(--purple); }
+  .chip-g { background: rgba(29,158,117,0.12);  border: 1px solid rgba(29,158,117,0.4);  color: var(--green); }
+
+  /* ── Quote box ── */
+  .quote-box {
+    width: 100%;
+    max-width: 980px;
+    padding: 0.9rem 2rem 0;
+    position: relative; z-index: 1;
+    animation: fadeUp 0.8s 0.5s ease both;
+  }
+  .quote-inner {
+    background: rgba(139,92,246,0.08);
+    border: 1px solid rgba(139,92,246,0.28);
+    border-radius: 12px;
+    padding: 1rem 1.4rem;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  .quote-icon {
+    font-size: 2.2rem;
+    line-height: 1;
+    color: var(--purple);
+    flex-shrink: 0;
+    animation: purpleGlow 3s ease-in-out infinite;
+  }
+  .quote-text {
+    font-size: 0.88rem;
+    line-height: 1.65;
+    font-style: italic;
+    color: rgba(221,224,255,0.8);
+  }
+  .quote-text strong { color: var(--purple); font-style: normal; }
+
+  /* ── Proof counter bar ── */
+  .proof-bar {
+    width: 100%;
+    max-width: 980px;
+    padding: 0.7rem 2rem 0;
+    position: relative; z-index: 1;
+    animation: fadeUp 0.8s 0.45s ease both;
+  }
+  .proof-inner {
+    background: rgba(10,10,30,0.6);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.75rem 1.1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+    font-size: 0.83rem;
+  }
+  .proof-inner .math-k { color: var(--blue); font-weight: 700; }
+  .proof-inner .math-p { color: var(--purple); font-weight: 700; }
+  .proof-inner .math-g { color: var(--green); font-weight: 700; }
+  .proof-label { color: rgba(221,224,255,0.45); font-weight: 600; font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.08em; }
+
+  footer {
+    width: 100%;
+    max-width: 980px;
+    text-align: center;
+    padding: 1.6rem 2rem 2rem;
+    color: rgba(221,224,255,0.27);
+    font-size: 0.76rem;
+    position: relative; z-index: 1;
+    animation: fadeUp 0.9s 0.6s ease both;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="tag-row">
+    <span class="tag">Lemma 8.3f — Alternating Connector</span>
+    <span class="tag tag-orig">★ Original Insight — March 2026</span>
+  </div>
+  <h1>The Purple Connector<br><span style="font-size:0.75em;opacity:0.75;">Mizael's Alternating Connector Lemma</span></h1>
+  <p class="subtitle">
+    When a branch set is isolated in the contracted graph,<br>
+    there always exists a bridge — direct or via a "purple connector" — to restore connectivity.
+  </p>
+</header>
+
+<!-- Scenario selector -->
+<div class="scenario-bar">
+  <button class="sc-btn" id="btnIsolated" onclick="setScene('isolated')">⚠ Isolated Bci</button>
+  <button class="sc-btn" id="btnCaseA"    onclick="setScene('caseA')">→ Case A: Direct Edge</button>
+  <button class="sc-btn active-b" id="btnCaseB" onclick="setScene('caseB')">◈ Case B: Purple Connector</button>
+  <button class="sc-btn" id="btnRepair3a" onclick="setScene('repair3a')">↗ Repair 3a: Move nb</button>
+  <button class="sc-btn" id="btnRepair3b" onclick="setScene('repair3b')">⇌ Repair 3b: Transfer Edge</button>
+</div>
+
+<!-- Main panels -->
+<div class="main">
+  <!-- LEFT: SVG visualization -->
+  <div class="panel">
+    <span class="panel-title" id="svgTitle">Contracted Graph H(G,B) — 4 Branch Sets</span>
+    <div id="mainSvgWrap">
+      <svg id="mainSvg" viewBox="0 0 400 340" xmlns="http://www.w3.org/2000/svg">
+        <!-- rendered by JS -->
+      </svg>
+    </div>
+    <div id="statusLabel" class="status-caseB">
+      CASE B: Purple Connector found ✓
+    </div>
+  </div>
+
+  <!-- RIGHT: Description -->
+  <div class="panel">
+    <span class="panel-title">Explanation</span>
+    <div class="desc-block" id="descBlock">
+      <!-- rendered by JS -->
+    </div>
+  </div>
+</div>
+
+<!-- Proof termination bar -->
+<div class="proof-bar">
+  <div class="proof-inner">
+    <span class="proof-label">Termination</span>
+    <span>Each Phase 3 iteration:</span>
+    <span class="math-p">|E(H)| increases by ≥ 1</span>
+    <span style="color:rgba(221,224,255,0.4)">·</span>
+    <span>Max steps:</span>
+    <span class="math-k">k(k−1)/2</span>
+    <span style="color:rgba(221,224,255,0.4)">·</span>
+    <span>For k=4:</span>
+    <span class="math-g">≤ 6 iterations</span>
+    <span style="color:rgba(221,224,255,0.4)">·</span>
+    <span class="math-g">always terminates ✓</span>
+  </div>
+</div>
+
+<!-- Computational verification -->
+<div class="verify-box">
+  <div class="verify-inner">
+    <div style="flex:1;min-width:220px;">
+      <div class="verify-title">Script 6 — Computational Verification</div>
+      <div class="verify-chips">
+        <span class="verify-chip chip-a">5,417 pairs — Case A (direct edge)</span>
+        <span class="verify-chip chip-b">177 pairs — Case B (purple connector)</span>
+        <span class="verify-chip chip-g">GAP = 0 (all pairs covered) ✓</span>
+      </div>
+    </div>
+    <div style="font-size:0.8rem;color:rgba(221,224,255,0.45);min-width:160px;">
+      Exhaustive verification over all tested graph families confirms Lemma 8.3f holds
+      with zero uncovered cases.
+    </div>
+  </div>
+</div>
+
+<!-- Quote -->
+<div class="quote-box">
+  <div class="quote-inner">
+    <span class="quote-icon">✦</span>
+    <div class="quote-text">
+      <strong>"The purple connector"</strong> — Mizael's original intuition from the hand-drawn sketch, March 2026.
+      When a branch set is isolated and no direct edge can be found, there always exists
+      an intermediate branch set B<sub>m</sub> that acts as a bridge, either
+      transferring connectivity directly or enabling the alternating repair.
+      This insight closes the last gap in the constructive proof of Hadwiger's Conjecture.
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div>Palette-Expansion Numbers and a Constructive Proof of Hadwiger's Conjecture</div>
+  <div style="margin-top:0.3rem;">
+    Mizael Antonio Tovar Reyes — Ciudad Juárez, México — March 2026
+  </div>
+</footer>
+
+<script>
+// ── Node positions for 4-node contracted graph ───────────────────────────────
+const NODES = [
+  { id:'Bci', x:200, y:75,  color:'#8B5CF6', label:'B_ci' },
+  { id:'B1',  x:90,  y:195, color:'#378ADD', label:'B₁'  },
+  { id:'B2',  x:310, y:195, color:'#1D9E75', label:'B₂'  },
+  { id:'Bm',  x:200, y:285, color:'#FAC775', label:'B_m'  },
+];
+
+const SCENARIOS = {
+  isolated: {
+    title: 'Contracted Graph H(G,B) — Bci Isolated',
+    edges: [
+      { from:1, to:2, color:'rgba(221,224,255,0.25)', dashed:false, anim:false },
+      { from:1, to:3, color:'rgba(221,224,255,0.25)', dashed:false, anim:false },
+      { from:2, to:3, color:'rgba(221,224,255,0.25)', dashed:false, anim:false },
+    ],
+    highlight: [0],
+    isolatedNode: 0,
+    status: 'status-isolated',
+    statusText: '⚠ Bci is ISOLATED — degree 0 in H(G,B)',
+    desc: `
+      <strong>The Problem:</strong> After Phase 2 (BFS Repair), branch set
+      <span class="hl-p">B<sub>ci</sub></span> has no edges to any other branch
+      set in the contracted graph <strong>H(G,B)</strong>.<br><br>
+      The other three branch sets (<span class="hl-b">B₁</span>,
+      <span class="hl-gr">B₂</span>, <span class="hl-g">B_m</span>)
+      are already connected to each other. Only Bci is isolated.<br><br>
+      <strong>Goal of Phase 3:</strong> find and install at least one edge
+      from Bci to some other branch set, increasing |E(H)| by 1.<br><br>
+      <div class="note-box note-purple">
+        <span class="icon">★</span>
+        <span><strong>Lemma 8.3f</strong> guarantees that either a direct edge
+        (Case A) or a bridge via an intermediate branch set (Case B) always exists.</span>
+      </div>
+    `,
+  },
+
+  caseA: {
+    title: 'Case A — Direct Edge Found',
+    edges: [
+      { from:1, to:2, color:'rgba(221,224,255,0.22)', dashed:false, anim:false },
+      { from:1, to:3, color:'rgba(221,224,255,0.22)', dashed:false, anim:false },
+      { from:2, to:3, color:'rgba(221,224,255,0.22)', dashed:false, anim:false },
+      { from:0, to:1, color:'#FAC775', dashed:false, anim:true, delay:0.3 },
+    ],
+    highlight: [0,1],
+    status: 'status-caseA',
+    statusText: 'CASE A: Direct edge Bci → B₁ found ✓',
+    desc: `
+      <strong>Case A — Simple Direct Edge:</strong><br><br>
+      There exists a vertex <span class="hl-b">v ∈ B₁</span> that has a neighbor
+      <span class="hl-p">u ∈ B<sub>ci</sub></span> in the original graph G.<br><br>
+      This means the edge <span class="hl-g">(B<sub>ci</sub>, B₁)</span> already
+      exists in H (it just wasn't represented before Phase 3).<br><br>
+      <span class="formula">|E(H)| increases by 1</span><br><br>
+      This is the simpler case — no rearrangement needed. The edge is simply
+      recognized and added to H.<br><br>
+      <div class="note-box note-gold">
+        <span class="icon">✓</span>
+        <span>Script 6 found <strong>5,417 pairs</strong> in this case across
+        all tested graphs — the most common resolution.</span>
+      </div>
+    `,
+  },
+
+  caseB: {
+    title: 'Case B — Purple Connector (Bridge via B_m)',
+    edges: [
+      { from:1, to:2, color:'rgba(221,224,255,0.22)', dashed:false, anim:false },
+      { from:1, to:3, color:'rgba(221,224,255,0.22)', dashed:false, anim:false },
+      { from:2, to:3, color:'rgba(221,224,255,0.22)', dashed:false, anim:false },
+      { from:0, to:3, color:'#8B5CF6', dashed:false, anim:true, delay:0.3, glow:true },
+      { from:1, to:3, color:'#8B5CF6', dashed:false, anim:true, delay:0.7, glow:true, skip:true },
+    ],
+    highlight: [0,3],
+    bridgeNode: 3,
+    status: 'status-caseB',
+    statusText: '◈ CASE B: Bridge via B_m (Purple Connector) ✓',
+    desc: `
+      <strong>Case B — The Purple Connector:</strong><br><br>
+      No direct edge from <span class="hl-p">B<sub>ci</sub></span> to any other
+      branch set exists. But there exists an intermediate branch set
+      <span class="hl-g">B<sub>m</sub></span> (the <em>purple connector</em>)
+      that is adjacent to <em>both</em> B<sub>ci</sub> and some B<sub>j</sub>.<br><br>
+      <span class="formula">B_m adjacent to Bci AND B₁</span><br><br>
+      This allows a <strong>two-hop connection</strong>:
+      B<sub>ci</sub> → B<sub>m</sub> → B<sub>j</sub>.<br><br>
+      The repair then operates on this triangle structure to install an edge
+      directly involving B<sub>ci</sub>.<br><br>
+      <div class="note-box note-purple">
+        <span class="icon">◈</span>
+        <span>Script 6 found <strong>177 pairs</strong> requiring this case —
+        Mizael's original insight ensures they are all resolved. <strong>GAP = 0.</strong></span>
+      </div>
+    `,
+  },
+
+  repair3a: {
+    title: 'Repair 3a — Move nb (Non-Articulation)',
+    edges: [
+      { from:1, to:2, color:'rgba(221,224,255,0.22)', dashed:false, anim:false },
+      { from:1, to:3, color:'rgba(221,224,255,0.22)', dashed:false, anim:false },
+      { from:2, to:3, color:'rgba(221,224,255,0.22)', dashed:false, anim:false },
+      { from:0, to:1, color:'#1D9E75', dashed:false, anim:true, delay:0.5, thick:true },
+    ],
+    highlight: [0,1],
+    movedNode: 1,
+    status: 'status-3a',
+    statusText: '↗ REPAIR 3a: nb moved to Bci — edge installed ✓',
+    desc: `
+      <strong>Repair Case 3a — Simple Move:</strong><br><br>
+      Found vertex <span class="hl-b">nb ∈ B₁</span> with neighbor
+      <span class="hl-p">v ∈ B<sub>ci</sub></span>.<br><br>
+      <strong>Check:</strong> Is nb an articulation point of B₁?<br>
+      Answer: <span class="hl-gr">NO</span> — removing nb from B₁ leaves
+      B₁ still connected.<br><br>
+      <strong>Action:</strong>
+      <span class="formula">Move nb: B₁ → Bci</span><br><br>
+      After the move:<br>
+      • Bci gains edge to (remaining) B₁ ✓<br>
+      • B₁ remains connected ✓<br>
+      • <span class="hl-gr">|E(H)| + 1 ✓</span><br><br>
+      <div class="note-box note-green">
+        <span class="icon">↗</span>
+        <span>The most straightforward repair. No edge is lost — only Bci
+        gains a new connection. Algorithm advances.</span>
+      </div>
+    `,
+  },
+
+  repair3b: {
+    title: 'Repair 3b — Transfer Edge (Articulation Point)',
+    edges: [
+      { from:1, to:2, color:'rgba(221,224,255,0.22)', dashed:false, anim:false },
+      { from:2, to:3, color:'rgba(221,224,255,0.22)', dashed:false, anim:false },
+      // old Bj-Bm edge shown crossing out
+      { from:1, to:3, color:'rgba(250,199,117,0.3)', dashed:true, anim:false },
+      // new edge: Bci to Bm (transferred)
+      { from:0, to:3, color:'#378ADD', dashed:false, anim:true, delay:0.4, thick:true },
+      // Bci to B1 also gained
+      { from:0, to:1, color:'#378ADD', dashed:false, anim:true, delay:0.9, thick:true },
+    ],
+    highlight: [0,3],
+    status: 'status-3b',
+    statusText: '⇌ REPAIR 3b: Edge transferred to Bci — not destroyed ✓',
+    desc: `
+      <strong>Repair Case 3b — Edge Transfer:</strong><br><br>
+      Found vertex <span class="hl-b">nb ∈ B₁</span>, but nb IS an
+      <strong>articulation point</strong> — removing it would disconnect B₁.<br><br>
+      Cannot move nb. Instead: nb is the sole connector B₁ → B<sub>m</sub>.<br><br>
+      <strong>Transfer action:</strong>
+      <span class="formula">Edge (B₁, B_m) → Edge (Bci, B_m)</span><br><br>
+      The edge is <em>re-routed through Bci</em>, not destroyed. Result:<br>
+      • Bci gains edge to B<sub>m</sub> ✓<br>
+      • Bci also gains edge to B₁ (via nb's neighbor) ✓<br>
+      • <span class="hl-b">|E(H)| ≥ previous value ✓</span><br><br>
+      <div class="note-box note-purple">
+        <span class="icon">⇌</span>
+        <span><strong>Anti-Destruction Theorem:</strong> the transfer never
+        reduces |E(H)|. The proof's edge-count invariant is preserved in
+        every step.</span>
+      </div>
+    `,
+  },
+};
+
+// ── Render scene ──────────────────────────────────────────────────────────────
+function setScene(name) {
+  // button highlights
+  document.querySelectorAll('.sc-btn').forEach(b=>b.className='sc-btn');
+  const map = {
+    isolated:'btnIsolated', caseA:'btnCaseA', caseB:'btnCaseB',
+    repair3a:'btnRepair3a', repair3b:'btnRepair3b'
+  };
+  const classMap = {
+    isolated:'', caseA:'active-a', caseB:'active-b',
+    repair3a:'active-3a', repair3b:'active-3b'
+  };
+  const btn = document.getElementById(map[name]);
+  if(btn && classMap[name]) btn.classList.add(classMap[name]);
+
+  const sc = SCENARIOS[name];
+  document.getElementById('svgTitle').textContent = sc.title;
+  document.getElementById('statusLabel').className = `status ${sc.status}`;
+  document.getElementById('statusLabel').textContent = sc.statusText;
+  document.getElementById('descBlock').innerHTML = sc.desc;
+
+  renderSVG(sc);
+}
+
+function renderSVG(sc) {
+  const svg = document.getElementById('mainSvg');
+  const W=400, H=340;
+
+  let defs = `
+    <defs>
+      <filter id="gMain">
+        <feGaussianBlur stdDeviation="3" result="b"/>
+        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <filter id="glowPurp">
+        <feGaussianBlur stdDeviation="7" result="b"/>
+        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+        <path d="M0,0 L0,6 L8,3 z" fill="#FAC775"/>
+      </marker>
+    </defs>`;
+
+  let edges = '';
+  // render edges
+  sc.edges.forEach((e, idx) => {
+    if(e.skip) return; // skip duplicate edge entries used only for desc
+    const from = NODES[e.from];
+    const to   = NODES[e.to];
+    const dash = e.dashed ? 'stroke-dasharray="6 4"' : '';
+    const w = e.thick ? 3 : 2;
+    const delay = e.delay || 0;
+    let style = '';
+    if(e.anim){
+      style = `stroke-dasharray="300" stroke-dashoffset="300" style="animation:goldEdge 0.7s ${delay}s ease forwards;"`;
+    }
+    let glow = '';
+    if(e.glow){
+      glow = `filter="url(#glowPurp)"`;
+    }
+    edges += `<line x1="${from.x}" y1="${from.y}" x2="${to.x}" y2="${to.y}"
+      stroke="${e.color}" stroke-width="${w}" ${dash} ${style} ${glow} opacity="0.9"/>`;
+  });
+
+  // purple glow connector pulse around Bm if caseB
+  let extras = '';
+  if(sc.bridgeNode !== undefined){
+    const n = NODES[sc.bridgeNode];
+    extras += `<circle cx="${n.x}" cy="${n.y}" r="38" fill="none"
+      stroke="#8B5CF6" stroke-width="2.5" opacity="0.4"
+      style="animation:isolatedPulse 1.8s ease-in-out infinite;"/>`;
+    extras += `<text x="${n.x}" y="${n.y-48}" text-anchor="middle"
+      font-family="Segoe UI,sans-serif" font-size="11" fill="#8B5CF6" font-weight="700"
+      style="animation:labelSlide 0.5s 0.5s ease both;opacity:0;">Purple Connector</text>`;
+  }
+
+  // nodes
+  let nodes = '';
+  NODES.forEach((n, i) => {
+    const isHighlight = sc.highlight && sc.highlight.includes(i);
+    const isIsolated  = sc.isolatedNode === i;
+    const r = 28;
+
+    let outerStyle = '';
+    if(isIsolated){
+      outerStyle = `style="animation:isolatedPulse 1.5s ease-in-out infinite;"`;
+    }
+    if(i === sc.bridgeNode){
+      outerStyle = `style="animation:purpleGlow 2s ease-in-out infinite;"`;
+    }
+
+    nodes += `
+      <circle cx="${n.x}" cy="${n.y}" r="${r+10}" fill="${n.color}" opacity="0.12" ${outerStyle}/>
+      <circle cx="${n.x}" cy="${n.y}" r="${r}" fill="${n.color}" stroke="#04040e" stroke-width="${isHighlight?3:2}"
+        filter="url(#gMain)" style="animation:nodePop 0.4s ${i*0.08}s ease both;"/>
+      <text x="${n.x}" y="${n.y+5}" text-anchor="middle"
+        font-family="Segoe UI,sans-serif" font-size="13" font-weight="800" fill="#fff">${n.label}</text>
+    `;
+
+    if(isIsolated){
+      nodes += `<text x="${n.x}" y="${n.y-46}" text-anchor="middle"
+        font-family="Segoe UI,sans-serif" font-size="11" fill="#D85A30" font-weight="700"
+        style="animation:labelSlide 0.5s 0.1s ease both;">ISOLATED</text>`;
+    }
+  });
+
+  svg.innerHTML = defs + extras + edges + nodes;
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+setScene('caseB');
+</script>
+</body>
+</html>

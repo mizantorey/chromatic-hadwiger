@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Palette-Expansion & Hadwiger's Conjecture — Visual Suite</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:        #04040e;
+    --surface:   #0d0d1f;
+    --card:      #111128;
+    --border:    #1e1e4a;
+    --accent:    #6c63ff;
+    --accent2:   #a78bfa;
+    --gold:      #f59e0b;
+    --green:     #34d399;
+    --teal:      #22d3ee;
+    --red:       #f87171;
+    --purple:    #c084fc;
+    --text:      #e2e8f0;
+    --muted:     #94a3b8;
+    --dim:       #475569;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', system-ui, sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── STARFIELD ── */
+  #stars {
+    position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  }
+  .star {
+    position: absolute;
+    background: #fff;
+    border-radius: 50%;
+    animation: twinkle var(--d, 3s) ease-in-out infinite var(--delay, 0s);
+  }
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.1; transform: scale(1); }
+    50%       { opacity: 0.9; transform: scale(1.4); }
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: relative; z-index: 10;
+    text-align: center;
+    padding: 70px 24px 50px;
+    background: linear-gradient(180deg, #0a0a20 0%, transparent 100%);
+  }
+
+  .badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #1e1e4a, #2a1a5e);
+    border: 1px solid var(--accent);
+    color: var(--accent2);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 18px;
+    border-radius: 20px;
+    margin-bottom: 28px;
+  }
+
+  h1 {
+    font-size: clamp(28px, 5vw, 52px);
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 12px;
+    background: linear-gradient(135deg, #fff 0%, var(--accent2) 50%, var(--teal) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .formula {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(18px, 3vw, 28px);
+    color: var(--gold);
+    margin: 18px 0 24px;
+    text-shadow: 0 0 30px rgba(245,158,11,0.4);
+  }
+
+  .subtitle {
+    font-size: 15px;
+    color: var(--muted);
+    max-width: 580px;
+    margin: 0 auto 10px;
+    line-height: 1.7;
+  }
+
+  .author-line {
+    font-size: 13px;
+    color: var(--dim);
+    margin-top: 16px;
+    letter-spacing: 0.5px;
+  }
+  .author-line strong { color: var(--muted); }
+
+  /* ── DIVIDER ── */
+  .divider {
+    position: relative; z-index: 10;
+    display: flex; align-items: center; gap: 16px;
+    max-width: 900px; margin: 0 auto 16px; padding: 0 24px;
+    color: var(--dim); font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase;
+  }
+  .divider::before, .divider::after {
+    content: ''; flex: 1; height: 1px; background: var(--border);
+  }
+
+  /* ── GRID ── */
+  .grid {
+    position: relative; z-index: 10;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  /* ── CARD ── */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    cursor: pointer;
+  }
+  .card:hover {
+    transform: translateY(-6px);
+    border-color: var(--card-accent, var(--accent));
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5),
+                0 0 0 1px var(--card-accent, var(--accent)),
+                0 0 40px color-mix(in srgb, var(--card-accent, var(--accent)) 15%, transparent);
+  }
+
+  .card-header {
+    padding: 28px 28px 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .card-icon {
+    width: 52px; height: 52px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+    background: color-mix(in srgb, var(--card-accent, var(--accent)) 15%, transparent);
+    border: 1px solid color-mix(in srgb, var(--card-accent, var(--accent)) 30%, transparent);
+  }
+
+  .card-meta { flex: 1; }
+  .card-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--card-accent, var(--accent));
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+  .card-title {
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--text);
+  }
+
+  .card-body {
+    padding: 0 28px 24px;
+    flex: 1;
+    display: flex; flex-direction: column;
+  }
+
+  .card-desc {
+    font-size: 13.5px;
+    color: var(--muted);
+    line-height: 1.7;
+    flex: 1;
+  }
+
+  .card-tags {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    margin-top: 18px;
+  }
+  .tag {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: color-mix(in srgb, var(--card-accent, var(--accent)) 10%, transparent);
+    color: var(--card-accent, var(--accent));
+    border: 1px solid color-mix(in srgb, var(--card-accent, var(--accent)) 25%, transparent);
+  }
+
+  .card-footer {
+    padding: 16px 28px;
+    border-top: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 12px;
+    color: var(--dim);
+  }
+  .card-footer .arrow {
+    color: var(--card-accent, var(--accent));
+    font-size: 16px;
+    transition: transform 0.2s;
+  }
+  .card:hover .card-footer .arrow { transform: translateX(4px); }
+
+  .new-badge {
+    background: linear-gradient(135deg, #7c3aed, #4f46e5);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+
+  /* ── STATS BAR ── */
+  .stats {
+    position: relative; z-index: 10;
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 32px;
+    max-width: 900px; margin: 0 auto 60px; padding: 32px 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    margin-left: 24px; margin-right: 24px;
+  }
+  .stat { text-align: center; }
+  .stat-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 28px; font-weight: 700;
+    background: linear-gradient(135deg, var(--accent2), var(--teal));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .stat-label { font-size: 12px; color: var(--dim); margin-top: 4px; letter-spacing: 0.5px; }
+
+  /* ── FOOTER ── */
+  footer {
+    position: relative; z-index: 10;
+    text-align: center;
+    padding: 40px 24px;
+    border-top: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--dim);
+    line-height: 1.8;
+  }
+  footer strong { color: var(--muted); }
+  footer .formula-small {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--gold);
+    font-size: 15px;
+    margin: 12px 0;
+  }
+</style>
+</head>
+<body>
+
+<!-- Starfield -->
+<canvas id="stars"></canvas>
+<script>
+(function(){
+  const c = document.getElementById('stars');
+  const ctx = c.getContext('2d');
+  function resize(){ c.width = innerWidth; c.height = innerHeight; }
+  resize(); window.addEventListener('resize', resize);
+  const stars = Array.from({length: 180}, () => ({
+    x: Math.random(), y: Math.random(),
+    r: Math.random() * 1.2 + 0.2,
+    a: Math.random(),
+    da: (Math.random() * 0.005 + 0.001) * (Math.random() < 0.5 ? 1 : -1)
+  }));
+  function draw(){
+    ctx.clearRect(0,0,c.width,c.height);
+    stars.forEach(s => {
+      s.a = Math.max(0.05, Math.min(0.9, s.a + s.da));
+      if(s.a <= 0.05 || s.a >= 0.9) s.da *= -1;
+      ctx.beginPath();
+      ctx.arc(s.x * c.width, s.y * c.height, s.r, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(200,210,255,${s.a})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+</script>
+
+<!-- Header -->
+<header>
+  <div class="badge">Version 20 · March 2026</div>
+  <h1>Palette-Expansion &amp; Hadwiger's Conjecture</h1>
+  <div class="formula">χ(G) = 1 + p(G)</div>
+  <p class="subtitle">
+    An interactive visual suite explaining every step of the proof — from the original hand-drawn sketch
+    to the complete proof chain certifying Hadwiger's Conjecture via palette expansion.
+  </p>
+  <p class="author-line"><strong>Mizael Antonio Tovar Reyes</strong> · Ciudad Juárez, Chihuahua, México</p>
+</header>
+
+<!-- Stats bar -->
+<div class="stats" style="max-width:860px;margin:0 auto 56px;">
+  <div class="stat"><div class="stat-value">562</div><div class="stat-label">Graphs Verified</div></div>
+  <div class="stat"><div class="stat-value">0</div><div class="stat-label">Failures (GAP = 0)</div></div>
+  <div class="stat"><div class="stat-value">5,594</div><div class="stat-label">Pairs Proved</div></div>
+  <div class="stat"><div class="stat-value">10</div><div class="stat-label">Independent Scripts</div></div>
+  <div class="stat"><div class="stat-value">7</div><div class="stat-label">Visualizations</div></div>
+</div>
+
+<!-- Section label -->
+<div class="divider">Visual Explanations</div>
+
+<!-- Card grid -->
+<div class="grid">
+
+  <!-- 01 -->
+  <a class="card" href="01_origin_the_drawing.html" style="--card-accent:#34d399;">
+    <div class="card-header">
+      <div class="card-icon">✏️</div>
+      <div class="card-meta">
+        <div class="card-number">VISUAL 01</div>
+        <div class="card-title">The Drawing That Started Everything</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">
+        The story of how a hand-drawn zigzag on paper became a formal mathematical conjecture.
+        Watch how a simple observation about color propagation leads to the palette-expansion number p(G).
+      </p>
+      <div class="card-tags">
+        <span class="tag">Origin Story</span>
+        <span class="tag">p(G) intuition</span>
+        <span class="tag">Animated</span>
+      </div>
+    </div>
+    <div class="card-footer">
+      <span>5 steps · ~2 min</span>
+      <span class="arrow">→</span>
+    </div>
+  </a>
+
+  <!-- 02 -->
+  <a class="card" href="02_palette_expansion.html" style="--card-accent:#6c63ff;">
+    <div class="card-header">
+      <div class="card-icon">🎨</div>
+      <div class="card-meta">
+        <div class="card-number">VISUAL 02</div>
+        <div class="card-title">What is Palette Expansion?</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">
+        Interactive greedy coloring on C₅. Step through each expansion event live, see the palette grow,
+        and verify χ(G) = 1 + p(G) with your own eyes on a concrete example.
+      </p>
+      <div class="card-tags">
+        <span class="tag">Interactive</span>
+        <span class="tag">C₅ example</span>
+        <span class="tag">χ = 1 + p(G)</span>
+      </div>
+    </div>
+    <div class="card-footer">
+      <span>Step-by-step · click to advance</span>
+      <span class="arrow">→</span>
+    </div>
+  </a>
+
+  <!-- 03 -->
+  <a class="card" href="03_chromatic_completeness.html" style="--card-accent:#f87171;">
+    <div class="card-header">
+      <div class="card-icon">🔗</div>
+      <div class="card-meta">
+        <div class="card-number">VISUAL 03</div>
+        <div class="card-title">Lemma 7.1 — Chromatic Completeness</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">
+        In any optimal k-coloring, every pair of color classes shares at least one edge.
+        Proof by contradiction — animated. The critical lemma that forces K_k adjacency.
+      </p>
+      <div class="card-tags">
+        <span class="tag">Proof animation</span>
+        <span class="tag">Contradiction</span>
+        <span class="tag">Key lemma</span>
+      </div>
+    </div>
+    <div class="card-footer">
+      <span>Proof walkthrough · animated</span>
+      <span class="arrow">→</span>
+    </div>
+  </a>
+
+  <!-- 04 -->
+  <a class="card" href="04_branch_sets_minor.html" style="--card-accent:#22d3ee;">
+    <div class="card-header">
+      <div class="card-icon">🌿</div>
+      <div class="card-meta">
+        <div class="card-number">VISUAL 04</div>
+        <div class="card-title">Branch Sets and the K_k Minor</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">
+        What is a graph minor? What are branch sets? Watch how a partition of V(G) into
+        k connected subgraphs — each pair adjacent — certifies a K_k minor by contraction.
+      </p>
+      <div class="card-tags">
+        <span class="tag">Graph minors</span>
+        <span class="tag">Branch sets</span>
+        <span class="tag">Contraction</span>
+      </div>
+    </div>
+    <div class="card-footer">
+      <span>Concept visualization</span>
+      <span class="arrow">→</span>
+    </div>
+  </a>
+
+  <!-- 05 -->
+  <a class="card" href="05_three_phases.html" style="--card-accent:#a78bfa;">
+    <div class="card-header">
+      <div class="card-icon">⚙️</div>
+      <div class="card-meta">
+        <div class="card-number">VISUAL 05</div>
+        <div class="card-title">Construction 8.1 — Three Phases</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">
+        The constructive algorithm at the heart of Theorem 8.7.
+        Phase 1 initializes branch sets, Phase 2 absorbs singletons, Phase 3 repairs missing edges.
+        Each phase animated with full state tracking.
+      </p>
+      <div class="card-tags">
+        <span class="tag">Algorithm</span>
+        <span class="tag">3 phases</span>
+        <span class="tag">Construction 8.1</span>
+      </div>
+    </div>
+    <div class="card-footer">
+      <span>Full construction · animated</span>
+      <span class="arrow">→</span>
+    </div>
+  </a>
+
+  <!-- 06 -->
+  <a class="card" href="06_purple_connector.html" style="--card-accent:#c084fc;">
+    <div class="card-header">
+      <div class="card-icon">🔌</div>
+      <div class="card-meta">
+        <div class="card-number">VISUAL 06</div>
+        <div class="card-title">Lemma 8.3f — The Purple Connector</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">
+        The Alternating Connector Lemma. When two branch sets B_j and B_ℓ lack an edge,
+        the alternating path repair finds one via Case A (direct neighbor) or Case B (neighbor swap).
+        Includes the V20 Anti-Destruction Theorem for Case 3b.
+      </p>
+      <div class="card-tags">
+        <span class="tag">Lemma 8.3f</span>
+        <span class="tag">Case A / Case B</span>
+        <span class="tag">V20: Anti-Destruction</span>
+      </div>
+    </div>
+    <div class="card-footer">
+      <span>Two cases · detailed</span>
+      <span class="arrow">→</span>
+    </div>
+  </a>
+
+  <!-- 07 -->
+  <a class="card" href="07_proof_chain.html" style="--card-accent:#f59e0b;">
+    <div class="card-header">
+      <div class="card-icon">🔗</div>
+      <div class="card-meta">
+        <div class="card-number">VISUAL 07</div>
+        <div class="card-title">Complete Proof Chain</div>
+        <span class="new-badge" style="margin-top:6px;display:inline-block;">V20</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">
+        The full dependency graph of the proof — every definition, lemma, and theorem
+        from Definition 3.1 to Corollary 8.8. Click any node to see its statement,
+        role in the proof, and what it depends on.
+      </p>
+      <div class="card-tags">
+        <span class="tag">Proof map</span>
+        <span class="tag">Interactive nodes</span>
+        <span class="tag">Full dependency</span>
+      </div>
+    </div>
+    <div class="card-footer">
+      <span>14 nodes · click to explore</span>
+      <span class="arrow">→</span>
+    </div>
+  </a>
+
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="formula-small">χ(G) = 1 + p(G) &nbsp;·&nbsp; GAP = 0 &nbsp;·&nbsp; 562 graphs</div>
+  <p><strong>Palette-Expansion Numbers and a Constructive Proof of Hadwiger's Conjecture</strong></p>
+  <p style="margin-top:6px;">Mizael Antonio Tovar Reyes · Ciudad Juárez, Chihuahua, México · March 2026</p>
+  <p style="margin-top:12px;font-size:11px;">
+    Version 20 · MSC2020: 05C15, 05C83 · arXiv: cs.DM / math.CO<br>
+    Computational code: github.com/mizaeltovarreyes/chromatic-hadwiger
+  </p>
+</footer>
+
+</body>
+</html>

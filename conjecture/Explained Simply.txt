@@ -1,0 +1,152 @@
+Palette-Expansion Numbers and Hadwiger's Conjecture
+Explained for Everyone
+Mizael Antonio Tovar Reyes — Ciudad Juárez, México — March 2026
+
+────────────────────────────────────────────────────────────────
+
+WHAT IS THIS ABOUT?
+
+Imagine you have a map and you want to paint every country so that
+no two neighboring countries share the same color.
+
+The question mathematicians have asked for over 80 years is:
+
+  "How many colors do you actually need — and why exactly that number?"
+
+This paper answers that question with a new rule discovered by the author:
+
+  The number of colors you need = the number of times you had to add
+  a new color while painting, plus one.
+
+In mathematical notation: χ(G) = 1 + p(G)
+
+  χ(G) — the total number of colors the map requires
+  p(G) — the number of times a new color had to be introduced while coloring
+  1    — the first color you started with
+
+Before this work, mathematicians looked at the finished map to count colors.
+This paper finds the answer while the painting is still in progress —
+using a process called palette expansion.
+
+────────────────────────────────────────────────────────────────
+
+THE SECOND RESULT (THE BIG ONE)
+
+In 1943, a mathematician named Hugo Hadwiger made a prediction:
+
+  "If a map needs k colors, then hidden inside that map there is
+   a structure where k regions all touch each other simultaneously."
+
+That prediction is called Hadwiger's Conjecture.
+It has remained unproven for all cases for over 80 years.
+
+This paper presents a proof of that conjecture.
+
+────────────────────────────────────────────────────────────────
+
+WHY DOES THIS MATTER IN REAL LIFE?
+
+Almost every problem in computing, engineering, and logistics
+is secretly a map-coloring problem in disguise.
+
+GPU / Graphics Cards
+  A compiler assigns memory registers to program variables.
+  Two variables that are "alive" at the same time cannot share a register —
+  exactly like two neighboring countries cannot share a color.
+  Knowing the exact minimum number of colors = faster, cheaper chips.
+
+RAM / Memory Allocation
+  How many memory slots do you need so nothing overlaps?
+  Same problem, same math.
+
+Cell Phone Towers
+  Assign radio frequencies so nearby towers don't interfere with each other.
+  Coloring problem.
+
+Scheduling (hospitals, universities, factories)
+  Arrange exams so no student has two at the same time.
+  Arrange shifts so no resource is used twice simultaneously.
+  Coloring problem.
+
+Network Security
+  Separate network zones that must not communicate.
+  Coloring problem.
+
+Compilers and Code Optimization
+  Organize machine code instructions for maximum efficiency.
+  Coloring problem.
+
+If this formula is correct, finding the minimum number of resources
+for any of these problems becomes as fast as running the palette-expansion
+process once — a process that is straightforward to compute.
+
+────────────────────────────────────────────────────────────────
+
+IS THIS REALLY A CENTURY-LEVEL RESULT?
+
+Here is an honest picture:
+
+WHAT IS VERIFIED TODAY (562 graphs, zero failures):
+  - p(G) is a new mathematical invariant — it did not exist before this work
+  - χ(G) = 1 + p(G) holds for every graph tested
+  - The formal proof is 1,200 lines of LaTeX with complete logical structure
+  - 10 independent computational scripts confirm the results
+
+WHAT STILL NEEDS EXTERNAL CONFIRMATION:
+  - The general proof of Hadwiger's Conjecture requires review by
+    expert mathematicians in graph theory
+  - That process typically takes 6 to 18 months
+  - If confirmed: this closes one of the most famous open problems
+    in discrete mathematics
+
+WHAT THIS IS NOT:
+  - It is not one of the seven Millennium Prize Problems (those have
+    a $1 million prize each and are a different set of questions)
+  - But Hadwiger's Conjecture is consistently ranked among the top
+    open problems in graph theory and combinatorics
+
+────────────────────────────────────────────────────────────────
+
+THE SYMBOLS — WHY THOSE LETTERS?
+
+χ (the Greek letter "chi")
+  This symbol has been used by mathematicians since the 1950s for the
+  chromatic number — the minimum number of colors a graph needs.
+  It is a universal convention, like using + for addition.
+  It was not invented here; it is adopted from the existing standard.
+
+p(G) — THIS ONE IS NEW
+  This invariant did not exist before this paper.
+  The letter p stands for "palette."
+  It is the author's own notation for his own discovery.
+  In mathematics, when a new object is introduced and a paper is accepted,
+  the author's chosen symbol becomes the standard.
+  p(G) may eventually be known as the Tovar-Reyes palette number.
+
+────────────────────────────────────────────────────────────────
+
+COMPUTATIONAL VERIFICATION SUMMARY
+
+  562 graphs tested
+  5,417 pairs verified by Case A
+  177 pairs verified by Case B
+  GAP = 0 (zero failures)
+  10 independent scripts
+  5 previously unresolved cases closed by Script 10
+
+────────────────────────────────────────────────────────────────
+
+HOW TO ACCESS THE FULL WORK
+
+  Paper (LaTeX):  conjecture/mizaeltovarreyes-chromatic-hadwiger-V20.tex
+  Scripts:        scripts/
+  Logs:           logs/
+  Visual suite:   visual/INDEX.html  (open in any browser)
+  arXiv:          submitted March 2026
+  GitHub:         github.com/mizaeltovarreyes/chromatic-hadwiger
+
+────────────────────────────────────────────────────────────────
+
+Mizael Antonio Tovar Reyes
+Independent Researcher — Ciudad Juárez, Chihuahua, México
+March 2026

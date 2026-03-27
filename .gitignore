@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+
+# Logs temporales (los logs oficiales van en /logs)
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.suo
+*.user
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Large files — do not upload
+conjecture/mizaeltovarreyes-chromatic-hadwiger-V19.docx
+logs/checkpoint_matr_high_chi_solver.txt
+logs/checkpoint_matr_final_verifier.txt
+logs/log_matr_high_chi_solver_detail.txt
+logs/log_matr_final_verifier_83c_detail.txt
+logs/log_matr_final_verifier_83d_detail.txt
+logs/log_matr_final_verifier_83e_detail.txt
+logs/log_matr_final_verifier_83f_detail.txt

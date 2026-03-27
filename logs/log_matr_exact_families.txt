@@ -1,0 +1,105 @@
+===========================================================================
+  SCRIPT 4 — FAMILIAS EXACTAS — V16
+===========================================================================
+  Investigador : Mizael Antonio Tovar Reyes
+  Ubicacion    : Ciudad Juarez, Chihuahua, Mexico
+  Fecha inicio : 2026-03-24 21:55:41
+  Actualizado  : 2026-03-24 22:03:25
+  Hardware     : GPU: CUDA (CuPy) + CPU
+  Tiempo       : 7.7 minutos
+  Estado       : COMPLETO
+===========================================================================
+
+CONFIGURACION:
+  - Exacto (n<=10)   : todas las permutaciones
+  - GPU trials      : 3,000,000
+  - Timeout         : 30s (multiprocessing)
+  - Auto-save       : cada 10 grafos
+
+===========================================================================
+  RESULTADOS DETALLADOS
+===========================================================================
+
+  [OK] [Completos_K_n] K_2                      chi=2   p=1   1+p=2   [EXACTO] p_esp=1 n=2
+  [OK] [Completos_K_n] K_3                      chi=3   p=2   1+p=3   [EXACTO] p_esp=2 n=3
+  [OK] [Bipartitos] Path_P3                     chi=2   p=1   1+p=2   [EXACTO] p_esp=1 n=3
+  [OK] [Completos_K_n] K_4                      chi=4   p=3   1+p=4   [EXACTO] p_esp=3 n=4
+  [OK] [Bipartitos] Path_P4                     chi=2   p=1   1+p=2   [EXACTO] p_esp=1 n=4
+  [OK] [Bipartitos] C_4_par                     chi=2   p=1   1+p=2   [EXACTO] p_esp=1 n=4
+  [OK] [Bipartitos] K_2,2                       chi=2   p=1   1+p=2   [EXACTO] p_esp=1 n=4
+  [OK] [Bipartitos] Cubo_Q2                     chi=2   p=1   1+p=2   [EXACTO] p_esp=1 n=4
+  [OK] [Bipartitos] Star_S3                     chi=2   p=1   1+p=2   [EXACTO] p_esp=1 n=4
+  [OK] [Wheels] W_4                             chi=4   p=3   1+p=4   [EXACTO] p_esp=3 n=4
+  [OK] [Completos_K_n] K_5                      chi=5   p=4   1+p=5   [EXACTO] p_esp=4 n=5
+  [OK] [Bipartitos] Path_P5                     chi=2   p=1   1+p=2   [EXACTO] p_esp=1 n=5
+  [OK] [Bipartitos] K_2,3                       chi=2   p=1   1+p=2   [EXACTO] p_esp=1 n=5
+  [OK] [Bipartitos] Star_S4                     chi=2   p=1   1+p=2   [EXACTO] p_esp=1 n=5
+  [OK] [Ciclos_impares] C_5_impar               chi=3   p=2   1+p=3   [EXACTO] p_esp=2 n=5
+  [OK] [Wheels] W_5                             chi=3   p=2   1+p=3   [EXACTO] p_esp=2 n=5
+  [OK] [Completos_K_n] K_6                      chi=6   p=5   1+p=6   [EXACTO] p_esp=5 n=6
+  [OK] [Bipartitos] Path_P6                     chi=2   p=1   1+p=2   [EXACTO] p_esp=1 n=6
+  [OK] [Bipartitos] C_6_par                     chi=2   p=1   1+p=2   [EXACTO] p_esp=1 n=6
+  [OK] [Bipartitos] K_3,3                       chi=2   p=1   1+p=2   [EXACTO] p_esp=1 n=6
+  [OK] [Bipartitos] Star_S5                     chi=2   p=1   1+p=2   [EXACTO] p_esp=1 n=6
+  [OK] [Wheels] W_6                             chi=4   p=3   1+p=4   [EXACTO] p_esp=3 n=6
+  [OK] [Completos_K_n] K_7                      chi=7   p=6   1+p=7   [EXACTO] p_esp=6 n=7
+  [OK] [Bipartitos] Path_P7                     chi=2   p=1   1+p=2   [EXACTO] p_esp=1 n=7
+  [OK] [Bipartitos] K_2,5                       chi=2   p=1   1+p=2   [EXACTO] p_esp=1 n=7
+  [OK] [Bipartitos] Star_S6                     chi=2   p=1   1+p=2   [EXACTO] p_esp=1 n=7
+  [OK] [Ciclos_impares] C_7_impar               chi=3   p=2   1+p=3   [EXACTO] p_esp=2 n=7
+  [OK] [Wheels] W_7                             chi=3   p=2   1+p=3   [EXACTO] p_esp=2 n=7
+  [OK] [Completos_K_n] K_8                      chi=8   p=7   1+p=8   [EXACTO] p_esp=7 n=8
+  [OK] [Bipartitos] Path_P8                     chi=2   p=1   1+p=2   [EXACTO] p_esp=1 n=8
+  [OK] [Bipartitos] C_8_par                     chi=2   p=1   1+p=2   [EXACTO] p_esp=1 n=8
+  [OK] [Bipartitos] K_4,4                       chi=2   p=1   1+p=2   [EXACTO] p_esp=1 n=8
+  [OK] [Bipartitos] K_3,5                       chi=2   p=1   1+p=2   [EXACTO] p_esp=1 n=8
+  [OK] [Bipartitos] Cubo_Q3                     chi=2   p=1   1+p=2   [EXACTO] p_esp=1 n=8
+  [OK] [Wheels] W_8                             chi=4   p=3   1+p=4   [EXACTO] p_esp=3 n=8
+  [OK] [Completos_K_n] K_9                      chi=9   p=8   1+p=9   [EXACTO] p_esp=8 n=9
+  [OK] [Bipartitos] K_4,5                       chi=2   p=1   1+p=2   [EXACTO] p_esp=1 n=9
+  [OK] [Bipartitos] Star_S8                     chi=2   p=1   1+p=2   [EXACTO] p_esp=1 n=9
+  [OK] [Ciclos_impares] C_9_impar               chi=3   p=2   1+p=3   [EXACTO] p_esp=2 n=9
+  [OK] [Wheels] W_9                             chi=3   p=2   1+p=3   [EXACTO] p_esp=2 n=9
+  [OK] [Completos_K_n] K_10                     chi=10  p=9   1+p=10  [EXACTO] p_esp=9 n=10
+  [OK] [Bipartitos] Path_P10                    chi=2   p=1   1+p=2   [EXACTO] p_esp=1 n=10
+  [OK] [Bipartitos] C_10_par                    chi=2   p=1   1+p=2   [EXACTO] p_esp=1 n=10
+  [OK] [Bipartitos] K_5,5                       chi=2   p=1   1+p=2   [EXACTO] p_esp=1 n=10
+  [OK] [Wheels] W_10                            chi=4   p=3   1+p=4   [EXACTO] p_esp=3 n=10
+  [OK] [Completos_K_n] K_11                     chi=11  p=10  1+p=11  [GPU(3,000,000)] p_esp=10 n=11
+  [OK] [Bipartitos] Star_S10                    chi=2   p=1   1+p=2   [GPU(3,000,000)] p_esp=1 n=11
+  [OK] [Ciclos_impares] C_11_impar              chi=3   p=2   1+p=3   [GPU(3,000,000)] p_esp=2 n=11
+  [OK] [Wheels] W_11                            chi=3   p=2   1+p=3   [GPU(3,000,000)] p_esp=2 n=11
+  [OK] [Completos_K_n] K_12                     chi=12  p=11  1+p=12  [GPU(3,000,000)] p_esp=11 n=12
+  [OK] [Bipartitos] C_12_par                    chi=2   p=1   1+p=2   [GPU(3,000,000)] p_esp=1 n=12
+  [OK] [Wheels] W_12                            chi=4   p=3   1+p=4   [GPU(3,000,000)] p_esp=3 n=12
+  [OK] [Completos_K_n] K_13                     chi=13  p=12  1+p=13  [GPU(3,000,000)] p_esp=12 n=13
+  [OK] [Ciclos_impares] C_13_impar              chi=3   p=2   1+p=3   [GPU(3,000,000)] p_esp=2 n=13
+  [OK] [Wheels] W_13                            chi=3   p=2   1+p=3   [GPU(3,000,000)] p_esp=2 n=13
+  [OK] [Completos_K_n] K_14                     chi=14  p=13  1+p=14  [GPU(3,000,000)] p_esp=13 n=14
+  [OK] [Bipartitos] C_14_par                    chi=2   p=1   1+p=2   [GPU(3,000,000)] p_esp=1 n=14
+  [OK] [Wheels] W_14                            chi=4   p=3   1+p=4   [GPU(3,000,000)] p_esp=3 n=14
+  [OK] [Completos_K_n] K_15                     chi=15  p=14  1+p=15  [GPU(3,000,000)] p_esp=14 n=15
+  [OK] [Bipartitos] Path_P15                    chi=2   p=1   1+p=2   [GPU(3,000,000)] p_esp=1 n=15
+  [OK] [Ciclos_impares] C_15_impar              chi=3   p=2   1+p=3   [GPU(3,000,000)] p_esp=2 n=15
+  [OK] [Bipartitos] C_16_par                    chi=2   p=1   1+p=2   [GPU(3,000,000)] p_esp=1 n=16
+  [OK] [Bipartitos] Cubo_Q4                     chi=2   p=1   1+p=2   [GPU(3,000,000)] p_esp=1 n=16
+  [OK] [Ciclos_impares] C_17_impar              chi=3   p=2   1+p=3   [GPU(3,000,000)] p_esp=2 n=17
+  [OK] [Ciclos_impares] C_19_impar              chi=3   p=2   1+p=3   [GPU(3,000,000)] p_esp=2 n=19
+  [OK] [Ciclos_impares] C_21_impar              chi=3   p=2   1+p=3   [GPU(3,000,000)] p_esp=2 n=21
+
+===========================================================================
+  RESUMEN
+===========================================================================
+  Grafos procesados  : 66
+  Correctos          : 66
+  Fallos             : 0
+  Tiempo             : 7.7 min
+  Por_familia          : Completos_K_n: 14/14; Bipartitos: 32/32; Wheels: 11/11; Ciclos_impares: 9/9
+
+  ============================================
+  VERIFICACION EXITOSA — 0 FALLOS
+  ============================================
+
+===========================================================================
+  FIN DEL REPORTE
+===========================================================================

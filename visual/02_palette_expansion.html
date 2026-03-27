@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What is Palette Expansion? — χ(G) = 1 + p(G)</title>
+<style>
+  :root {
+    --bg: #04040e;
+    --text: #dde0ff;
+    --red: #D85A30;
+    --blue: #378ADD;
+    --green: #1D9E75;
+    --gold: #FAC775;
+    --purple: #8B5CF6;
+    --teal: #0F6E56;
+    --navy: #102450;
+    --panel: #0a0a1e;
+    --border: #1a1a3e;
+    --c1: #D85A30;
+    --c2: #378ADD;
+    --c3: #1D9E75;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 15% 20%, rgba(221,224,255,0.35) 0%, transparent 100%),
+      radial-gradient(1px 1px at 30% 70%, rgba(221,224,255,0.25) 0%, transparent 100%),
+      radial-gradient(1px 1px at 50% 10%, rgba(221,224,255,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 65% 50%, rgba(221,224,255,0.2) 0%, transparent 100%),
+      radial-gradient(1px 1px at 80% 30%, rgba(221,224,255,0.35) 0%, transparent 100%),
+      radial-gradient(1px 1px at 90% 80%, rgba(221,224,255,0.25) 0%, transparent 100%),
+      radial-gradient(1px 1px at 5%  50%, rgba(221,224,255,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 42% 85%, rgba(221,224,255,0.2) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ─── Header ─── */
+  header {
+    width: 100%;
+    max-width: 940px;
+    padding: 2rem 2rem 0.5rem;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    animation: fadeDown 0.8s ease both;
+  }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  @keyframes popIn {
+    0%   { transform: scale(0); opacity: 0; }
+    70%  { transform: scale(1.2); opacity: 1; }
+    100% { transform: scale(1);  opacity: 1; }
+  }
+  @keyframes pulseGlow {
+    0%, 100% { filter: drop-shadow(0 0 4px currentColor); opacity: 1; }
+    50%       { filter: drop-shadow(0 0 16px currentColor); opacity: 0.85; }
+  }
+  @keyframes goldenFlash {
+    0%   { background: rgba(250,199,117,0.0);  box-shadow: none; transform: scale(1); }
+    20%  { background: rgba(250,199,117,0.35); box-shadow: 0 0 40px rgba(250,199,117,0.7), 0 0 80px rgba(250,199,117,0.3); transform: scale(1.08); }
+    60%  { background: rgba(250,199,117,0.15); box-shadow: 0 0 20px rgba(250,199,117,0.4); transform: scale(1.02); }
+    100% { background: rgba(250,199,117,0.05); box-shadow: 0 0 8px rgba(250,199,117,0.2); transform: scale(1); }
+  }
+  @keyframes counterPop {
+    0%   { transform: scale(1); }
+    40%  { transform: scale(1.35); color: var(--gold); }
+    100% { transform: scale(1); }
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(-20px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes shimmerBorder {
+    0%, 100% { border-color: rgba(250,199,117,0.3); }
+    50%       { border-color: var(--gold); box-shadow: 0 0 20px rgba(250,199,117,0.4); }
+  }
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+  @keyframes checkPop {
+    0%   { opacity: 0; transform: scale(0) rotate(-20deg); }
+    60%  { opacity: 1; transform: scale(1.3) rotate(5deg); }
+    100% { opacity: 1; transform: scale(1) rotate(0deg); }
+  }
+  @keyframes vertexColor {
+    0%   { }
+    30%  { filter: drop-shadow(0 0 18px var(--gold)) brightness(1.5); }
+    100% { }
+  }
+
+  .paper-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.6rem;
+    opacity: 0.9;
+  }
+
+  h1 {
+    font-size: clamp(1.5rem, 3.5vw, 2.4rem);
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--text) 0%, var(--gold) 50%, var(--green) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.2;
+    margin-bottom: 0.4rem;
+  }
+
+  .subtitle {
+    font-family: monospace;
+    font-size: 1.1rem;
+    color: var(--gold);
+    letter-spacing: 0.05em;
+    opacity: 0.9;
+    margin-bottom: 0.3rem;
+  }
+
+  .author {
+    font-size: 0.78rem;
+    color: rgba(221,224,255,0.45);
+    letter-spacing: 0.05em;
+  }
+
+  /* ─── Counter bar ─── */
+  .counter-bar {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    align-items: center;
+    padding: 0.9rem 2rem;
+    background: rgba(10,10,30,0.8);
+    border: 1px solid var(--border);
+    border-radius: 50px;
+    margin: 1.2rem auto 0;
+    width: fit-content;
+    position: relative;
+    z-index: 1;
+    animation: fadeDown 0.9s ease 0.1s both;
+    backdrop-filter: blur(10px);
+    flex-wrap: wrap;
+    gap: 0.8rem 1.5rem;
+  }
+
+  .counter-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .counter-label {
+    color: rgba(221,224,255,0.55);
+    font-size: 0.82rem;
+  }
+
+  .counter-val {
+    font-family: monospace;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text);
+    transition: all 0.3s ease;
+    min-width: 1.5ch;
+  }
+
+  .counter-val.animate {
+    animation: counterPop 0.5s ease both;
+  }
+
+  .counter-divider {
+    width: 1px;
+    height: 22px;
+    background: var(--border);
+  }
+
+  /* ─── Main layout ─── */
+  .main-layout {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 1.2rem;
+    width: 100%;
+    max-width: 940px;
+    padding: 1rem 1rem 0;
+    position: relative;
+    z-index: 1;
+    animation: fadeUp 0.9s ease 0.2s both;
+  }
+
+  @media (max-width: 700px) {
+    .main-layout { grid-template-columns: 1fr; }
+  }
+
+  /* ─── Graph panel ─── */
+  .graph-panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 40px rgba(29,158,117,0.04), 0 20px 50px rgba(0,0,0,0.35);
+  }
+
+  .graph-panel.flash {
+    animation: goldenFlash 1.0s ease forwards;
+  }
+
+  .panel-title {
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(221,224,255,0.4);
+    margin-bottom: 1rem;
+  }
+
+  #graphSVG {
+    width: 100%;
+    height: 320px;
+    display: block;
+  }
+
+  /* ─── Right panel ─── */
+  .right-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .info-panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.2rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  }
+
+  .expansion-log {
+    flex: 1;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.2rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    max-height: 220px;
+    overflow-y: auto;
+  }
+
+  .expansion-log::-webkit-scrollbar { width: 4px; }
+  .expansion-log::-webkit-scrollbar-track { background: transparent; }
+  .expansion-log::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+  .log-title {
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(221,224,255,0.35);
+    margin-bottom: 0.7rem;
+  }
+
+  .log-entry {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    color: rgba(221,224,255,0.65);
+    padding: 0.3rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    animation: slideIn 0.4s ease both;
+    line-height: 1.4;
+  }
+
+  .log-entry .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-top: 0.3rem;
+    flex-shrink: 0;
+  }
+
+  .log-entry.expansion {
+    color: var(--gold);
+    font-weight: 600;
+  }
+
+  /* ─── Formula panel ─── */
+  .formula-panel {
+    background: linear-gradient(135deg, rgba(29,158,117,0.1), rgba(55,138,221,0.08));
+    border: 1.5px solid rgba(29,158,117,0.3);
+    border-radius: 16px;
+    padding: 1.4rem;
+    text-align: center;
+    display: none;
+    animation: fadeUp 0.8s ease both;
+    box-shadow: 0 0 30px rgba(29,158,117,0.15);
+  }
+
+  .formula-panel.visible {
+    display: block;
+  }
+
+  .formula-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin: 0.6rem 0;
+  }
+
+  .formula-chip {
+    padding: 0.4rem 0.9rem;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 1rem;
+    font-weight: 700;
+    border: 1.5px solid;
+    animation: popIn 0.5s ease both;
+  }
+
+  .formula-eq {
+    font-family: monospace;
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: var(--gold);
+    text-shadow: 0 0 20px rgba(250,199,117,0.6);
+    letter-spacing: 0.05em;
+    animation: popIn 0.6s 0.5s ease both;
+  }
+
+  .formula-check {
+    font-size: 2rem;
+    color: var(--green);
+    animation: checkPop 0.6s 0.8s ease both;
+    opacity: 0;
+    filter: drop-shadow(0 0 10px var(--green));
+  }
+
+  .formula-note {
+    font-size: 0.78rem;
+    color: rgba(221,224,255,0.55);
+    margin-top: 0.6rem;
+    line-height: 1.4;
+  }
+
+  /* ─── Controls ─── */
+  .controls {
+    display: flex;
+    gap: 0.8rem;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 1rem 0;
+    position: relative;
+    z-index: 1;
+    flex-wrap: wrap;
+    animation: fadeUp 0.9s ease 0.3s both;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.6rem 1.4rem;
+    border-radius: 40px;
+    border: 1.5px solid rgba(221,224,255,0.2);
+    background: rgba(255,255,255,0.04);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 0.86rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    letter-spacing: 0.03em;
+  }
+
+  .btn:hover:not(:disabled) {
+    border-color: var(--green);
+    color: var(--green);
+    background: rgba(29,158,117,0.08);
+    box-shadow: 0 0 16px rgba(29,158,117,0.25);
+    transform: translateY(-1px);
+  }
+
+  .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+  .btn-play {
+    background: linear-gradient(135deg, rgba(29,158,117,0.25), rgba(55,138,221,0.2));
+    border-color: var(--green);
+    color: var(--green);
+    padding: 0.7rem 2rem;
+    font-size: 0.95rem;
+  }
+
+  .btn-play:hover:not(:disabled) {
+    background: linear-gradient(135deg, rgba(29,158,117,0.4), rgba(55,138,221,0.3));
+    box-shadow: 0 0 24px rgba(29,158,117,0.4);
+  }
+
+  .btn-step {
+    border-color: var(--blue);
+    color: var(--blue);
+  }
+
+  /* ─── Speed control ─── */
+  .speed-row {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.78rem;
+    color: rgba(221,224,255,0.45);
+  }
+
+  .speed-btn {
+    padding: 0.3rem 0.7rem;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: rgba(221,224,255,0.5);
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: monospace;
+  }
+
+  .speed-btn.active, .speed-btn:hover {
+    border-color: var(--blue);
+    color: var(--blue);
+    background: rgba(55,138,221,0.1);
+  }
+
+  /* ─── Theory box ─── */
+  .theory-box {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.2rem 1.5rem;
+    width: 100%;
+    max-width: 940px;
+    position: relative;
+    z-index: 1;
+    margin: 1rem 1rem 0;
+    animation: fadeUp 0.9s ease 0.4s both;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  }
+
+  .theory-title {
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--purple);
+    margin-bottom: 0.8rem;
+  }
+
+  .theory-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.8rem;
+  }
+
+  .theory-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 10px;
+    padding: 0.9rem;
+  }
+
+  .theory-card-title {
+    font-size: 0.75rem;
+    color: rgba(221,224,255,0.4);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+
+  .theory-card-body {
+    font-size: 0.85rem;
+    color: rgba(221,224,255,0.8);
+    line-height: 1.45;
+  }
+
+  .mono { font-family: monospace; }
+
+  footer {
+    width: 100%;
+    text-align: center;
+    padding: 1.5rem 1rem;
+    font-size: 0.7rem;
+    color: rgba(221,224,255,0.22);
+    letter-spacing: 0.04em;
+    position: relative;
+    z-index: 1;
+    margin-top: auto;
+  }
+
+  /* SVG element styles */
+  .v-edge {
+    stroke: rgba(221,224,255,0.18);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    transition: stroke 0.4s ease, stroke-width 0.3s ease;
+  }
+
+  .v-edge.highlighted {
+    stroke: var(--gold);
+    stroke-width: 3.5;
+    filter: drop-shadow(0 0 6px var(--gold));
+  }
+
+  .v-node {
+    transition: fill 0.5s ease;
+    cursor: default;
+  }
+
+  .v-node.coloring {
+    animation: vertexColor 0.6s ease forwards;
+  }
+
+  .v-label {
+    font-family: monospace;
+    font-size: 14px;
+    font-weight: bold;
+    fill: rgba(0,0,0,0.8);
+    pointer-events: none;
+    text-anchor: middle;
+    dominant-baseline: central;
+  }
+
+  .v-badge {
+    font-family: monospace;
+    font-size: 11px;
+    fill: rgba(221,224,255,0.6);
+    pointer-events: none;
+    text-anchor: middle;
+  }
+
+  .expansion-starburst {
+    fill: none;
+    stroke: var(--gold);
+    stroke-width: 2.5;
+    opacity: 0;
+  }
+
+  @keyframes starburst {
+    0%   { r: 20; opacity: 1;  stroke-width: 3; }
+    100% { r: 55; opacity: 0;  stroke-width: 0.5; }
+  }
+
+  @keyframes starburst2 {
+    0%   { r: 20; opacity: 0.7; stroke-width: 2; }
+    100% { r: 70; opacity: 0;   stroke-width: 0; }
+  }
+
+  .current-vertex-ring {
+    fill: none;
+    stroke: rgba(221,224,255,0.6);
+    stroke-width: 2;
+    stroke-dasharray: 5 3;
+    animation: spin 3s linear infinite;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .step-arrow {
+    fill: none;
+    stroke: var(--gold);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .color-swatch {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 4px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="paper-label">Palette-Expansion Numbers &amp; Hadwiger's Conjecture</div>
+  <h1>What is Palette Expansion?</h1>
+  <div class="subtitle">χ(G) = 1 + p(G)</div>
+  <div class="author">Mizael Antonio Tovar Reyes &mdash; Ciudad Juárez, México &mdash; March 2026</div>
+</header>
+
+<!-- Counter bar -->
+<div class="counter-bar">
+  <div class="counter-item">
+    <span class="counter-label">Vertex:</span>
+    <span class="counter-val" id="cntVertex">—</span>
+  </div>
+  <div class="counter-divider"></div>
+  <div class="counter-item">
+    <span class="counter-label">Colors used:</span>
+    <span class="counter-val" id="cntColors">0</span>
+  </div>
+  <div class="counter-divider"></div>
+  <div class="counter-item">
+    <span class="counter-label">Expansions so far:</span>
+    <span class="counter-val" id="cntExpansions">0</span>
+  </div>
+  <div class="counter-divider"></div>
+  <div class="counter-item">
+    <span class="counter-label">Ordering:</span>
+    <span class="counter-val" id="cntOrdering" style="font-size:0.82rem">—</span>
+  </div>
+</div>
+
+<!-- Main layout -->
+<div class="main-layout">
+
+  <!-- Graph panel -->
+  <div class="graph-panel" id="graphPanel">
+    <div class="panel-title">C₅ — 5-Cycle &nbsp;|&nbsp; Pentagon Graph</div>
+    <svg id="graphSVG" viewBox="0 0 360 300">
+      <defs>
+        <filter id="nodeGlow">
+          <feGaussianBlur stdDeviation="4" result="blur"/>
+          <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+        </filter>
+        <filter id="edgeGlow">
+          <feGaussianBlur stdDeviation="3" result="blur"/>
+          <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+        </filter>
+        <marker id="arrowGold" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L8,3 z" fill="var(--gold)"/>
+        </marker>
+      </defs>
+
+      <!-- Edges (drawn in JS) -->
+      <g id="edgeGroup"></g>
+
+      <!-- Starburst effects (drawn in JS) -->
+      <g id="starburstGroup"></g>
+
+      <!-- Nodes (drawn in JS) -->
+      <g id="nodeGroup"></g>
+
+      <!-- Current vertex ring (moved in JS) -->
+      <circle id="currentRing" r="24" class="current-vertex-ring" cx="-100" cy="-100"/>
+
+      <!-- Labels -->
+      <text id="graphStatusText" x="180" y="278" text-anchor="middle" font-size="12"
+            fill="rgba(221,224,255,0.45)" font-family="monospace"></text>
+    </svg>
+
+    <!-- Formula panel (shown at end) -->
+    <div class="formula-panel" id="formulaPanel">
+      <div class="formula-row">
+        <div class="formula-chip" style="color:var(--green);border-color:var(--green);background:rgba(29,158,117,0.1)">χ(C₅) = 3</div>
+        <div style="color:rgba(221,224,255,0.4);font-size:1.2rem">=</div>
+        <div class="formula-chip" style="color:var(--blue);border-color:var(--blue);background:rgba(55,138,221,0.1)" id="oneChip">1</div>
+        <div style="color:rgba(221,224,255,0.4);font-size:1.2rem">+</div>
+        <div class="formula-chip" style="color:var(--gold);border-color:var(--gold);background:rgba(250,199,117,0.1)" id="pgChip">p(G) = 2</div>
+      </div>
+      <div class="formula-eq" id="formulaFinal">χ(G) = 1 + p(G) ✓</div>
+      <div class="formula-check" id="formulaCheck">✓</div>
+      <div class="formula-note" id="formulaNote"></div>
+    </div>
+  </div>
+
+  <!-- Right panel -->
+  <div class="right-panel">
+    <!-- Current step info -->
+    <div class="info-panel">
+      <div class="panel-title">Current Step</div>
+      <div id="stepExplain" style="font-size:0.88rem;color:rgba(221,224,255,0.75);line-height:1.5;min-height:80px">
+        Press <strong style="color:var(--green)">Play</strong> to start greedy coloring of C₅. Watch each vertex get colored one by one.
+      </div>
+      <div id="expansionBadge" style="margin-top:0.8rem;display:none">
+        <div style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.35rem 0.9rem;border-radius:20px;border:1.5px solid var(--gold);background:rgba(250,199,117,0.1);color:var(--gold);font-family:monospace;font-size:0.88rem;font-weight:700;animation:shimmerBorder 1.5s ease infinite">
+          ⚡ PALETTE EXPANSION!
+        </div>
+      </div>
+    </div>
+
+    <!-- Ordering selector -->
+    <div class="info-panel">
+      <div class="panel-title">Vertex Ordering</div>
+      <div style="font-size:0.8rem;color:rgba(221,224,255,0.5);margin-bottom:0.6rem;line-height:1.4">
+        p(G) = minimum expansions over <em>all</em> orderings. Try different ones:
+      </div>
+      <div style="display:flex;flex-direction:column;gap:0.4rem" id="orderingBtns">
+        <button class="btn btn-step" onclick="selectOrdering(0)" id="ord0" style="font-size:0.78rem;padding:0.4rem 0.8rem;text-align:left">
+          0→1→2→3→4 &nbsp;<span style="color:rgba(221,224,255,0.35)">(standard)</span>
+        </button>
+        <button class="btn btn-step" onclick="selectOrdering(1)" id="ord1" style="font-size:0.78rem;padding:0.4rem 0.8rem;text-align:left">
+          0→2→4→1→3 &nbsp;<span style="color:rgba(221,224,255,0.35)">(skipping)</span>
+        </button>
+        <button class="btn btn-step" onclick="selectOrdering(2)" id="ord2" style="font-size:0.78rem;padding:0.4rem 0.8rem;text-align:left">
+          2→0→4→1→3 &nbsp;<span style="color:rgba(221,224,255,0.35)">(alt)</span>
+        </button>
+      </div>
+      <div style="margin-top:0.6rem;font-size:0.75rem;color:rgba(221,224,255,0.35)">
+        All orderings give <span class="mono" style="color:var(--gold)">p ≥ 2</span> — the minimum is always <span class="mono" style="color:var(--gold)">χ−1</span>
+      </div>
+    </div>
+
+    <!-- Expansion log -->
+    <div class="expansion-log">
+      <div class="log-title">Event Log</div>
+      <div id="logEntries">
+        <div class="log-entry" style="color:rgba(221,224,255,0.3);font-style:italic">
+          <div class="dot" style="background:rgba(221,224,255,0.2)"></div>
+          Waiting to start...
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- .main-layout -->
+
+<!-- Controls -->
+<div class="controls">
+  <button class="btn btn-play" id="btnPlay" onclick="playAnimation()">&#9654; Play</button>
+  <button class="btn btn-step" id="btnStep" onclick="stepForward()">Step &rarr;</button>
+  <button class="btn" id="btnReset" onclick="resetAnimation()">&#8635; Play Again</button>
+  <div class="speed-row">
+    Speed:
+    <button class="speed-btn" onclick="setSpeed(1500)">0.5×</button>
+    <button class="speed-btn active" id="spd1" onclick="setSpeed(900)">1×</button>
+    <button class="speed-btn" onclick="setSpeed(500)">2×</button>
+    <button class="speed-btn" onclick="setSpeed(250)">4×</button>
+  </div>
+</div>
+
+<!-- Theory box -->
+<div class="theory-box">
+  <div class="theory-title">Key Concepts — Palette Expansion</div>
+  <div class="theory-grid">
+    <div class="theory-card">
+      <div class="theory-card-title">What is an Expansion?</div>
+      <div class="theory-card-body">
+        When greedy coloring reaches vertex <span class="mono">v</span> and all colors 1…k are already used by neighbors of <span class="mono">v</span>, we must introduce color <span class="mono">k+1</span>. That is one <strong style="color:var(--gold)">palette expansion</strong>.
+      </div>
+    </div>
+    <div class="theory-card">
+      <div class="theory-card-title">p(G) — the Key Invariant</div>
+      <div class="theory-card-body">
+        <span class="mono" style="color:var(--gold)">p(G)</span> is the <em>minimum</em> number of expansions over all possible vertex orderings. It is a graph invariant — it does not depend on which ordering achieves the minimum.
+      </div>
+    </div>
+    <div class="theory-card">
+      <div class="theory-card-title">The Main Theorem</div>
+      <div class="theory-card-body">
+        <span class="mono" style="color:var(--gold)">χ(G) = 1 + p(G)</span> for every graph G. The "+1" accounts for the initial color; each expansion introduces exactly one new color that is strictly necessary.
+      </div>
+    </div>
+    <div class="theory-card">
+      <div class="theory-card-title">Why C₅ needs 3 colors</div>
+      <div class="theory-card-body">
+        C₅ is an odd cycle. Any 2-coloring must alternate, but after going around 5 vertices the last is adjacent to both ends — forcing a third color. So <span class="mono" style="color:var(--gold)">p(C₅) = 2</span> always.
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  Mizael Antonio Tovar Reyes &mdash; Ciudad Juárez, México &mdash; March 2026 &mdash; Palette-Expansion Numbers &amp; Hadwiger's Conjecture
+</footer>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+//  C₅ graph data
+// ═══════════════════════════════════════════════════════════
+const N = 5;
+const cx = 180, cy = 140, R = 110;
+
+// Pentagon positions (top vertex = index 0)
+const vPos = Array.from({length: N}, (_, i) => {
+  const angle = (2 * Math.PI * i / N) - Math.PI / 2;
+  return { x: cx + R * Math.cos(angle), y: cy + R * Math.sin(angle) };
+});
+
+const edges = [[0,1],[1,2],[2,3],[3,4],[4,0]];
+
+const COLORS = ['', '#D85A30', '#378ADD', '#1D9E75', '#FAC775', '#8B5CF6'];
+const CNAMES = ['', 'Red (1)', 'Blue (2)', 'Green (3)', 'Gold (4)', 'Purple (5)'];
+
+const orderings = [
+  [0, 1, 2, 3, 4],
+  [0, 2, 4, 1, 3],
+  [2, 0, 4, 1, 3],
+];
+const orderingLabels = ['0→1→2→3→4', '0→2→4→1→3', '2→0→4→1→3'];
+
+let currentOrdering = 0;
+let vertexColors = new Array(N).fill(0);
+let stepIndex = 0;
+let isPlaying = false;
+let playTimer = null;
+let speed = 900;
+let expansionCount = 0;
+let colorCount = 0;
+let isDone = false;
+
+// ─── Build SVG ───
+const edgeGroup = document.getElementById('edgeGroup');
+const nodeGroup = document.getElementById('nodeGroup');
+const starburstGroup = document.getElementById('starburstGroup');
+
+// Create edges
+const edgeSVGs = edges.map(([a, b], i) => {
+  const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+  line.setAttribute('x1', vPos[a].x);
+  line.setAttribute('y1', vPos[a].y);
+  line.setAttribute('x2', vPos[b].x);
+  line.setAttribute('y2', vPos[b].y);
+  line.setAttribute('class', 'v-edge');
+  line.setAttribute('id', `edge-${i}`);
+  edgeGroup.appendChild(line);
+  return line;
+});
+
+// Create starburst circles per node
+const starburstSVGs = vPos.map((p, i) => {
+  const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+  for (let k = 0; k < 2; k++) {
+    const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    c.setAttribute('cx', p.x);
+    c.setAttribute('cy', p.y);
+    c.setAttribute('r', '20');
+    c.setAttribute('class', 'expansion-starburst');
+    c.setAttribute('id', `star-${i}-${k}`);
+    g.appendChild(c);
+  }
+  starburstGroup.appendChild(g);
+  return g;
+});
+
+// Create nodes
+const nodeSVGs = vPos.map((p, i) => {
+  const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+
+  const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  circle.setAttribute('cx', p.x);
+  circle.setAttribute('cy', p.y);
+  circle.setAttribute('r', '18');
+  circle.setAttribute('fill', 'rgba(30,30,60,0.9)');
+  circle.setAttribute('stroke', 'rgba(221,224,255,0.3)');
+  circle.setAttribute('stroke-width', '2');
+  circle.setAttribute('class', 'v-node');
+  circle.setAttribute('id', `node-${i}`);
+  g.appendChild(circle);
+
+  const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  label.setAttribute('x', p.x);
+  label.setAttribute('y', p.y);
+  label.setAttribute('class', 'v-label');
+  label.setAttribute('id', `label-${i}`);
+  label.textContent = String(i);
+  g.appendChild(label);
+
+  const badge = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  badge.setAttribute('x', p.x);
+  badge.setAttribute('y', p.y + 30);
+  badge.setAttribute('class', 'v-badge');
+  badge.setAttribute('id', `badge-${i}`);
+  badge.textContent = '';
+  g.appendChild(badge);
+
+  nodeGroup.appendChild(g);
+  return { g, circle, label, badge };
+});
+
+// ─── Helpers ───
+function getNeighborColors(v) {
+  const used = new Set();
+  edges.forEach(([a, b]) => {
+    if (a === v && vertexColors[b] > 0) used.add(vertexColors[b]);
+    if (b === v && vertexColors[a] > 0) used.add(vertexColors[a]);
+  });
+  return used;
+}
+
+function getLowestAvailable(used) {
+  let c = 1;
+  while (used.has(c)) c++;
+  return c;
+}
+
+function setCounter(id, val) {
+  const el = document.getElementById(id);
+  if (el.textContent !== String(val)) {
+    el.textContent = val;
+    el.classList.remove('animate');
+    void el.offsetWidth;
+    el.classList.add('animate');
+  }
+}
+
+function updateCounters() {
+  const ord = orderings[currentOrdering];
+  const nextV = stepIndex < N ? ord[stepIndex] : '—';
+  setCounter('cntVertex', stepIndex < N ? nextV : '—');
+  setCounter('cntColors', colorCount);
+  setCounter('cntExpansions', expansionCount);
+  document.getElementById('cntOrdering').textContent = orderingLabels[currentOrdering];
+}
+
+function addLog(text, isExpansion = false, color = '') {
+  const log = document.getElementById('logEntries');
+  // remove placeholder
+  const placeholder = log.querySelector('[style*="italic"]');
+  if (placeholder) placeholder.remove();
+
+  const entry = document.createElement('div');
+  entry.className = 'log-entry' + (isExpansion ? ' expansion' : '');
+  const dot = document.createElement('div');
+  dot.className = 'dot';
+  dot.style.background = color || (isExpansion ? 'var(--gold)' : 'rgba(221,224,255,0.3)');
+  entry.appendChild(dot);
+  const span = document.createElement('span');
+  span.innerHTML = text;
+  entry.appendChild(span);
+  log.appendChild(entry);
+  log.scrollTop = log.scrollHeight;
+}
+
+function fireStarburst(nodeIdx) {
+  const stars = starburstGroup.querySelectorAll(`#star-${nodeIdx}-0, #star-${nodeIdx}-1`);
+  stars.forEach((s, k) => {
+    s.style.opacity = '0';
+    s.setAttribute('r', '20');
+    void s.offsetWidth;
+    s.style.animation = 'none';
+    void s.offsetWidth;
+    s.style.animation = (k === 0)
+      ? 'starburst 0.9s ease-out forwards'
+      : 'starburst2 1.1s ease-out 0.15s forwards';
+  });
+}
+
+function highlightCurrentNode(v) {
+  const ring = document.getElementById('currentRing');
+  ring.setAttribute('cx', vPos[v].x);
+  ring.setAttribute('cy', vPos[v].y);
+}
+
+function clearCurrentRing() {
+  const ring = document.getElementById('currentRing');
+  ring.setAttribute('cx', -100);
+  ring.setAttribute('cy', -100);
+}
+
+// ─── Core coloring step ───
+function doStep() {
+  const ord = orderings[currentOrdering];
+  if (stepIndex >= N) {
+    finishColoring();
+    return false;
+  }
+
+  const v = ord[stepIndex];
+  highlightCurrentNode(v);
+
+  const used = getNeighborColors(v);
+  const c = getLowestAvailable(used);
+  const isExpansion = (c > colorCount);
+
+  vertexColors[v] = c;
+  const node = nodeSVGs[v];
+
+  // Animate color
+  node.circle.style.transition = 'fill 0.4s ease, stroke 0.3s ease';
+  node.circle.setAttribute('fill', COLORS[c]);
+  node.circle.setAttribute('stroke', COLORS[c]);
+
+  if (isExpansion) {
+    expansionCount++;
+    colorCount = c;
+    fireStarburst(v);
+    document.getElementById('graphPanel').classList.remove('flash');
+    void document.getElementById('graphPanel').offsetWidth;
+    document.getElementById('graphPanel').classList.add('flash');
+
+    document.getElementById('expansionBadge').style.display = 'block';
+    document.getElementById('stepExplain').innerHTML =
+      `<strong style="color:var(--gold)">⚡ Palette Expansion!</strong><br>
+       Vertex <span class="mono" style="color:var(--gold)">${v}</span> has neighbors using colors:
+       ${[...used].map(x => `<span style="color:${COLORS[x]}">${x}</span>`).join(', ')}.
+       <br>All colors 1…${used.size} are blocked — must introduce <span style="color:${COLORS[c]}">color ${c}</span>!`;
+
+    addLog(`⚡ Vertex ${v}: needs color ${c} — <strong>EXPANSION #${expansionCount}</strong>`, true, COLORS[c]);
+
+    node.badge.textContent = '⚡' + c;
+    node.badge.setAttribute('fill', COLORS[c]);
+  } else {
+    document.getElementById('expansionBadge').style.display = 'none';
+    document.getElementById('stepExplain').innerHTML =
+      `Vertex <span class="mono" style="color:var(--gold)">${v}</span>: neighbors use
+       ${used.size > 0 ? [...used].map(x => `<span style="color:${COLORS[x]}">${x}</span>`).join(', ') : 'nothing'}.
+       Assigned <span style="color:${COLORS[c]}">color ${c}</span> — no expansion needed.`;
+
+    addLog(`Vertex ${v}: color ${c} (reused)`, false, COLORS[c]);
+
+    node.badge.textContent = String(c);
+    node.badge.setAttribute('fill', COLORS[c]);
+  }
+
+  // Highlight edges to colored neighbors
+  edges.forEach(([a, b], i) => {
+    if ((a === v && vertexColors[b] > 0) || (b === v && vertexColors[a] > 0)) {
+      edgeSVGs[i].style.stroke = 'rgba(221,224,255,0.45)';
+      edgeSVGs[i].style.strokeWidth = '2';
+    }
+  });
+
+  stepIndex++;
+  updateCounters();
+
+  if (stepIndex >= N) {
+    setTimeout(finishColoring, 300);
+    return false;
+  }
+
+  return true;
+}
+
+function finishColoring() {
+  isDone = true;
+  clearCurrentRing();
+  document.getElementById('btnPlay').disabled = true;
+  document.getElementById('btnStep').disabled = true;
+  document.getElementById('expansionBadge').style.display = 'none';
+
+  document.getElementById('stepExplain').innerHTML =
+    `<strong style="color:var(--green)">Coloring complete!</strong>
+     Used <strong>${colorCount}</strong> colors with <strong style="color:var(--gold)">${expansionCount}</strong> expansions.
+     <span class="mono" style="color:var(--gold)">χ(C₅) = 1 + p(C₅) = 1 + 2 = 3 ✓</span>`;
+
+  addLog(`Done: χ = ${colorCount}, p = ${expansionCount}, 1+p = ${1+expansionCount} ✓`, false, 'var(--green)');
+
+  // Show formula
+  const fp = document.getElementById('formulaPanel');
+  fp.classList.add('visible');
+  document.getElementById('graphStatusText').textContent = '';
+
+  // Set note about ordering
+  const notes = [
+    'Standard order: expansions at vertex 2 and vertex 4. p = 2.',
+    'Skipping order: expansions at vertex 4 and vertex 1. p = 2.',
+    'Alt order: expansions at vertex 0 and vertex 1. p = 2.',
+  ];
+  document.getElementById('formulaNote').textContent =
+    notes[currentOrdering] + ' Every ordering of C₅ gives exactly 2 expansions.';
+
+  document.getElementById('formulaCheck').style.opacity = '1';
+  updateCounters();
+}
+
+// ─── Play animation ───
+async function playAnimation() {
+  if (isPlaying || isDone) return;
+  isPlaying = true;
+  document.getElementById('btnPlay').disabled = true;
+  document.getElementById('btnStep').disabled = true;
+
+  function tick() {
+    if (isDone || stepIndex >= N) {
+      isPlaying = false;
+      return;
+    }
+    const cont = doStep();
+    if (cont) {
+      playTimer = setTimeout(tick, speed);
+    } else {
+      isPlaying = false;
+    }
+  }
+
+  tick();
+}
+
+function stepForward() {
+  if (isDone || isPlaying) return;
+  doStep();
+}
+
+function setSpeed(ms) {
+  speed = ms;
+  document.querySelectorAll('.speed-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+function selectOrdering(idx) {
+  currentOrdering = idx;
+  document.querySelectorAll('#orderingBtns .btn-step').forEach((b, i) => {
+    b.style.borderColor = i === idx ? 'var(--gold)' : '';
+    b.style.color = i === idx ? 'var(--gold)' : '';
+    b.style.background = i === idx ? 'rgba(250,199,117,0.08)' : '';
+  });
+  resetAnimation();
+}
+
+function resetAnimation() {
+  if (playTimer) clearTimeout(playTimer);
+  isPlaying = false;
+  isDone = false;
+  stepIndex = 0;
+  expansionCount = 0;
+  colorCount = 1; // first color is always given
+
+  vertexColors = new Array(N).fill(0);
+
+  // Reset nodes
+  nodeSVGs.forEach(({ circle, badge }, i) => {
+    circle.style.transition = 'none';
+    circle.setAttribute('fill', 'rgba(30,30,60,0.9)');
+    circle.setAttribute('stroke', 'rgba(221,224,255,0.3)');
+    badge.textContent = '';
+  });
+
+  // Reset edges
+  edgeSVGs.forEach(e => {
+    e.style.stroke = '';
+    e.style.strokeWidth = '';
+    e.removeAttribute('style');
+  });
+
+  clearCurrentRing();
+
+  // Reset UI
+  document.getElementById('cntVertex').textContent = '—';
+  document.getElementById('cntColors').textContent = '1';
+  document.getElementById('cntExpansions').textContent = '0';
+  document.getElementById('cntOrdering').textContent = orderingLabels[currentOrdering];
+  document.getElementById('stepExplain').innerHTML =
+    'Press <strong style="color:var(--green)">Play</strong> or <strong style="color:var(--blue)">Step →</strong> to begin greedy coloring of C₅.';
+  document.getElementById('expansionBadge').style.display = 'none';
+  document.getElementById('formulaPanel').classList.remove('visible');
+  document.getElementById('formulaCheck').style.opacity = '0';
+  document.getElementById('graphStatusText').textContent = '';
+
+  // Reset log
+  document.getElementById('logEntries').innerHTML =
+    `<div class="log-entry" style="color:rgba(221,224,255,0.3);font-style:italic">
+      <div class="dot" style="background:rgba(221,224,255,0.2)"></div>
+      Ready. Ordering: ${orderingLabels[currentOrdering]}
+    </div>`;
+
+  document.getElementById('btnPlay').disabled = false;
+  document.getElementById('btnStep').disabled = false;
+  document.getElementById('graphPanel').classList.remove('flash');
+
+  colorCount = 1;
+  updateCounters();
+}
+
+// ─── Init ───
+colorCount = 1;
+updateCounters();
+selectOrdering(0);
+</script>
+</body>
+</html>

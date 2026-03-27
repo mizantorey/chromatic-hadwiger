@@ -1,0 +1,1460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lemma 7.1 — Chromatic Completeness</title>
+<style>
+  :root {
+    --bg: #04040e;
+    --text: #dde0ff;
+    --red: #D85A30;
+    --blue: #378ADD;
+    --green: #1D9E75;
+    --gold: #FAC775;
+    --purple: #8B5CF6;
+    --teal: #0F6E56;
+    --navy: #102450;
+    --panel: #0a0a1e;
+    --border: #1a1a3e;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 8%  25%, rgba(221,224,255,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 22% 65%, rgba(221,224,255,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 45% 15%, rgba(221,224,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 60% 75%, rgba(221,224,255,0.25) 0%, transparent 100%),
+      radial-gradient(1px 1px at 75% 35%, rgba(221,224,255,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 88% 60%, rgba(221,224,255,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 35% 90%, rgba(221,224,255,0.2) 0%, transparent 100%),
+      radial-gradient(1px 1px at 95% 10%, rgba(221,224,255,0.35) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ─── Keyframes ─── */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-22px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(22px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  @keyframes popIn {
+    0%   { transform: scale(0); opacity: 0; }
+    65%  { transform: scale(1.25); opacity: 1; }
+    100% { transform: scale(1);   opacity: 1; }
+  }
+  @keyframes pulseGlow {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.7; filter: brightness(1.3); }
+  }
+  @keyframes redX {
+    0%   { opacity: 0; transform: scale(0) rotate(-30deg); }
+    50%  { opacity: 1; transform: scale(1.4) rotate(5deg); }
+    75%  { transform: scale(0.95) rotate(-2deg); }
+    100% { opacity: 1; transform: scale(1) rotate(0deg); }
+  }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    15%       { transform: translateX(-8px); }
+    30%       { transform: translateX(8px); }
+    45%       { transform: translateX(-6px); }
+    60%       { transform: translateX(6px); }
+    75%       { transform: translateX(-3px); }
+    90%       { transform: translateX(3px); }
+  }
+  @keyframes glow {
+    0%, 100% { filter: drop-shadow(0 0 3px currentColor); }
+    50%       { filter: drop-shadow(0 0 14px currentColor) drop-shadow(0 0 28px currentColor); }
+  }
+  @keyframes edgeGlow {
+    0%, 100% { opacity: 0.3; }
+    50%       { opacity: 1; filter: drop-shadow(0 0 6px currentColor); }
+  }
+  @keyframes mergeColor {
+    0%   { fill: var(--blue); }
+    30%  { fill: var(--red); filter: drop-shadow(0 0 12px var(--red)); }
+    100% { fill: var(--red); }
+  }
+  @keyframes contradiction {
+    0%   { background: rgba(216,90,48,0.0); }
+    25%  { background: rgba(216,90,48,0.25); box-shadow: 0 0 40px rgba(216,90,48,0.5); }
+    75%  { background: rgba(216,90,48,0.12); }
+    100% { background: rgba(216,90,48,0.08); border-color: rgba(216,90,48,0.5); }
+  }
+  @keyframes success {
+    0%   { background: rgba(29,158,117,0.0); }
+    25%  { background: rgba(29,158,117,0.2); box-shadow: 0 0 40px rgba(29,158,117,0.4); }
+    100% { background: rgba(29,158,117,0.06); border-color: rgba(29,158,117,0.4); }
+  }
+  @keyframes drawEdge {
+    from { stroke-dashoffset: 300; opacity: 0; }
+    to   { stroke-dashoffset: 0;   opacity: 1; }
+  }
+  @keyframes borderPulse {
+    0%, 100% { border-color: var(--border); }
+    50%       { border-color: var(--gold); box-shadow: 0 0 20px rgba(250,199,117,0.3); }
+  }
+  @keyframes typeIn {
+    from { max-width: 0; opacity: 0; }
+    to   { max-width: 600px; opacity: 1; }
+  }
+  @keyframes highlightEdge {
+    0%   { stroke: rgba(221,224,255,0.15); stroke-width: 2; }
+    40%  { stroke: var(--gold); stroke-width: 4; filter: drop-shadow(0 0 8px var(--gold)); }
+    100% { stroke: var(--gold); stroke-width: 3.5; filter: drop-shadow(0 0 5px var(--gold)); }
+  }
+
+  /* ─── Header ─── */
+  header {
+    width: 100%;
+    max-width: 980px;
+    padding: 1.8rem 2rem 0.5rem;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    animation: fadeDown 0.8s ease both;
+  }
+
+  .paper-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+    opacity: 0.85;
+  }
+
+  .lemma-badge {
+    display: inline-block;
+    padding: 0.25rem 0.9rem;
+    border-radius: 20px;
+    border: 1.5px solid var(--purple);
+    background: rgba(139,92,246,0.1);
+    color: var(--purple);
+    font-family: monospace;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.6rem;
+    animation: borderPulse 3s ease infinite;
+  }
+
+  h1 {
+    font-size: clamp(1.4rem, 3.2vw, 2.2rem);
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--text) 10%, var(--red) 55%, var(--purple) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.2;
+    margin-bottom: 0.35rem;
+  }
+
+  .subtitle {
+    font-size: 0.9rem;
+    color: rgba(221,224,255,0.55);
+    margin-bottom: 0.3rem;
+    line-height: 1.5;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .author {
+    font-size: 0.75rem;
+    color: rgba(221,224,255,0.35);
+    letter-spacing: 0.05em;
+  }
+
+  /* ─── Proof stage tracker ─── */
+  .stage-track {
+    display: flex;
+    gap: 0;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 760px;
+    margin: 1rem auto 0;
+    position: relative;
+    z-index: 1;
+    animation: fadeDown 0.9s ease 0.1s both;
+    padding: 0 1rem;
+  }
+
+  .stage-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+    flex: 1;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .stage-circle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid rgba(221,224,255,0.2);
+    background: rgba(255,255,255,0.03);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: monospace;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: rgba(221,224,255,0.4);
+    transition: all 0.4s ease;
+    position: relative;
+    z-index: 2;
+  }
+
+  .stage-circle.active {
+    border-color: var(--gold);
+    background: rgba(250,199,117,0.12);
+    color: var(--gold);
+    box-shadow: 0 0 16px rgba(250,199,117,0.4);
+    transform: scale(1.1);
+  }
+
+  .stage-circle.done {
+    border-color: var(--green);
+    background: rgba(29,158,117,0.12);
+    color: var(--green);
+  }
+
+  .stage-circle.contradiction-done {
+    border-color: var(--red);
+    background: rgba(216,90,48,0.12);
+    color: var(--red);
+  }
+
+  .stage-label {
+    font-size: 0.65rem;
+    text-align: center;
+    color: rgba(221,224,255,0.4);
+    letter-spacing: 0.04em;
+    max-width: 80px;
+    line-height: 1.3;
+    transition: color 0.3s;
+  }
+
+  .stage-item.active .stage-label { color: var(--gold); }
+  .stage-item.done .stage-label { color: var(--green); }
+
+  .stage-connector {
+    height: 2px;
+    flex: 0 0 30px;
+    background: rgba(221,224,255,0.08);
+    margin-bottom: 20px;
+    transition: background 0.4s ease;
+  }
+
+  .stage-connector.done { background: var(--green); }
+  .stage-connector.contradiction { background: var(--red); }
+
+  /* ─── Main layout ─── */
+  .main-layout {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 1rem;
+    width: 100%;
+    max-width: 980px;
+    padding: 1rem 1rem 0;
+    position: relative;
+    z-index: 1;
+    animation: fadeUp 0.9s ease 0.2s both;
+  }
+
+  @media (max-width: 720px) {
+    .main-layout { grid-template-columns: 1fr; }
+  }
+
+  /* ─── Graph panel ─── */
+  .graph-panel {
+    background: var(--panel);
+    border: 1.5px solid var(--border);
+    border-radius: 18px;
+    padding: 1.2rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+    transition: border-color 0.5s, box-shadow 0.5s;
+    min-height: 420px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .graph-panel.contradicting {
+    animation: contradiction 1.0s ease forwards;
+    border-color: rgba(216,90,48,0.5) !important;
+  }
+
+  .graph-panel.succeeding {
+    animation: success 1.0s ease forwards;
+    border-color: rgba(29,158,117,0.4) !important;
+  }
+
+  .panel-title {
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(221,224,255,0.35);
+    margin-bottom: 0.8rem;
+  }
+
+  #graphSVG {
+    width: 100%;
+    flex: 1;
+    display: block;
+    min-height: 340px;
+  }
+
+  /* ─── Right column ─── */
+  .right-col {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .proof-panel {
+    background: var(--panel);
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    padding: 1.3rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  }
+
+  .proof-title {
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(221,224,255,0.35);
+    margin-bottom: 0.7rem;
+  }
+
+  .proof-text {
+    font-size: 0.88rem;
+    color: rgba(221,224,255,0.8);
+    line-height: 1.6;
+    min-height: 100px;
+    transition: all 0.3s ease;
+  }
+
+  /* ─── Contradiction box ─── */
+  .contradiction-box {
+    background: rgba(216,90,48,0.08);
+    border: 1.5px solid rgba(216,90,48,0.4);
+    border-radius: 12px;
+    padding: 1rem 1.2rem;
+    display: none;
+    animation: fadeIn 0.6s ease both;
+  }
+
+  .contradiction-box.visible { display: block; }
+
+  .contradiction-title {
+    color: var(--red);
+    font-weight: 700;
+    font-size: 0.9rem;
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .x-mark {
+    font-size: 1.2rem;
+    animation: redX 0.6s ease both;
+  }
+
+  .contradiction-body {
+    font-size: 0.82rem;
+    color: rgba(221,224,255,0.7);
+    line-height: 1.5;
+  }
+
+  /* ─── Result box ─── */
+  .result-box {
+    background: rgba(29,158,117,0.08);
+    border: 1.5px solid rgba(29,158,117,0.4);
+    border-radius: 12px;
+    padding: 1rem 1.2rem;
+    display: none;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .result-box.visible { display: block; }
+
+  .result-title {
+    color: var(--green);
+    font-weight: 700;
+    font-size: 0.9rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .result-body {
+    font-size: 0.82rem;
+    color: rgba(221,224,255,0.7);
+    line-height: 1.5;
+  }
+
+  /* ─── Pair counter ─── */
+  .pair-counter {
+    background: var(--panel);
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    padding: 1.2rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  }
+
+  .pair-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0.6rem;
+    margin-top: 0.7rem;
+  }
+
+  .pair-chip {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.6rem 0.4rem;
+    border-radius: 10px;
+    border: 1.5px solid var(--border);
+    background: rgba(255,255,255,0.02);
+    font-size: 0.75rem;
+    transition: all 0.4s ease;
+  }
+
+  .pair-chip.confirmed {
+    border-color: var(--green);
+    background: rgba(29,158,117,0.1);
+    box-shadow: 0 0 12px rgba(29,158,117,0.2);
+  }
+
+  .pair-chip.testing {
+    border-color: var(--gold);
+    background: rgba(250,199,117,0.08);
+    animation: borderPulse 1.2s ease infinite;
+  }
+
+  .pair-dots {
+    display: flex;
+    gap: 3px;
+  }
+
+  .pair-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  .pair-status {
+    font-size: 0.7rem;
+    font-family: monospace;
+    color: rgba(221,224,255,0.4);
+  }
+
+  .pair-chip.confirmed .pair-status { color: var(--green); }
+  .pair-chip.testing   .pair-status { color: var(--gold); }
+
+  /* ─── Formula section ─── */
+  .formula-section {
+    background: linear-gradient(135deg, rgba(139,92,246,0.1), rgba(55,138,221,0.07));
+    border: 1.5px solid rgba(139,92,246,0.3);
+    border-radius: 16px;
+    padding: 1.2rem;
+    display: none;
+    animation: fadeUp 0.8s ease both;
+    box-shadow: 0 0 30px rgba(139,92,246,0.1);
+  }
+
+  .formula-section.visible { display: block; }
+
+  .formula-main {
+    font-family: monospace;
+    font-size: clamp(0.95rem, 2vw, 1.3rem);
+    color: var(--gold);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-shadow: 0 0 20px rgba(250,199,117,0.5);
+    text-align: center;
+    margin: 0.5rem 0;
+  }
+
+  .formula-note {
+    font-size: 0.78rem;
+    color: rgba(221,224,255,0.55);
+    text-align: center;
+    margin-top: 0.4rem;
+    line-height: 1.4;
+  }
+
+  /* ─── Controls ─── */
+  .controls {
+    display: flex;
+    gap: 0.8rem;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 1rem 0;
+    position: relative;
+    z-index: 1;
+    flex-wrap: wrap;
+    animation: fadeUp 0.9s ease 0.3s both;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.6rem 1.4rem;
+    border-radius: 40px;
+    border: 1.5px solid rgba(221,224,255,0.2);
+    background: rgba(255,255,255,0.04);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 0.86rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    letter-spacing: 0.03em;
+  }
+
+  .btn:hover:not(:disabled) {
+    border-color: var(--purple);
+    color: var(--purple);
+    background: rgba(139,92,246,0.08);
+    box-shadow: 0 0 16px rgba(139,92,246,0.25);
+    transform: translateY(-1px);
+  }
+
+  .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+  .btn-primary {
+    background: linear-gradient(135deg, rgba(139,92,246,0.2), rgba(55,138,221,0.15));
+    border-color: var(--purple);
+    color: var(--purple);
+    padding: 0.7rem 2rem;
+    font-size: 0.95rem;
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    background: linear-gradient(135deg, rgba(139,92,246,0.35), rgba(55,138,221,0.25));
+    box-shadow: 0 0 24px rgba(139,92,246,0.4);
+  }
+
+  /* ─── Foundation highlight ─── */
+  .foundation-banner {
+    width: 100%;
+    max-width: 980px;
+    padding: 0 1rem;
+    position: relative;
+    z-index: 1;
+    animation: fadeUp 0.9s ease 0.4s both;
+    margin-top: 1rem;
+  }
+
+  .foundation-inner {
+    background: linear-gradient(135deg, rgba(139,92,246,0.12), rgba(250,199,117,0.08), rgba(29,158,117,0.08));
+    border: 1.5px solid rgba(139,92,246,0.35);
+    border-radius: 16px;
+    padding: 1.3rem 1.8rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .foundation-inner::before {
+    content: 'FOUNDATION OF THE PROOF';
+    position: absolute;
+    top: 0.7rem;
+    right: 1.2rem;
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    color: rgba(139,92,246,0.5);
+    font-weight: 700;
+  }
+
+  .foundation-title {
+    color: var(--purple);
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .foundation-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.8rem;
+    margin-top: 0.8rem;
+  }
+
+  .foundation-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 10px;
+    padding: 0.85rem;
+  }
+
+  .foundation-card-title {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(221,224,255,0.4);
+    margin-bottom: 0.4rem;
+  }
+
+  .foundation-card-body {
+    font-size: 0.83rem;
+    color: rgba(221,224,255,0.78);
+    line-height: 1.45;
+  }
+
+  .mono { font-family: monospace; }
+  .highlight-red { color: var(--red); font-weight: 600; }
+  .highlight-blue { color: var(--blue); font-weight: 600; }
+  .highlight-green { color: var(--green); font-weight: 600; }
+  .highlight-gold { color: var(--gold); font-weight: 600; }
+
+  footer {
+    width: 100%;
+    text-align: center;
+    padding: 1.5rem 1rem;
+    font-size: 0.7rem;
+    color: rgba(221,224,255,0.22);
+    letter-spacing: 0.04em;
+    position: relative;
+    z-index: 1;
+    margin-top: auto;
+  }
+
+  /* SVG node/edge styles */
+  .sv-node { transition: fill 0.5s ease, stroke 0.4s ease; }
+  .sv-edge { transition: stroke 0.5s ease, stroke-width 0.4s ease, opacity 0.5s ease; }
+  .sv-label {
+    font-family: monospace;
+    font-size: 13px;
+    font-weight: 700;
+    fill: rgba(0,0,0,0.85);
+    text-anchor: middle;
+    dominant-baseline: central;
+    pointer-events: none;
+  }
+  .sv-class-label {
+    font-family: monospace;
+    font-size: 11px;
+    fill: rgba(221,224,255,0.5);
+    text-anchor: middle;
+    pointer-events: none;
+  }
+
+  .inter-edge {
+    stroke-dasharray: 300;
+    stroke-dashoffset: 300;
+    transition: stroke 0.5s ease;
+  }
+
+  .inter-edge.animated {
+    animation: drawEdge 0.7s ease forwards;
+  }
+
+  .question-mark {
+    font-size: 22px;
+    fill: var(--gold);
+    text-anchor: middle;
+    dominant-baseline: central;
+    animation: pulseGlow 1.5s ease infinite;
+  }
+
+  @keyframes missingEdge {
+    0%, 100% { stroke-dashoffset: 0; opacity: 0.3; }
+    50%       { opacity: 0.8; stroke-dashoffset: 10; }
+  }
+
+  .missing-edge {
+    stroke: rgba(216,90,48,0.6);
+    stroke-width: 2;
+    stroke-dasharray: 8 5;
+    fill: none;
+    animation: missingEdge 1.5s ease infinite;
+  }
+
+  @keyframes mergeAnim {
+    0%   { transform: translate(0, 0);  opacity: 1; }
+    30%  { transform: translate(var(--tx), var(--ty)); opacity: 0.7; }
+    60%  { transform: translate(var(--tx), var(--ty)); opacity: 0.5; }
+    100% { transform: translate(0, 0);  opacity: 1; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="paper-label">Palette-Expansion Numbers &amp; Hadwiger's Conjecture</div>
+  <div class="lemma-badge">Lemma 7.1</div>
+  <h1>Chromatic Completeness</h1>
+  <div class="subtitle">Every pair of color classes in a χ(G)-coloring must share at least one edge. This is the structural foundation of the entire proof.</div>
+  <div class="author">Mizael Antonio Tovar Reyes &mdash; Ciudad Juárez, México &mdash; March 2026</div>
+</header>
+
+<!-- Stage tracker -->
+<div class="stage-track">
+  <div class="stage-item active" id="stage-item-0" onclick="goToStage(0)">
+    <div class="stage-circle active" id="stage-0">1</div>
+    <div class="stage-label">Proper coloring χ(G)=3</div>
+  </div>
+  <div class="stage-connector" id="conn-0"></div>
+
+  <div class="stage-item" id="stage-item-1" onclick="goToStage(1)">
+    <div class="stage-circle" id="stage-1">2</div>
+    <div class="stage-label">Suppose no R-B edge</div>
+  </div>
+  <div class="stage-connector" id="conn-1"></div>
+
+  <div class="stage-item" id="stage-item-2" onclick="goToStage(2)">
+    <div class="stage-circle" id="stage-2">3</div>
+    <div class="stage-label">Merge blue into red</div>
+  </div>
+  <div class="stage-connector" id="conn-2"></div>
+
+  <div class="stage-item" id="stage-item-3" onclick="goToStage(3)">
+    <div class="stage-circle" id="stage-3">4</div>
+    <div class="stage-label">Contradiction!</div>
+  </div>
+  <div class="stage-connector" id="conn-3"></div>
+
+  <div class="stage-item" id="stage-item-4" onclick="goToStage(4)">
+    <div class="stage-circle" id="stage-4">5</div>
+    <div class="stage-label">All pairs must have edges</div>
+  </div>
+</div>
+
+<!-- Main layout -->
+<div class="main-layout">
+
+  <!-- Graph panel -->
+  <div class="graph-panel" id="graphPanel">
+    <div class="panel-title" id="graphTitle">Properly 3-colored graph</div>
+    <svg id="graphSVG" viewBox="0 0 420 360">
+      <defs>
+        <filter id="glowRed">
+          <feGaussianBlur stdDeviation="5" result="blur"/>
+          <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+        </filter>
+        <filter id="glowGreen">
+          <feGaussianBlur stdDeviation="5" result="blur"/>
+          <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+        </filter>
+        <filter id="glowGold">
+          <feGaussianBlur stdDeviation="6" result="blur"/>
+          <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+        </filter>
+        <marker id="arrowGold2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L8,3 z" fill="var(--gold)"/>
+        </marker>
+      </defs>
+
+      <!-- Groups for layers -->
+      <g id="edgeLayerIntra"></g>
+      <g id="edgeLayerInter"></g>
+      <g id="missingLayer"></g>
+      <g id="nodeLayer"></g>
+      <g id="labelLayer"></g>
+      <g id="overlayLayer"></g>
+    </svg>
+  </div>
+
+  <!-- Right column -->
+  <div class="right-col">
+
+    <!-- Proof narration -->
+    <div class="proof-panel">
+      <div class="proof-title">Proof Narration</div>
+      <div class="proof-text" id="proofText">
+        We have a graph G with chromatic number χ(G) = k = 3.
+        A proper k-coloring partitions the vertices into k <strong>color classes</strong>:
+        <span class="highlight-red">Red (R)</span>,
+        <span class="highlight-blue">Blue (B)</span>,
+        <span class="highlight-green">Green (G)</span>.
+        <br><br>
+        <em>No two adjacent vertices share a color class.</em>
+      </div>
+
+      <!-- Contradiction box -->
+      <div class="contradiction-box" id="contradictionBox">
+        <div class="contradiction-title">
+          <span class="x-mark">✗</span>
+          Contradiction!
+        </div>
+        <div class="contradiction-body" id="contradictionBody">
+          Merging Blue into Red gives a valid (k−1)-coloring. But χ(G) = k means no (k−1)-coloring exists. This is impossible — the assumption was wrong.
+        </div>
+      </div>
+
+      <!-- Result box -->
+      <div class="result-box" id="resultBox">
+        <div class="result-title">✓ Therefore:</div>
+        <div class="result-body" id="resultBody">
+          Every pair of distinct color classes must share at least one edge. The coloring is <strong style="color:var(--green)">chromatically complete</strong>.
+        </div>
+      </div>
+    </div>
+
+    <!-- Pair counter -->
+    <div class="pair-counter">
+      <div class="proof-title">Color-Class Pairs — Must All Have Edges</div>
+      <div style="font-size:0.78rem;color:rgba(221,224,255,0.45);line-height:1.4">
+        3 color classes → C(3,2) = <strong style="color:var(--gold)">3 pairs</strong>. Each pair must satisfy E<sub>ij</sub> ≠ ∅:
+      </div>
+      <div class="pair-grid" id="pairGrid">
+        <div class="pair-chip" id="pair-RB">
+          <div class="pair-dots">
+            <div class="pair-dot" style="background:var(--red)"></div>
+            <div class="pair-dot" style="background:var(--blue)"></div>
+          </div>
+          <div style="font-size:0.72rem;color:rgba(221,224,255,0.5)">R — B</div>
+          <div class="pair-status" id="pair-RB-status">?</div>
+        </div>
+        <div class="pair-chip" id="pair-RG">
+          <div class="pair-dots">
+            <div class="pair-dot" style="background:var(--red)"></div>
+            <div class="pair-dot" style="background:var(--green)"></div>
+          </div>
+          <div style="font-size:0.72rem;color:rgba(221,224,255,0.5)">R — G</div>
+          <div class="pair-status" id="pair-RG-status">?</div>
+        </div>
+        <div class="pair-chip" id="pair-BG">
+          <div class="pair-dots">
+            <div class="pair-dot" style="background:var(--blue)"></div>
+            <div class="pair-dot" style="background:var(--green)"></div>
+          </div>
+          <div style="font-size:0.72rem;color:rgba(221,224,255,0.5)">B — G</div>
+          <div class="pair-status" id="pair-BG-status">?</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Formula section -->
+    <div class="formula-section" id="formulaSection">
+      <div class="proof-title">Chromatic Completeness — Lemma 7.1</div>
+      <div class="formula-main">E<sub>ij</sub> ≠ ∅ &nbsp; for all &nbsp; i ≠ j</div>
+      <div class="formula-note">
+        In any χ(G)-coloring, every pair of color classes shares at least one edge.
+        K<sub>k</sub> is a <em>minor</em> of G — Hadwiger's Conjecture!
+      </div>
+      <div style="margin-top:0.8rem;padding-top:0.8rem;border-top:1px solid rgba(255,255,255,0.07);font-size:0.8rem;color:rgba(221,224,255,0.5);line-height:1.4;text-align:center">
+        This lemma is the <strong style="color:var(--purple)">cornerstone</strong>: if every pair has a crossing edge, contracting one vertex per class yields a K<sub>k</sub> minor.
+      </div>
+    </div>
+
+  </div>
+</div><!-- .main-layout -->
+
+<!-- Controls -->
+<div class="controls">
+  <button class="btn btn-primary" id="btnAdvance" onclick="advanceStage()">&#9654; Next Step</button>
+  <button class="btn" id="btnReset" onclick="resetAll()">&#8635; Reset</button>
+</div>
+
+<!-- Foundation banner -->
+<div class="foundation-banner">
+  <div class="foundation-inner">
+    <div class="foundation-title">Why This Is the Foundation of the Entire Proof</div>
+    <div style="font-size:0.85rem;color:rgba(221,224,255,0.7);line-height:1.5;margin-bottom:0.6rem">
+      Lemma 7.1 (Chromatic Completeness) is the structural heart of the paper. It shows that a χ(G)-coloring is not just any partition — it is one where every pair of color classes is <em>connected</em> by at least one edge.
+    </div>
+    <div class="foundation-grid">
+      <div class="foundation-card">
+        <div class="foundation-card-title">Step 1: Completeness</div>
+        <div class="foundation-card-body">By contradiction, if any pair of color classes had no edge between them, we could merge them into a single class, giving a (χ−1)-coloring. This contradicts χ(G).</div>
+      </div>
+      <div class="foundation-card">
+        <div class="foundation-card-title">Step 2: K_k Minor</div>
+        <div class="foundation-card-body">Since every pair (i, j) has an edge e<sub>ij</sub> between class i and class j, contracting one representative vertex per class + the edge e<sub>ij</sub> produces a K<sub>k</sub> minor in G.</div>
+      </div>
+      <div class="foundation-card">
+        <div class="foundation-card-title">Step 3: Hadwiger</div>
+        <div class="foundation-card-body">Hadwiger's Conjecture states: χ(G) ≥ k implies G contains K<sub>k</sub> as a minor. Chromatic Completeness gives exactly the K<sub>k</sub> minor. The conjecture follows from the lemma!</div>
+      </div>
+      <div class="foundation-card">
+        <div class="foundation-card-title">Role of p(G)</div>
+        <div class="foundation-card-body">The palette-expansion framework (χ = 1 + p) makes the counting precise. Each expansion creates a new class, each pair of classes requires an edge — the proof is constructive, not existential.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  Mizael Antonio Tovar Reyes &mdash; Ciudad Juárez, México &mdash; March 2026 &mdash; Palette-Expansion Numbers &amp; Hadwiger's Conjecture
+</footer>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+//  Graph definition
+//  A graph with 3 color classes: Red, Blue, Green
+//  We use 9 vertices: 3 red (0-2), 3 blue (3-5), 3 green (6-8)
+// ═══════════════════════════════════════════════════════════
+
+const COLORS = { R: '#D85A30', B: '#378ADD', G: '#1D9E75' };
+const COLOR_NAMES = { R: 'Red', B: 'Blue', G: 'Green' };
+
+// Vertex layout: three columns
+// Red: left, Blue: middle, Green: right
+const vx = [
+  // Red class (0,1,2) — left
+  { x: 90,  y: 100, cls: 'R', label: 'r₁' },
+  { x: 80,  y: 200, cls: 'R', label: 'r₂' },
+  { x: 100, y: 300, cls: 'R', label: 'r₃' },
+  // Blue class (3,4,5) — middle
+  { x: 210, y: 80,  cls: 'B', label: 'b₁' },
+  { x: 210, y: 200, cls: 'B', label: 'b₂' },
+  { x: 210, y: 310, cls: 'B', label: 'b₃' },
+  // Green class (6,7,8) — right
+  { x: 330, y: 100, cls: 'G', label: 'g₁' },
+  { x: 340, y: 210, cls: 'G', label: 'g₂' },
+  { x: 325, y: 310, cls: 'G', label: 'g₃' },
+];
+
+// Intra-class edges (within same class — NOT allowed in proper coloring)
+// These don't exist in a proper coloring. We only show INTER edges.
+
+// Inter-class edges (between classes)
+// R-B edges:
+const edgesRB = [[0,3], [1,4], [2,5]];
+// R-G edges:
+const edgesRG = [[0,6], [1,7], [2,8]];
+// B-G edges:
+const edgesBG = [[3,7], [4,6], [5,8]];
+
+const allInterEdges = [
+  ...edgesRB.map(e => ({ ...{}, src: e[0], dst: e[1], pair: 'RB', color: '#8888aa' })),
+  ...edgesRG.map(e => ({ ...{}, src: e[0], dst: e[1], pair: 'RG', color: '#8888aa' })),
+  ...edgesBG.map(e => ({ ...{}, src: e[0], dst: e[1], pair: 'BG', color: '#8888aa' })),
+];
+
+let currentStage = 0;
+const totalStages = 5;
+
+// SVG element references
+const svg = document.getElementById('graphSVG');
+const edgeLayerIntra = document.getElementById('edgeLayerIntra');
+const edgeLayerInter = document.getElementById('edgeLayerInter');
+const missingLayer   = document.getElementById('missingLayer');
+const nodeLayer      = document.getElementById('nodeLayer');
+const labelLayer     = document.getElementById('labelLayer');
+const overlayLayer   = document.getElementById('overlayLayer');
+
+let nodeSVGs = [];
+let edgeSVGs = {};
+
+function makeSVGEl(tag, attrs) {
+  const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
+  return el;
+}
+
+function buildGraph() {
+  // Clear
+  [edgeLayerIntra, edgeLayerInter, missingLayer, nodeLayer, labelLayer, overlayLayer]
+    .forEach(g => { while (g.firstChild) g.removeChild(g.firstChild); });
+  nodeSVGs = [];
+  edgeSVGs = {};
+
+  // Inter edges
+  allInterEdges.forEach((e, i) => {
+    const x1 = vx[e.src].x, y1 = vx[e.src].y;
+    const x2 = vx[e.dst].x, y2 = vx[e.dst].y;
+    const line = makeSVGEl('line', {
+      x1, y1, x2, y2,
+      stroke: 'rgba(221,224,255,0.14)',
+      'stroke-width': 2,
+      'stroke-linecap': 'round',
+      id: `edge-${e.pair}-${i}`,
+      class: 'sv-edge',
+    });
+    edgeLayerInter.appendChild(line);
+    edgeSVGs[`${e.pair}-${i}`] = line;
+  });
+
+  // Class background bubbles (soft glow regions)
+  const classRegions = [
+    { cx: 90,  cy: 200, r: 120, color: '#D85A30', label: 'Red', lx: 45,  ly: 340 },
+    { cx: 210, cy: 196, r: 130, color: '#378ADD', label: 'Blue', lx: 210, ly: 340 },
+    { cx: 332, cy: 207, r: 120, color: '#1D9E75', label: 'Green', lx: 332, ly: 340 },
+  ];
+
+  classRegions.forEach(r => {
+    const ellipse = makeSVGEl('ellipse', {
+      cx: r.cx, cy: r.cy, rx: r.r * 0.55, ry: r.r * 0.75,
+      fill: r.color,
+      opacity: '0.04',
+    });
+    edgeLayerIntra.appendChild(ellipse);
+
+    const text = makeSVGEl('text', {
+      x: r.lx, y: r.ly,
+      'text-anchor': 'middle',
+      'font-family': 'monospace',
+      'font-size': '12',
+      fill: r.color,
+      opacity: '0.55',
+      'class': 'sv-class-label',
+    });
+    text.textContent = r.label + ' class';
+    labelLayer.appendChild(text);
+  });
+
+  // Nodes
+  vx.forEach((v, i) => {
+    const g = makeSVGEl('g', {});
+    const c = makeSVGEl('circle', {
+      cx: v.x, cy: v.y, r: '17',
+      fill: COLORS[v.cls],
+      stroke: COLORS[v.cls],
+      'stroke-width': '2.5',
+      opacity: '0.95',
+      class: 'sv-node',
+      id: `node-${i}`,
+    });
+    const t = makeSVGEl('text', {
+      x: v.x, y: v.y,
+      class: 'sv-label',
+    });
+    t.textContent = v.label;
+    g.appendChild(c);
+    g.appendChild(t);
+    nodeLayer.appendChild(g);
+    nodeSVGs.push({ g, circle: c, label: t });
+  });
+}
+
+function setEdgeStyle(edgeEl, style) {
+  for (const [k, v] of Object.entries(style)) {
+    edgeEl.style[k] = v;
+  }
+}
+
+function setNodeColor(i, color, strokeColor) {
+  nodeSVGs[i].circle.style.fill = color;
+  nodeSVGs[i].circle.style.stroke = strokeColor || color;
+}
+
+function flashEdges(pairKey, color) {
+  // Highlight edges for a given pair
+  allInterEdges.forEach((e, i) => {
+    if (e.pair === pairKey) {
+      const el = edgeSVGs[`${e.pair}-${i}`];
+      el.style.stroke = color;
+      el.style.strokeWidth = '3.5';
+      el.style.filter = `drop-shadow(0 0 6px ${color})`;
+      el.style.opacity = '1';
+    }
+  });
+}
+
+function dimEdges(pairKey) {
+  allInterEdges.forEach((e, i) => {
+    if (e.pair === pairKey) {
+      const el = edgeSVGs[`${e.pair}-${i}`];
+      el.style.stroke = 'rgba(221,224,255,0.08)';
+      el.style.strokeWidth = '1.5';
+      el.style.filter = '';
+      el.style.opacity = '0.5';
+    }
+  });
+}
+
+function highlightAllInterEdges() {
+  allInterEdges.forEach((e, i) => {
+    const el = edgeSVGs[`${e.pair}-${i}`];
+    const colors = { RB: '#b07080', RG: '#80a060', BG: '#6080b0' };
+    el.style.stroke = colors[e.pair] || 'rgba(221,224,255,0.4)';
+    el.style.strokeWidth = '3';
+    el.style.opacity = '1';
+  });
+}
+
+function updateStageUI(stage) {
+  for (let i = 0; i < totalStages; i++) {
+    const sc = document.getElementById(`stage-${i}`);
+    const si = document.getElementById(`stage-item-${i}`);
+    sc.classList.remove('active', 'done', 'contradiction-done');
+    si.classList.remove('active', 'done');
+
+    if (i < stage) {
+      si.classList.add('done');
+      if (i === 3) {
+        sc.classList.add('contradiction-done');
+      } else {
+        sc.classList.add('done');
+      }
+    } else if (i === stage) {
+      sc.classList.add('active');
+      si.classList.add('active');
+    }
+
+    // Connectors
+    if (i < totalStages - 1) {
+      const conn = document.getElementById(`conn-${i}`);
+      conn.classList.remove('done', 'contradiction');
+      if (i < stage) {
+        conn.classList.add(i === 3 ? 'contradiction' : 'done');
+      }
+    }
+  }
+}
+
+function setPairStatus(pair, status) {
+  // status: 'testing', 'confirmed', 'disproven', 'reset'
+  const chip = document.getElementById(`pair-${pair}`);
+  const stat = document.getElementById(`pair-${pair}-status`);
+  chip.classList.remove('testing', 'confirmed');
+
+  if (status === 'testing') {
+    chip.classList.add('testing');
+    stat.textContent = '?';
+  } else if (status === 'confirmed') {
+    chip.classList.add('confirmed');
+    stat.textContent = '✓';
+  } else if (status === 'disproven') {
+    chip.style.borderColor = 'var(--red)';
+    chip.style.background = 'rgba(216,90,48,0.1)';
+    stat.textContent = '✗';
+    stat.style.color = 'var(--red)';
+  } else {
+    chip.style.borderColor = '';
+    chip.style.background = '';
+    stat.textContent = '?';
+    stat.style.color = '';
+  }
+}
+
+// ─── Missing edge dashed line ───
+let missingEdgeLine = null;
+
+function drawMissingEdge(show) {
+  while (missingLayer.firstChild) missingLayer.removeChild(missingLayer.firstChild);
+  if (!show) return;
+
+  // Draw a dashed "no edge" between r₁ (0) and b₁ (3)
+  const p1 = vx[0], p2 = vx[3];
+  const line = makeSVGEl('line', {
+    x1: p1.x, y1: p1.y, x2: p2.x, y2: p2.y,
+    stroke: 'rgba(216,90,48,0.5)',
+    'stroke-width': '2.5',
+    'stroke-dasharray': '8 5',
+    class: 'missing-edge',
+  });
+  missingLayer.appendChild(line);
+
+  // Red X over the line
+  const mx = (p1.x + p2.x) / 2, my = (p1.y + p2.y) / 2;
+  const xText = makeSVGEl('text', {
+    x: mx, y: my,
+    'text-anchor': 'middle',
+    'dominant-baseline': 'central',
+    'font-size': '26',
+    fill: 'var(--red)',
+    'font-weight': '900',
+    'font-family': 'monospace',
+    filter: 'url(#glowRed)',
+    style: 'animation: redX 0.5s ease both',
+  });
+  xText.textContent = '✗';
+  missingLayer.appendChild(xText);
+
+  // Question marks next to all R-B pairs
+  edgesRB.forEach(([a, b]) => {
+    if (a === 0 && b === 3) return;
+    const qx = (vx[a].x + vx[b].x) / 2;
+    const qy = (vx[a].y + vx[b].y) / 2;
+    const q = makeSVGEl('text', {
+      x: qx, y: qy,
+      class: 'question-mark',
+    });
+    q.textContent = '?';
+    missingLayer.appendChild(q);
+  });
+}
+
+function drawMergeIndicator(show) {
+  while (overlayLayer.firstChild) overlayLayer.removeChild(overlayLayer.firstChild);
+  if (!show) return;
+
+  // Arrow from Blue cluster to Red cluster
+  const arrow = makeSVGEl('path', {
+    d: `M 210 196 C 165 196 140 196 110 196`,
+    stroke: 'var(--gold)',
+    'stroke-width': '3',
+    fill: 'none',
+    'stroke-linecap': 'round',
+    'marker-end': 'url(#arrowGold2)',
+    style: 'animation: drawEdge 0.8s ease both; stroke-dasharray: 200; stroke-dashoffset: 200',
+    filter: 'url(#glowGold)',
+  });
+  overlayLayer.appendChild(arrow);
+
+  const t = makeSVGEl('text', {
+    x: 165, y: 182,
+    'text-anchor': 'middle',
+    'font-size': '11',
+    fill: 'var(--gold)',
+    'font-family': 'monospace',
+    style: 'animation: fadeIn 0.5s 0.6s ease both; opacity: 0',
+  });
+  t.textContent = 'merge B → R';
+  overlayLayer.appendChild(t);
+
+  const t2 = makeSVGEl('text', {
+    x: 165, y: 215,
+    'text-anchor': 'middle',
+    'font-size': '10',
+    fill: 'rgba(221,224,255,0.45)',
+    'font-family': 'monospace',
+    style: 'animation: fadeIn 0.5s 0.9s ease both; opacity: 0',
+  });
+  t2.textContent = '→ only 2 colors!';
+  overlayLayer.appendChild(t2);
+}
+
+// ─── Stage logic ───
+const stages = [
+  {
+    // Stage 0: Initial properly colored graph
+    enter() {
+      buildGraph();
+      document.getElementById('graphTitle').textContent = 'Properly 3-colored graph — χ(G) = 3';
+      document.getElementById('proofText').innerHTML =
+        `We have a graph G with <strong style="color:var(--gold)">χ(G) = k = 3</strong>.
+         A proper k-coloring partitions vertices into k <strong>color classes</strong>:
+         <span class="highlight-red">Red (R)</span>,
+         <span class="highlight-blue">Blue (B)</span>,
+         <span class="highlight-green">Green (G)</span>.
+         <br><br>
+         Edges cross between classes; no edge can stay within a class (else two adjacent vertices share a color).`;
+      document.getElementById('contradictionBox').classList.remove('visible');
+      document.getElementById('resultBox').classList.remove('visible');
+      document.getElementById('formulaSection').classList.remove('visible');
+      document.getElementById('graphPanel').classList.remove('contradicting', 'succeeding');
+      setPairStatus('RB', 'reset');
+      setPairStatus('RG', 'reset');
+      setPairStatus('BG', 'reset');
+      drawMissingEdge(false);
+      drawMergeIndicator(false);
+    }
+  },
+
+  {
+    // Stage 1: Suppose no R-B edge — what if?
+    enter() {
+      document.getElementById('graphTitle').textContent = 'Assumption: no edge between Red and Blue';
+      document.getElementById('proofText').innerHTML =
+        `<strong>Proof by contradiction.</strong><br><br>
+         Suppose that the color classes <span class="highlight-red">Red</span> and
+         <span class="highlight-blue">Blue</span> share <em>no edge</em> between them.
+         <br><br>
+         That would mean: every vertex in R is non-adjacent to every vertex in B.
+         Can we exploit this to reduce the number of colors needed?`;
+
+      // Dim R-B edges, show missing dashed line
+      dimEdges('RB');
+      setPairStatus('RB', 'testing');
+      drawMissingEdge(true);
+      flashEdges('RG', COLORS.R);
+      flashEdges('BG', COLORS.B);
+      document.getElementById('graphPanel').classList.remove('contradicting', 'succeeding');
+    }
+  },
+
+  {
+    // Stage 2: Merge blue into red
+    enter() {
+      document.getElementById('graphTitle').textContent = 'Merging Blue into Red → 2-color attempt';
+      document.getElementById('proofText').innerHTML =
+        `Since <span class="highlight-red">R</span> and <span class="highlight-blue">B</span>
+         have no edge between them, every B-vertex is safe to be recolored
+         <span class="highlight-red">Red</span>.
+         <br><br>
+         After this merge, we obtain a coloring with only <strong style="color:var(--gold)">k−1 = 2</strong> colors:
+         Red (= old R ∪ old B) and Green.
+         <br><br>
+         This is still a <em>proper</em> coloring — no adjacent pair gets the same color.`;
+
+      // Recolor all Blue vertices to Red
+      [3, 4, 5].forEach(i => {
+        nodeSVGs[i].circle.style.transition = 'fill 0.8s ease, stroke 0.8s ease';
+        nodeSVGs[i].circle.style.fill = COLORS.R;
+        nodeSVGs[i].circle.style.stroke = COLORS.R;
+        nodeSVGs[i].circle.style.filter = `drop-shadow(0 0 10px ${COLORS.R})`;
+      });
+
+      drawMissingEdge(false);
+      drawMergeIndicator(true);
+      dimEdges('RB');
+
+      // R-G and B-G edges become "R-class to G-class"
+      flashEdges('RG', COLORS.R);
+      flashEdges('BG', COLORS.R);
+
+      setPairStatus('RB', 'testing');
+      document.getElementById('graphPanel').classList.remove('contradicting', 'succeeding');
+    }
+  },
+
+  {
+    // Stage 3: Contradiction
+    enter() {
+      document.getElementById('graphTitle').textContent = 'Contradiction! — χ(G) = 3 ≠ 2';
+      document.getElementById('proofText').innerHTML =
+        `We just found a proper <strong style="color:var(--gold)">(k−1)-coloring</strong> of G.
+         <br><br>
+         But we assumed χ(G) = k = 3, meaning <em>no proper (k−1)-coloring exists</em>.
+         <br><br>
+         <span style="color:var(--red);font-weight:700">This is a contradiction! ✗</span><br>
+         The assumption — that no edge exists between Red and Blue — must be <strong>false</strong>.`;
+
+      document.getElementById('contradictionBox').classList.add('visible');
+      document.getElementById('graphPanel').classList.add('contradicting');
+
+      // Shake nodes
+      [3, 4, 5].forEach(i => {
+        nodeSVGs[i].g.style.animation = 'shake 0.6s ease both';
+        setTimeout(() => { nodeSVGs[i].g.style.animation = ''; }, 700);
+      });
+
+      setPairStatus('RB', 'disproven');
+      drawMergeIndicator(false);
+
+      // Big X overlay
+      while (overlayLayer.firstChild) overlayLayer.removeChild(overlayLayer.firstChild);
+      const bigX = makeSVGEl('text', {
+        x: 165, y: 200,
+        'text-anchor': 'middle',
+        'dominant-baseline': 'central',
+        'font-size': '80',
+        fill: 'rgba(216,90,48,0.25)',
+        'font-weight': '900',
+        'font-family': 'monospace',
+        filter: 'url(#glowRed)',
+        style: 'animation: redX 0.7s ease both',
+      });
+      bigX.textContent = '✗';
+      overlayLayer.appendChild(bigX);
+    }
+  },
+
+  {
+    // Stage 4: All pairs must have edges — result
+    enter() {
+      buildGraph();
+      document.getElementById('graphTitle').textContent = 'Result: Every pair of color classes must share an edge';
+      document.getElementById('proofText').innerHTML =
+        `By the same argument applied to <em>every pair</em> (R,B), (R,G), (B,G):
+         <br><br>
+         If any pair had no edge, we could merge them, getting a (χ−1)-coloring — contradicting χ(G).
+         <br><br>
+         Therefore: <strong style="color:var(--green)">E<sub>ij</sub> ≠ ∅ for all i ≠ j.</strong><br>
+         The coloring is <strong style="color:var(--green)">chromatically complete</strong>.`;
+
+      // Highlight all inter-class edges
+      highlightAllInterEdges();
+
+      document.getElementById('contradictionBox').classList.remove('visible');
+      document.getElementById('resultBox').classList.add('visible');
+      document.getElementById('formulaSection').classList.add('visible');
+      document.getElementById('graphPanel').classList.remove('contradicting');
+      document.getElementById('graphPanel').classList.add('succeeding');
+
+      setPairStatus('RB', 'confirmed');
+      setPairStatus('RG', 'confirmed');
+      setPairStatus('BG', 'confirmed');
+
+      drawMissingEdge(false);
+      drawMergeIndicator(false);
+      while (overlayLayer.firstChild) overlayLayer.removeChild(overlayLayer.firstChild);
+
+      // Star checkmarks at class centroids
+      [{x:90,y:190}, {x:210,y:196}, {x:332,y:207}].forEach((p, i) => {
+        const check = makeSVGEl('text', {
+          x: p.x, y: p.y,
+          'text-anchor': 'middle',
+          'dominant-baseline': 'central',
+          'font-size': '32',
+          fill: COLORS[['R','B','G'][i]],
+          'font-weight': '900',
+          'font-family': 'monospace',
+          opacity: '0.18',
+          filter: 'url(#glowGreen)',
+        });
+        check.textContent = '✓';
+        overlayLayer.appendChild(check);
+      });
+
+      document.getElementById('btnAdvance').disabled = true;
+    }
+  },
+];
+
+function advanceStage() {
+  if (currentStage >= totalStages - 1) return;
+  currentStage++;
+  updateStageUI(currentStage);
+  stages[currentStage].enter();
+}
+
+function goToStage(s) {
+  if (s > currentStage + 1) return; // can only go back or one ahead
+  currentStage = s;
+  // Replay from 0 to s
+  buildGraph();
+  for (let i = 0; i <= s; i++) {
+    if (i < s) {
+      // Quick version: just enter and skip delay
+      stages[i].enter();
+    } else {
+      stages[i].enter();
+    }
+  }
+  updateStageUI(s);
+  document.getElementById('btnAdvance').disabled = s >= totalStages - 1;
+}
+
+function resetAll() {
+  currentStage = 0;
+  document.getElementById('btnAdvance').disabled = false;
+  updateStageUI(0);
+  stages[0].enter();
+}
+
+// ─── Init ───
+buildGraph();
+stages[0].enter();
+updateStageUI(0);
+</script>
+</body>
+</html>

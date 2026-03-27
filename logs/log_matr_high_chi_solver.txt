@@ -1,0 +1,365 @@
+===========================================================================
+  SCRIPT 8 — HADWIGER CHI ALTO — V12.7 TURBO ZERO FAILURE
+===========================================================================
+  Investigador : Mizael Antonio Tovar Reyes
+  Actualizado  : 2026-03-26 18:57:21
+  E6 Expandido : ACTIVO (free_nodes + AtomSwap)
+  Triple Swap  : E7 ACTIVO (exhaustivo)
+  Double Swap  : E8 ACTIVO
+  Relay-2      : ACTIVO (Fase 3, verifica arista creada)
+  Motor Hibrido: ACTIVO (4 deterministicos grado-real + aleatorios)
+  Fase 5       : Fusion Forzada + E6/E7/E8 post
+  Ghost Fix    : ACTIVO (V12.5)
+===========================================================================
+
+RESUMEN POR NUMERO CROMATICO:
+-------------------------------------------------------
+  chi    OK       FALLO    TOTAL    %OK
+-------------------------------------------------------
+  chi=5   159      3        162      98.1%
+  chi=6   79       2        81       97.5%
+  chi=7   29       0        29       100.0% <-- CASO ABIERTO HADWIGER
+  chi=8   8        0        8        100.0% <-- CASO ABIERTO HADWIGER
+  chi=9   4        0        4        100.0% <-- CASO ABIERTO HADWIGER
+  chi=10  2        0        2        100.0% <-- CASO ABIERTO HADWIGER
+  chi=11  1        0        1        100.0% <-- CASO ABIERTO HADWIGER
+  chi=12  2        0        2        100.0% <-- CASO ABIERTO HADWIGER
+  chi=15  1        0        1        100.0% <-- CASO ABIERTO HADWIGER
+  chi=16  1        0        1        100.0% <-- CASO ABIERTO HADWIGER
+  chi=20  1        0        1        100.0% <-- CASO ABIERTO HADWIGER
+  chi=25  1        0        1        100.0% <-- CASO ABIERTO HADWIGER
+-------------------------------------------------------
+  TOTAL  288      5        293     
+
+RESUMEN POR FAMILIA:
+------------------------------------------------------------
+  [FALLO] Aleatorios                258/260 (99.2%)
+  [FALLO] Circulantes               6/9 (66.7%)
+  [OK   ] Completos                 5/5 (100.0%)
+  [OK   ] Productos                 6/6 (100.0%)
+  [OK   ] Schrijver                 1/1 (100.0%)
+  [OK   ] Zykov                     10/10 (100.0%)
+  [OK   ] Zykov_Join                2/2 (100.0%)
+------------------------------------------------------------
+
+GRAFOS SALVADOS POR E7 TRIPLE SWAP : 2
+GRAFOS SALVADOS POR E8 DOUBLE SWAP : 8
+GRAFOS SALVADOS POR FASE 5 FUSION  : 0
+
+FALLOS DETALLADOS (5):
+---------------------------------------------------------------------------
+  FALLO [Aleatorios] Rand_chi5_n7_#375
+    n=7 m=16 chi=5 p=4
+    nonempty=True connected=False disjoint=True edges=True
+  FALLO [Aleatorios] Rand_chi6_n8_#160
+    n=8 m=24 chi=6 p=5
+    nonempty=True connected=False disjoint=True edges=True
+  FALLO [Circulantes] Circ_19_3
+    n=19 m=57 chi=5 p=4
+    nonempty=True connected=False disjoint=True edges=True
+  FALLO [Circulantes] Circ_21_3
+    n=21 m=63 chi=5 p=4
+    nonempty=True connected=False disjoint=True edges=True
+  FALLO [Circulantes] Circ_21_4
+    n=21 m=84 chi=6 p=5
+    nonempty=True connected=False disjoint=True edges=True
+---------------------------------------------------------------------------
+
+
+===========================================================================
+RESULTADOS DETALLADOS:
+===========================================================================
+
+  [OK  ] [Completos] K_5                                 n=5    m=10    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Completos] K_6                                 n=6    m=15    chi=6   p=5   iters=0    pairs=15/15
+  [OK  ] [Zykov] Zykov_K3+K3                         n=6    m=15    chi=6   p=5   iters=0    pairs=15/15
+  [OK  ] [Completos] K_7                                 n=7    m=21    chi=7   p=6   iters=0    pairs=21/21
+  [OK  ] [Zykov] Zykov_K3+K4                         n=7    m=21    chi=7   p=6   iters=0    pairs=21/21
+  [OK  ] [Aleatorios] Rand_chi6_n7_#5                     n=7    m=20    chi=6   p=5   iters=0    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi5_n7_#48                    n=7    m=16    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n7_#51                    n=7    m=18    chi=6   p=5   iters=0    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi6_n7_#66                    n=7    m=19    chi=6   p=5   iters=0    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi5_n7_#134                   n=7    m=19    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n7_#206                   n=7    m=18    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n7_#270                   n=7    m=18    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n7_#306                   n=7    m=18    chi=6   p=5   iters=0    pairs=15/15
+  [FALLO] [Aleatorios] Rand_chi5_n7_#375                   n=7    m=16    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n7_#463                   n=7    m=16    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n7_#512                   n=7    m=19    chi=6   p=5   iters=0    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi5_n7_#523                   n=7    m=17    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n7_#540                   n=7    m=18    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n7_#583                   n=7    m=18    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Completos] K_8                                 n=8    m=28    chi=8   p=7   iters=0    pairs=28/28
+  [OK  ] [Zykov] Zykov_K3+K5                         n=8    m=28    chi=8   p=7   iters=0    pairs=28/28
+  [OK  ] [Zykov] Zykov_K4+K4                         n=8    m=28    chi=8   p=7   iters=0    pairs=28/28
+  [OK  ] [Aleatorios] Rand_chi5_n8_#58                    n=8    m=23    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n8_#115                   n=8    m=19    chi=5   p=4   iters=1    pairs=10/10
+  [FALLO] [Aleatorios] Rand_chi6_n8_#160                   n=8    m=24    chi=6   p=5   iters=0    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi5_n8_#237                   n=8    m=17    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n8_#247                   n=8    m=22    chi=6   p=5   iters=2    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi5_n8_#253                   n=8    m=22    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n8_#259                   n=8    m=24    chi=6   p=5   iters=1    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi5_n8_#266                   n=8    m=22    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n8_#274                   n=8    m=19    chi=5   p=4   iters=2    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n8_#373                   n=8    m=22    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n8_#383                   n=8    m=22    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n8_#452                   n=8    m=18    chi=5   p=4   iters=2    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n8_#478                   n=8    m=21    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n8_#549                   n=8    m=22    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Completos] K_9                                 n=9    m=36    chi=9   p=8   iters=0    pairs=36/36
+  [OK  ] [Productos] StrongProd_K3xK3                    n=9    m=36    chi=9   p=8   iters=0    pairs=36/36
+  [OK  ] [Zykov] Zykov_K3+K6                         n=9    m=36    chi=9   p=8   iters=0    pairs=36/36
+  [OK  ] [Zykov] Zykov_K4+K5                         n=9    m=36    chi=9   p=8   iters=0    pairs=36/36
+  [OK  ] [Aleatorios] Rand_chi5_n9_#10                    n=9    m=20    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n9_#13                    n=9    m=28    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n9_#50                    n=9    m=29    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n9_#52                    n=9    m=28    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n9_#62                    n=9    m=24    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi7_n9_#74                    n=9    m=31    chi=7   p=6   iters=1    pairs=21/21
+  [OK  ] [Aleatorios] Rand_chi5_n9_#99                    n=9    m=25    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n9_#108                   n=9    m=25    chi=5   p=4   iters=2    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n9_#110                   n=9    m=29    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n9_#116                   n=9    m=30    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n9_#123                   n=9    m=31    chi=6   p=5   iters=0    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi5_n9_#162                   n=9    m=24    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n9_#170                   n=9    m=31    chi=6   p=5   iters=1    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi6_n9_#195                   n=9    m=29    chi=6   p=5   iters=0    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi5_n9_#215                   n=9    m=24    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n9_#282                   n=9    m=22    chi=5   p=4   iters=2    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n9_#302                   n=9    m=28    chi=6   p=5   iters=1    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi5_n9_#314                   n=9    m=25    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n9_#353                   n=9    m=28    chi=6   p=5   iters=1    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi5_n9_#365                   n=9    m=26    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n9_#380                   n=9    m=23    chi=5   p=4   iters=2    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n9_#395                   n=9    m=28    chi=6   p=5   iters=1    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi5_n9_#400                   n=9    m=27    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n9_#423                   n=9    m=28    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n9_#493                   n=9    m=28    chi=6   p=5   iters=2    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi5_n9_#507                   n=9    m=26    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n9_#513                   n=9    m=24    chi=5   p=4   iters=2    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n9_#518                   n=9    m=29    chi=6   p=5   iters=2    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi5_n9_#531                   n=9    m=23    chi=5   p=4   iters=2    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi7_n9_#542                   n=9    m=31    chi=7   p=6   iters=2    pairs=21/21
+  [OK  ] [Aleatorios] Rand_chi6_n9_#552                   n=9    m=31    chi=6   p=5   iters=0    pairs=15/15
+  [OK  ] [Zykov] Zykov_K4+K6                         n=10   m=45    chi=10  p=9   iters=0    pairs=45/45
+  [OK  ] [Zykov] Zykov_K5+K5                         n=10   m=45    chi=10  p=9   iters=0    pairs=45/45
+  [OK  ] [Zykov_Join] Join_C5+C5                          n=10   m=35    chi=6   p=5   iters=0    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi6_n10_#12                   n=10   m=35    chi=6   p=5   iters=0    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi5_n10_#21                   n=10   m=28    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n10_#47                   n=10   m=38    chi=6   p=5   iters=0    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi5_n10_#73                   n=10   m=28    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n10_#76                   n=10   m=30    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n10_#78                   n=10   m=34    chi=6   p=5   iters=1    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi6_n10_#119                  n=10   m=30    chi=6   p=5   iters=1    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi5_n10_#120                  n=10   m=32    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n10_#135                  n=10   m=28    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n10_#148                  n=10   m=33    chi=6   p=5   iters=2    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi5_n10_#157                  n=10   m=28    chi=5   p=4   iters=2    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n10_#184                  n=10   m=31    chi=6   p=5   iters=1    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi5_n10_#191                  n=10   m=25    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi7_n10_#198                  n=10   m=36    chi=7   p=6   iters=1    pairs=21/21
+  [OK  ] [Aleatorios] Rand_chi5_n10_#209                  n=10   m=27    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n10_#212                  n=10   m=28    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n10_#219                  n=10   m=27    chi=5   p=4   iters=3    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n10_#229                  n=10   m=29    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n10_#304                  n=10   m=32    chi=6   p=5   iters=3    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi5_n10_#336                  n=10   m=32    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n10_#341                  n=10   m=22    chi=5   p=4   iters=2    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n10_#345                  n=10   m=30    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n10_#435                  n=10   m=32    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n10_#457                  n=10   m=30    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi7_n10_#459                  n=10   m=35    chi=7   p=6   iters=3    pairs=21/21
+  [OK  ] [Aleatorios] Rand_chi5_n10_#476                  n=10   m=29    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n10_#482                  n=10   m=32    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n10_#494                  n=10   m=33    chi=6   p=5   iters=4    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi5_n10_#535                  n=10   m=33    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n10_#553                  n=10   m=26    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n10_#559                  n=10   m=28    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n10_#566                  n=10   m=36    chi=6   p=5   iters=0    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi5_n10_#576                  n=10   m=34    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n10_#597                  n=10   m=33    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Zykov] Zykov_K5+K6                         n=11   m=55    chi=11  p=10  iters=0    pairs=55/55
+  [OK  ] [Aleatorios] Rand_chi6_n11_#1                    n=11   m=40    chi=6   p=5   iters=2    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi5_n11_#4                    n=11   m=35    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n11_#16                   n=11   m=45    chi=6   p=5   iters=0    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi5_n11_#23                   n=11   m=34    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n11_#25                   n=11   m=34    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n11_#33                   n=11   m=30    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n11_#57                   n=11   m=34    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n11_#80                   n=11   m=40    chi=6   p=5   iters=0    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi8_n11_#81                   n=11   m=50    chi=8   p=7   iters=0    pairs=28/28
+  [OK  ] [Aleatorios] Rand_chi6_n11_#86                   n=11   m=38    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n11_#96                   n=11   m=42    chi=6   p=5   iters=0    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi6_n11_#133                  n=11   m=38    chi=6   p=5   iters=2    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi6_n11_#155                  n=11   m=41    chi=6   p=5   iters=2    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi5_n11_#156                  n=11   m=35    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n11_#167                  n=11   m=40    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi7_n11_#182                  n=11   m=43    chi=7   p=6   iters=2    pairs=21/21
+  [OK  ] [Aleatorios] Rand_chi5_n11_#189                  n=11   m=31    chi=5   p=4   iters=2    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi7_n11_#196                  n=11   m=41    chi=7   p=6   iters=1    pairs=21/21
+  [OK  ] [Aleatorios] Rand_chi6_n11_#227                  n=11   m=41    chi=6   p=5   iters=1    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi6_n11_#234                  n=11   m=43    chi=6   p=5   iters=0    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi5_n11_#245                  n=11   m=38    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n11_#258                  n=11   m=43    chi=6   p=5   iters=0    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi5_n11_#265                  n=11   m=33    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n11_#273                  n=11   m=41    chi=6   p=5   iters=1    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi6_n11_#278                  n=11   m=34    chi=5   p=4   iters=2    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n11_#294                  n=11   m=34    chi=5   p=4   iters=2    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n11_#307                  n=11   m=41    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n11_#311                  n=11   m=29    chi=5   p=4   iters=3    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n11_#324                  n=11   m=39    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n11_#360                  n=11   m=45    chi=6   p=5   iters=0    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi5_n11_#386                  n=11   m=36    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n11_#416                  n=11   m=35    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n11_#434                  n=11   m=31    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n11_#438                  n=11   m=43    chi=6   p=5   iters=2    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi5_n11_#443                  n=11   m=40    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi7_n11_#445                  n=11   m=45    chi=7   p=6   iters=0    pairs=21/21
+  [OK  ] [Aleatorios] Rand_chi5_n11_#456                  n=11   m=38    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi7_n11_#458                  n=11   m=45    chi=7   p=6   iters=1    pairs=21/21
+  [OK  ] [Aleatorios] Rand_chi5_n11_#469                  n=11   m=35    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n11_#472                  n=11   m=36    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n11_#474                  n=11   m=44    chi=6   p=5   iters=0    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi6_n11_#526                  n=11   m=37    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n11_#532                  n=11   m=29    chi=5   p=4   iters=4    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n11_#557                  n=11   m=37    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n11_#570                  n=11   m=42    chi=6   p=5   iters=1    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi7_n11_#594                  n=11   m=44    chi=7   p=6   iters=1    pairs=21/21
+  [OK  ] [Productos] StrongProd_K3xK4                    n=12   m=66    chi=12  p=11  iters=0    pairs=66/66
+  [OK  ] [Zykov] Zykov_K6+K6                         n=12   m=66    chi=12  p=11  iters=0    pairs=66/66
+  [OK  ] [Aleatorios] Rand_chi5_n12_#34                   n=12   m=43    chi=5   p=4   iters=2    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi7_n12_#38                   n=12   m=48    chi=6   p=5   iters=1    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi5_n12_#55                   n=12   m=47    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n12_#72                   n=12   m=36    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi7_n12_#90                   n=12   m=55    chi=7   p=6   iters=3    pairs=21/21
+  [OK  ] [Aleatorios] Rand_chi5_n12_#111                  n=12   m=41    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n12_#114                  n=12   m=42    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n12_#117                  n=12   m=53    chi=6   p=5   iters=1    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi6_n12_#129                  n=12   m=50    chi=6   p=5   iters=0    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi6_n12_#130                  n=12   m=44    chi=5   p=4   iters=2    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n12_#132                  n=12   m=38    chi=5   p=4   iters=2    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n12_#143                  n=12   m=47    chi=6   p=5   iters=2    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi6_n12_#145                  n=12   m=41    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n12_#173                  n=12   m=48    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n12_#174                  n=12   m=35    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n12_#179                  n=12   m=43    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi7_n12_#186                  n=12   m=50    chi=7   p=6   iters=0    pairs=21/21
+  [OK  ] [Aleatorios] Rand_chi5_n12_#194                  n=12   m=44    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n12_#199                  n=12   m=43    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n12_#202                  n=12   m=44    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n12_#208                  n=12   m=50    chi=6   p=5   iters=1    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi6_n12_#218                  n=12   m=49    chi=6   p=5   iters=1    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi6_n12_#221                  n=12   m=49    chi=6   p=5   iters=1    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi6_n12_#231                  n=12   m=44    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n12_#254                  n=12   m=34    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n12_#260                  n=12   m=39    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n12_#261                  n=12   m=34    chi=5   p=4   iters=2    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n12_#264                  n=12   m=40    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi7_n12_#269                  n=12   m=54    chi=7   p=6   iters=1    pairs=21/21
+  [OK  ] [Aleatorios] Rand_chi6_n12_#290                  n=12   m=43    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n12_#310                  n=12   m=45    chi=6   p=5   iters=2    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi5_n12_#316                  n=12   m=34    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi7_n12_#321                  n=12   m=54    chi=7   p=6   iters=1    pairs=21/21
+  [OK  ] [Aleatorios] Rand_chi7_n12_#328                  n=12   m=52    chi=7   p=6   iters=1    pairs=21/21
+  [OK  ] [Aleatorios] Rand_chi5_n12_#330                  n=12   m=37    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n12_#331                  n=12   m=40    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n12_#338                  n=12   m=37    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n12_#347                  n=12   m=35    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n12_#350                  n=12   m=33    chi=5   p=4   iters=2    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi7_n12_#355                  n=12   m=57    chi=7   p=6   iters=0    pairs=21/21
+  [OK  ] [Aleatorios] Rand_chi5_n12_#372                  n=12   m=37    chi=5   p=4   iters=2    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n12_#393                  n=12   m=48    chi=6   p=5   iters=1    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi5_n12_#402                  n=12   m=40    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n12_#414                  n=12   m=33    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n12_#432                  n=12   m=40    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n12_#450                  n=12   m=44    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n12_#462                  n=12   m=50    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n12_#464                  n=12   m=47    chi=6   p=5   iters=1    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi6_n12_#470                  n=12   m=40    chi=5   p=4   iters=4    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n12_#486                  n=12   m=29    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n12_#487                  n=12   m=38    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi7_n12_#511                  n=12   m=51    chi=7   p=6   iters=2    pairs=21/21
+  [OK  ] [Aleatorios] Rand_chi5_n12_#519                  n=12   m=32    chi=5   p=4   iters=2    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi7_n12_#545                  n=12   m=50    chi=7   p=6   iters=1    pairs=21/21
+  [OK  ] [Aleatorios] Rand_chi6_n12_#547                  n=12   m=49    chi=6   p=5   iters=0    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi5_n12_#567                  n=12   m=39    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n12_#575                  n=12   m=39    chi=6   p=5   iters=2    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi6_n12_#581                  n=12   m=42    chi=6   p=5   iters=2    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi5_n12_#589                  n=12   m=44    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n12_#605                  n=12   m=53    chi=6   p=5   iters=0    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi5_n13_#11                   n=13   m=41    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n13_#18                   n=13   m=40    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n13_#41                   n=13   m=42    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n13_#64                   n=13   m=43    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n13_#68                   n=13   m=49    chi=6   p=5   iters=0    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi6_n13_#82                   n=13   m=51    chi=6   p=5   iters=1    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi8_n13_#93                   n=13   m=56    chi=8   p=7   iters=5    pairs=28/28
+  [OK  ] [Aleatorios] Rand_chi6_n13_#136                  n=13   m=53    chi=6   p=5   iters=1    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi5_n13_#144                  n=13   m=40    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n13_#147                  n=13   m=26    chi=5   p=4   iters=2    pairs=10/10 [E7]
+  [OK  ] [Aleatorios] Rand_chi5_n13_#153                  n=13   m=43    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi8_n13_#159                  n=13   m=67    chi=8   p=7   iters=0    pairs=28/28
+  [OK  ] [Aleatorios] Rand_chi6_n13_#166                  n=13   m=49    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi7_n13_#175                  n=13   m=53    chi=7   p=6   iters=1    pairs=21/21
+  [OK  ] [Aleatorios] Rand_chi6_n13_#176                  n=13   m=59    chi=6   p=5   iters=0    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi7_n13_#201                  n=13   m=56    chi=7   p=6   iters=1    pairs=21/21
+  [OK  ] [Aleatorios] Rand_chi6_n13_#217                  n=13   m=47    chi=6   p=5   iters=0    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi5_n13_#235                  n=13   m=42    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n13_#262                  n=13   m=48    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n13_#263                  n=13   m=48    chi=6   p=5   iters=1    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi7_n13_#275                  n=13   m=60    chi=7   p=6   iters=1    pairs=21/21
+  [OK  ] [Aleatorios] Rand_chi6_n13_#277                  n=13   m=45    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n13_#281                  n=13   m=46    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi7_n13_#285                  n=13   m=62    chi=7   p=6   iters=1    pairs=21/21
+  [OK  ] [Aleatorios] Rand_chi6_n13_#299                  n=13   m=42    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi7_n13_#300                  n=13   m=55    chi=7   p=6   iters=2    pairs=21/21
+  [OK  ] [Aleatorios] Rand_chi5_n13_#303                  n=13   m=48    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi8_n13_#305                  n=13   m=66    chi=8   p=7   iters=3    pairs=28/28
+  [OK  ] [Aleatorios] Rand_chi7_n13_#313                  n=13   m=58    chi=7   p=6   iters=2    pairs=21/21
+  [OK  ] [Aleatorios] Rand_chi6_n13_#322                  n=13   m=49    chi=6   p=5   iters=1    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi6_n13_#323                  n=13   m=47    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n13_#327                  n=13   m=48    chi=6   p=5   iters=1    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi8_n13_#332                  n=13   m=64    chi=8   p=7   iters=0    pairs=28/28
+  [OK  ] [Aleatorios] Rand_chi5_n13_#340                  n=13   m=49    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n13_#342                  n=13   m=35    chi=5   p=4   iters=2    pairs=10/10 [E7]
+  [OK  ] [Aleatorios] Rand_chi5_n13_#354                  n=13   m=35    chi=5   p=4   iters=1    pairs=10/10 [E8]
+  [OK  ] [Aleatorios] Rand_chi6_n13_#363                  n=13   m=51    chi=6   p=5   iters=1    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi5_n13_#366                  n=13   m=48    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi7_n13_#369                  n=13   m=64    chi=7   p=6   iters=0    pairs=21/21
+  [OK  ] [Aleatorios] Rand_chi6_n13_#392                  n=13   m=44    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n13_#394                  n=13   m=50    chi=6   p=5   iters=1    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi6_n13_#398                  n=13   m=63    chi=6   p=5   iters=0    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi6_n13_#401                  n=13   m=58    chi=6   p=5   iters=1    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi6_n13_#412                  n=13   m=62    chi=6   p=5   iters=0    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi5_n13_#413                  n=13   m=44    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n13_#422                  n=13   m=42    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n13_#426                  n=13   m=50    chi=6   p=5   iters=1    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi6_n13_#447                  n=13   m=56    chi=6   p=5   iters=0    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi6_n13_#481                  n=13   m=53    chi=6   p=5   iters=1    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi6_n13_#500                  n=13   m=60    chi=6   p=5   iters=0    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi6_n13_#501                  n=13   m=55    chi=6   p=5   iters=1    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi5_n13_#502                  n=13   m=47    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n13_#525                  n=13   m=49    chi=5   p=4   iters=1    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n13_#528                  n=13   m=59    chi=6   p=5   iters=0    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi6_n13_#529                  n=13   m=46    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n13_#533                  n=13   m=51    chi=6   p=5   iters=1    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi5_n13_#544                  n=13   m=47    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n13_#574                  n=13   m=52    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi5_n13_#580                  n=13   m=48    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Aleatorios] Rand_chi6_n13_#588                  n=13   m=49    chi=6   p=5   iters=1    pairs=15/15
+  [OK  ] [Aleatorios] Rand_chi7_n13_#607                  n=13   m=46    chi=6   p=5   iters=3    pairs=15/15
+  [OK  ] [Circulantes] Circ_14_3                           n=14   m=42    chi=5   p=4   iters=0    pairs=10/10 [E8]
+  [OK  ] [Zykov_Join] Join_C7+C7                          n=14   m=63    chi=6   p=5   iters=0    pairs=15/15
+  [OK  ] [Productos] StrongProd_K3xK5                    n=15   m=105   chi=15  p=14  iters=0    pairs=105/105
+  [OK  ] [Circulantes] Circ_15_3                           n=15   m=45    chi=5   p=4   iters=2    pairs=10/10 [E8]
+  [OK  ] [Circulantes] Circ_15_4                           n=15   m=60    chi=5   p=4   iters=0    pairs=10/10 [E8]
+  [OK  ] [Productos] StrongProd_K4xK4                    n=16   m=120   chi=16  p=15  iters=0    pairs=120/120
+  [FALLO] [Circulantes] Circ_19_3                           n=19   m=57    chi=5   p=4   iters=0    pairs=10/10
+  [OK  ] [Circulantes] Circ_19_4                           n=19   m=76    chi=7   p=6   iters=4    pairs=21/21 [E8]
+  [OK  ] [Circulantes] Circ_19_5                           n=19   m=95    chi=7   p=6   iters=1    pairs=21/21 [E8]
+  [OK  ] [Productos] StrongProd_K4xK5                    n=20   m=190   chi=20  p=19  iters=0    pairs=190/190
+  [FALLO] [Circulantes] Circ_21_3                           n=21   m=63    chi=5   p=4   iters=0    pairs=10/10
+  [FALLO] [Circulantes] Circ_21_4                           n=21   m=84    chi=6   p=5   iters=0    pairs=15/15
+  [OK  ] [Circulantes] Circ_21_5                           n=21   m=105   chi=7   p=6   iters=0    pairs=21/21 [E8]
+  [OK  ] [Schrijver] Schrijver_SG7_2                     n=21   m=105   chi=5   p=4   iters=0    pairs=10/10 [E8]
+  [OK  ] [Productos] StrongProd_K5xK5                    n=25   m=300   chi=25  p=24  iters=0    pairs=300/300
