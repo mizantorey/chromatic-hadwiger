@@ -142,7 +142,8 @@ HOW TO ACCESS THE FULL WORK
   Scripts:        scripts/
   Logs:           logs/
   Visual suite:   visual/INDEX.html  (open in any browser)
-  arXiv:          submitted March 2026
+  Zenodo DOI:     10.5281/zenodo.19262569
+                  https://zenodo.org/records/19262569
   GitHub:         github.com/mizaeltovarreyes/chromatic-hadwiger
 
 ────────────────────────────────────────────────────────────────

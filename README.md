@@ -210,6 +210,15 @@ See `LICENSE` for full terms.
 
 ---
 
+## Preprint
+
+This work is publicly available as a preprint on Zenodo (CERN):
+
+- **DOI:** [10.5281/zenodo.19262569](https://doi.org/10.5281/zenodo.19262569)
+- **URL:** https://zenodo.org/records/19262569
+
+---
+
 ## Citation
 
 If you use this work, please cite:
@@ -217,5 +226,6 @@ If you use this work, please cite:
 ```
 Tovar Reyes, M. A. (2026). Palette-Expansion Numbers and a Constructive
 Proof of Hadwiger's Conjecture (V20).
+Zenodo. https://doi.org/10.5281/zenodo.19262569
 GitHub: github.com/mizaelantoniotovarreyes/chromatic-hadwiger
 ```

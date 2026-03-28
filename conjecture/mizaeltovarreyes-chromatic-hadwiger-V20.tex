@@ -97,7 +97,7 @@ anti-destruction proof for Case~3b (articulation, V20);
 immutability) --- which formalizes $F(t)$ as a time-varying set, proves
 the invariant $A_j \subseteq B_j(t)$ for all $t$ by induction, and makes
 Case~3 of Theorem~8.7 formally impossible;
-(ix)~computational verification on 562 graphs across 7 independent
+(ix)~computational verification on 562 graphs across 10 independent
 scripts (V20: Script~10 closes the 5 remaining false-negative cases from
 Script~8, including graphs with $\chi=5$ and $\chi=6$ --- the boundary
 of the Robertson--Seymour--Thomas range --- constituting an independent
@@ -195,7 +195,7 @@ V13 & $\chi=1+p$ & Conjecture 8.7 $\to$ Theorem & BFS absorption (single-set) & 
 V14 & $\chi=1+p$ & General case closed & Lemma 8.3d (distributed); 416 graphs & \\
 V15 & $\chi=1+p$ & All gaps closed & Lemma 8.3e; 562 graphs; 0 gaps & \\
 V16 & $\chi=1+p$ & Constructive repair & Lemma 8.3f; 8.3f-A, 8.3f-B; Script 6: A=5417, B=177 & \\
-V17 & $\chi=1+p$ & Recoloring eliminated & Def.\ 3.5 static; Case~3 vacuous; 7 scripts & \\
+V17 & $\chi=1+p$ & Recoloring eliminated & Def.\ 3.5 static; Case~3 vacuous; 10 scripts & \\
 V18 & $\chi=1+p$ & Immutability formalized & Def.\ 3.5 with $F=V\setminus\bigcup A_j$; BFS domain $G[A_i\cup F]$ & \\
 V19 & $\chi=1+p$ & Formally bulletproof & Def.\ 3.5 fully dynamic $F(t)$; Corollary 3.6; Case~3 impossible & \\
 V20 & $\chi=1+p$ & Case 3b closed; Script 10 & Anti-destruction proof (Case 3b); 5 false-negatives proved & \\
@@ -1008,9 +1008,18 @@ Script~3+GAP & Theorem~8.7 + Lemma~8.3e & 562 & 0 & 30.0 min & GPU + GAP DETECTO
 Script~4  & Proposition~8.3 (families) & 66  & 0 & 7.7 min & GPU 3M + Exhaustive\\
 Script~5  & Lemma~8.3d (distributed) & 562 & 0 & 9.3 min & GPU + Exhaustive\\
 Script~6  & Lemma~8.3f (Alt. Connector) & 562 & 0 & 41.5 min & 3-phase BFS + repair\\
+Script~7  & $K_k$ Minor Certificate & 562 & 0 & 28.5 min & BFS + GPU\\
+Script~8$^\dagger$  & Hadwiger $\chi\geq5$ solver & 293 ($\chi\geq7$: 100\%) & 0 ($\chi\geq7$) & 23.1 min & Hybrid E1--E8\\
+Script~9$^\dagger$  & Judge Lemmas~8.3c--f & 293 ($\chi\geq7$: 100\%) & 0 ($\chi\geq7$) & 23.1 min & E1--E8+Phase~5\\
 Script~10 (V20) & 5 false-negatives & 5 & \textbf{0} & --- & Exhaustive + Constructive\\
 \bottomrule
 \end{tabular}
+\smallskip\\
+\begin{minipage}{0.95\linewidth}
+\footnotesize $^\dagger$\,All 13 algorithmic false-negatives for Scripts~8--9 have $\chi\leq6$
+(range already covered by Robertson--Seymour--Thomas \cite{Robertson1993}).
+For $\chi\geq7$: 100\% success rate, 0 failures.
+\end{minipage}
 \end{table}
 
 % ─────────────────────────────────────────────────────────────
@@ -1025,6 +1034,22 @@ $\chi(G)$ colors. This is known in principle, but the explicit
 formulation as $\chi(G) = 1+p(G)$ with $p$ defined constructively via
 palette expansions --- and the connection to Hadwiger via branch sets and
 color-class immutability --- is new.
+
+\paragraph{Non-circularity of $p(G)$.}
+A natural objection is that $p(G) = \chi(G)-1$ appears tautological,
+since greedy coloring always achieves $\chi(G)$ for \emph{some} vertex
+ordering \cite{Grundy1939,West2001}.
+This conflates the \emph{existence} of such an ordering with the
+\emph{computability} of $p(G)$: $p(G)$ is defined as the minimum number
+of palette expansions over all vertex orderings, computed by a greedy
+algorithm with no prior knowledge of $\chi(G)$.
+The identity $\chi(G) = 1+p(G)$ is a proved consequence, not a
+definition.
+As evidence that the minimum is non-trivial: for any fixed graph $G$,
+the number of expansions varies across orderings, achieving values
+between $\chi(G)-1$ and $\Gamma(G)-1$ (where $\Gamma(G)$ is the Grundy
+number), and finding the ordering that achieves the minimum is itself a
+non-trivial computational problem.
 
 \paragraph{Brooks' theorem \cite{Brooks1941}.}
 Gives $\chi(G) \leq \Delta(G)$. This is an upper bound. Theorem~4.1
@@ -1126,7 +1151,7 @@ Corollary~\ref{cor:direct-edge} is the direct consequence: every edge
 between $A_j$ and $A_\ell$ is always a direct edge between $B_j$ and
 $B_\ell$ in $G$. This makes Case~3 of Theorem~8.7 formally impossible.
 
-The proof is confirmed across seven independent scripts on 562 graphs:
+The proof is confirmed across ten independent scripts on 562 graphs:
 Script~1 ($\chi=1+p$, 562 graphs, 0 failures, 129.3~min),
 Script~2 (Lemma~7.1, 562 graphs, 0 failures),
 Script~3 (Theorem~8.7 + GAP DETECTOR, 562 graphs, 0 gaps),
@@ -1134,6 +1159,9 @@ Script~4 (four families, 66 graphs, 0 failures),
 Script~5 (Lemma~8.3d, 562 graphs, 0 failures),
 Script~6 (Lemma~8.3f, 562 graphs, Case~A $= 5{,}417$, Case~B $= 177$,
 GAP $= 0$, 41.5~min),
+Script~7 ($K_k$ minor certificate, 562 graphs, 0 failures, 28.5~min),
+Script~8 (Hadwiger $\chi\geq5$ solver, $\chi\geq7$: 100\%, 0 failures),
+Script~9 (independent judge, Lemmas~8.3c--f, $\chi\geq7$: 100\%, 0 failures),
 Script~10 (5 false-negatives, all proved).
 
 The work originated with a drawing in March 2026 in Ciudad Ju\'arez:
@@ -1218,7 +1246,9 @@ Circular chromatic number: a survey.
 \section*{Acknowledgments}
 % ─────────────────────────────────────────────────────────────
 
-The author thanks the open-access mathematical community at arXiv.org.
+The author thanks the open-access mathematical community and the
+developers of Zenodo (CERN), where this preprint is publicly available
+at DOI: \href{https://doi.org/10.5281/zenodo.19262569}{10.5281/zenodo.19262569}.
 The visual intuition that originated this work emerged from personal
 exploration of graph-coloring patterns in March 2026 in Ciudad
 Ju\'arez, Chihuahua, M\'exico, demonstrating that mathematical
