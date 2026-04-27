@@ -211,8 +211,8 @@ See `LICENSE` for full terms.
 
 This work is publicly available as a preprint on Zenodo (CERN):
 
-- **DOI:** [10.5281/zenodo.19802214](https://doi.org/10.5281/zenodo.19802214)
-- **URL:** https://zenodo.org/records/19802214
+- **DOI:** [10.5281/zenodo.19802374](https://doi.org/10.5281/zenodo.19802374)
+- **URL:** https://zenodo.org/records/19802374
 
 ---
 
@@ -223,6 +223,6 @@ If you use this work, please cite:
 ```
 Tovar Reyes, M. A. (2026). A Patio Adjacency Lemma for Greedy Colorings,
 with Computational Evidence Toward Branch-Set Connectivity (V23).
-Zenodo. https://doi.org/10.5281/zenodo.19802214
+Zenodo. https://doi.org/10.5281/zenodo.19802374
 GitHub: github.com/mizaelantoniotovarreyes/chromatic-hadwiger
 ```

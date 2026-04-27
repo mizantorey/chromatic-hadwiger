@@ -2,7 +2,7 @@
 ## A Patio Adjacency Lemma for Greedy Colorings, with Computational Evidence Toward Branch-Set Connectivity
 ### Mizael Antonio Tovar Reyes — Ciudad Juárez, Chihuahua, México — April 2026
 
-DOI: https://doi.org/10.5281/zenodo.19802214
+DOI: https://doi.org/10.5281/zenodo.19802374
 
 ---
 
