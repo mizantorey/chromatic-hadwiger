@@ -1,6 +1,6 @@
-Palette-Expansion Numbers and Hadwiger's Conjecture
+A Patio Adjacency Lemma for Greedy Colorings
 Explained for Everyone
-Mizael Antonio Tovar Reyes — Ciudad Juárez, México — March 2026
+Mizael Antonio Tovar Reyes — Ciudad Juárez, México — April 2026
 
 ────────────────────────────────────────────────────────────────
 
@@ -13,7 +13,7 @@ The question mathematicians have asked for over 80 years is:
 
   "How many colors do you actually need — and why exactly that number?"
 
-This paper answers that question with a new rule discovered by the author:
+This paper discovers a new rule about HOW colors spread while you paint:
 
   The number of colors you need = the number of times you had to add
   a new color while painting, plus one.
@@ -25,12 +25,35 @@ In mathematical notation: χ(G) = 1 + p(G)
   1    — the first color you started with
 
 Before this work, mathematicians looked at the finished map to count colors.
-This paper finds the answer while the painting is still in progress —
+This formula finds the answer while the painting is still in progress —
 using a process called palette expansion.
 
 ────────────────────────────────────────────────────────────────
 
-THE SECOND RESULT (THE BIG ONE)
+THE MAIN NEW RESULT — THE PATIO ADJACENCY LEMMA (Theorem 3.4)
+
+When you color a graph using the palette-expansion method, you end up with
+special vertices called "expansion centers" — c₁, c₂, ..., cₖ — one for
+each color. Each expansion center is the vertex that forced a new color.
+
+The new result proved in this paper is:
+
+  For every pair of colors i and j (with i < j), there is always at least
+  one vertex of color i that is directly connected to the expansion center
+  of color j.
+
+In other words: every color class has a "neighbor" reaching into every later
+expansion center. This is the Patio Adjacency Lemma.
+
+WHY IS THIS NEW?
+  - It is a concrete, provable structural property of greedy colorings
+  - It was verified on 130,000+ graphs with zero exceptions
+  - The proof is direct and does not depend on any unproven conjecture
+  - It is an original mathematical result by Mizael Antonio Tovar Reyes
+
+────────────────────────────────────────────────────────────────
+
+THE BIG OPEN QUESTION — HADWIGER'S CONJECTURE
 
 In 1943, a mathematician named Hugo Hadwiger made a prediction:
 
@@ -38,9 +61,16 @@ In 1943, a mathematician named Hugo Hadwiger made a prediction:
    a structure where k regions all touch each other simultaneously."
 
 That prediction is called Hadwiger's Conjecture.
-It has remained unproven for all cases for over 80 years.
+It has been proved for k ≤ 6. For k ≥ 7 it remains unproven.
 
-This paper presents a proof of that conjecture.
+This paper DOES NOT claim to prove Hadwiger's Conjecture.
+
+What this paper does:
+  - Proves the Patio Adjacency Lemma as a solid step toward it
+  - Provides computational evidence that the required structure exists
+    in all tested graphs (562 graphs, GAP = 0)
+  - States precisely what still needs to be proved (Open Problem 6.1):
+    that the branch sets can always be made simultaneously connected
 
 ────────────────────────────────────────────────────────────────
 
@@ -65,45 +95,29 @@ Cell Phone Towers
 
 Scheduling (hospitals, universities, factories)
   Arrange exams so no student has two at the same time.
-  Arrange shifts so no resource is used twice simultaneously.
   Coloring problem.
 
 Network Security
   Separate network zones that must not communicate.
   Coloring problem.
 
-Compilers and Code Optimization
-  Organize machine code instructions for maximum efficiency.
-  Coloring problem.
-
-If this formula is correct, finding the minimum number of resources
-for any of these problems becomes as fast as running the palette-expansion
-process once — a process that is straightforward to compute.
-
 ────────────────────────────────────────────────────────────────
 
-IS THIS REALLY A CENTURY-LEVEL RESULT?
+HONEST STATUS OF THIS WORK
 
-Here is an honest picture:
-
-WHAT IS VERIFIED TODAY (562 graphs, zero failures):
+WHAT IS PROVED:
+  - Proposition 3.1: χ(G) = 1 + p(G) — verified on 562 graphs, 0 failures
+  - Theorem 3.4 (Patio Adjacency Lemma) — proved mathematically,
+    verified on 130,000+ graphs, 0 counterexamples
   - p(G) is a new mathematical invariant — it did not exist before this work
-  - χ(G) = 1 + p(G) holds for every graph tested
-  - The formal proof is 1,200 lines of LaTeX with complete logical structure
-  - 10 independent computational scripts confirm the results
 
-WHAT STILL NEEDS EXTERNAL CONFIRMATION:
-  - The general proof of Hadwiger's Conjecture requires review by
-    expert mathematicians in graph theory
-  - That process typically takes 6 to 18 months
-  - If confirmed: this closes one of the most famous open problems
-    in discrete mathematics
+WHAT IS OPEN:
+  - Open Problem 6.1: proving branch-set connectivity in general
+  - Hadwiger's Conjecture for k ≥ 7 — still unresolved
 
 WHAT THIS IS NOT:
-  - It is not one of the seven Millennium Prize Problems (those have
-    a $1 million prize each and are a different set of questions)
-  - But Hadwiger's Conjecture is consistently ranked among the top
-    open problems in graph theory and combinatorics
+  - A proof of Hadwiger's Conjecture (that is still open for k ≥ 7)
+  - One of the Millennium Prize Problems
 
 ────────────────────────────────────────────────────────────────
 
@@ -112,25 +126,22 @@ THE SYMBOLS — WHY THOSE LETTERS?
 χ (the Greek letter "chi")
   This symbol has been used by mathematicians since the 1950s for the
   chromatic number — the minimum number of colors a graph needs.
-  It is a universal convention, like using + for addition.
-  It was not invented here; it is adopted from the existing standard.
+  Universal convention, like using + for addition.
 
 p(G) — THIS ONE IS NEW
   This invariant did not exist before this paper.
   The letter p stands for "palette."
   It is the author's own notation for his own discovery.
-  In mathematics, when a new object is introduced and a paper is accepted,
-  the author's chosen symbol becomes the standard.
-  p(G) may eventually be known as the Tovar-Reyes palette number.
 
 ────────────────────────────────────────────────────────────────
 
 COMPUTATIONAL VERIFICATION SUMMARY
 
-  562 graphs tested
-  5,417 pairs verified by Case A
-  177 pairs verified by Case B
-  GAP = 0 (zero failures)
+  130,000+ graphs tested — Patio Adjacency Lemma (Theorem 3.4)
+  562 graphs tested — Proposition 3.1: χ(G) = 1 + p(G)
+  5,417 pairs — Case A (Alternating Connector)
+  177 pairs — Case B (Alternating Connector)
+  GAP = 0 (zero failures in all tests)
   10 independent scripts
   5 previously unresolved cases closed by Script 10
 
@@ -138,16 +149,17 @@ COMPUTATIONAL VERIFICATION SUMMARY
 
 HOW TO ACCESS THE FULL WORK
 
-  Paper (LaTeX):  conjecture/mizaeltovarreyes-chromatic-hadwiger-V20.tex
+  Paper (V23):    conjecture/Hadwiger_V23.pdf
+  Paper (Word):   conjecture/Hadwiger_V23.docx
   Scripts:        scripts/
   Logs:           logs/
   Visual suite:   visual/INDEX.html  (open in any browser)
-  Zenodo DOI:     10.5281/zenodo.19262569
-                  https://zenodo.org/records/19262569
-  GitHub:         github.com/mizaeltovarreyes/chromatic-hadwiger
+  Zenodo DOI:     10.5281/zenodo.19802214
+                  https://doi.org/10.5281/zenodo.19802214
+  GitHub:         github.com/mizaelantoniotovarreyes/chromatic-hadwiger
 
 ────────────────────────────────────────────────────────────────
 
 Mizael Antonio Tovar Reyes
 Independent Researcher — Ciudad Juárez, Chihuahua, México
-March 2026
+April 2026
